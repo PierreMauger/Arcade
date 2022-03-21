@@ -28,7 +28,7 @@ namespace arc
 	///	compared to determine the shape's color.
 	///
 	////////////////////////////////////////////////////////////
-	enum class Color {
+	enum Color {
         RED = -10,
         BLUE = -11,
         GREEN = -12,
@@ -49,7 +49,7 @@ namespace arc
 	///	Will be returned by the event checker.
 	///
 	////////////////////////////////////////////////////////////
-	enum class Key {
+	enum Key {
 		ENTER,
 		BACKSPACE,
 		SPACE,

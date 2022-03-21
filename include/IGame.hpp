@@ -31,7 +31,7 @@ namespace arc
 	///	Will be in the map to precise the shapes.
 	///
 	////////////////////////////////////////////////////////////
-    enum class Shape {
+    enum Shape {
         SQUARE = -1,
         CROSS = -2,
         CIRCLE = -3,
@@ -43,7 +43,7 @@ namespace arc
 	///	Will be in the map to precise the shapes colors.
 	///
 	////////////////////////////////////////////////////////////
-    enum class Color {
+    enum Color {
         RED = -10,
         BLUE = -11,
         GREEN = -12,
@@ -64,7 +64,7 @@ namespace arc
 	///	Will be send in the update function.
 	///
 	////////////////////////////////////////////////////////////
-    enum class Key {
+    enum Key {
 		ENTER,
 		BACKSPACE,
 		SPACE,
@@ -119,7 +119,7 @@ namespace arc
 	///	Correspond to the three states of the games.
 	///
 	////////////////////////////////////////////////////////////
-    enum class State {
+    enum State {
 		/// @var The game hasn't started yet or is finished
         STOP = 0,
 		/// @var Start the game
