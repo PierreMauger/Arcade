@@ -194,12 +194,12 @@ namespace arc
 			virtual void drawCross(unsigned char color, std::size_t posX, std::size_t posY) = 0;
 
 			////////////////////////////////////////////////////////////
-    		/// \brief Draw a colored cross at the given positions
+    		/// \brief Draw a letter at the given positions
     		///
-    		/// This function is used by the core to draw a cross at the
+    		/// This function is used by the core to draw a letter at the
     		///	given positions.
     		///
-    		/// \param color color byte (see documentation about Color byte)
+    		/// \param letter letter to draw
     		/// \param posX X index in the map
     		/// \param posY Y index in the map
     		///
