@@ -7,8 +7,7 @@
 
 /////////////////////////////////////////////////
 //  @file   IDisplay.hpp
-//  @brief  Display Interface, used by all graphical libraries.
-//  @author pierre.hamel@epitech.eu
+//  @brief  Display Interface, used by all graphical libraries
 //
 //	Display Interface, used by all graphical libraries.
 //	Each functions is mandatory for the good working of the program.
@@ -21,8 +20,31 @@
 
 namespace arc
 {
+
 	////////////////////////////////////////////////////////////
-	///	@brief Enumeration corresponding to the different Keys.
+	///	@brief Enumeration corresponding to the differents Colors
+	///
+	///	Will be send in the differents shapes functions and
+	///	compared to determine the shape's color.
+	///
+	////////////////////////////////////////////////////////////
+	enum class Color {
+        RED = -10,
+        BLUE = -11,
+        GREEN = -12,
+        WHITE = -13,
+        ORANGE = -14,
+        CYAN = -15,
+        PURPLE = -16,
+        YELLOW = -17,
+        LIME = -18,
+        BROWN = -19,
+        PINK = -20,
+        GRAY = -21,
+    };
+
+	////////////////////////////////////////////////////////////
+	///	@brief Enumeration corresponding to the differents Keys
 	///
 	///	Will be returned by the event checker.
 	///
@@ -62,6 +84,18 @@ namespace arc
 		X_KEY,
 		Y_KEY,
 		Z_KEY,
+		KEY_1,
+		KEY_2,
+		KEY_3,
+		KEY_4,
+		KEY_5,
+		KEY_6,
+		KEY_7,
+		KEY_8,
+		KEY_9,
+		KEY_0,
+
+		// Handle by the core
 		F1,
 		F2,
 		F3,
@@ -113,7 +147,7 @@ namespace arc
 	        virtual void destroyDisplay(void) = 0;
 
 			////////////////////////////////////////////////////////////
-    		/// \brief Display the elements previously drawn.
+    		/// \brief Display the elements previously drawn
     		///
     		///	Refresh the window. Will be called after draws.
     		///
@@ -121,16 +155,12 @@ namespace arc
 			virtual void display(void) = 0;
 
 			////////////////////////////////////////////////////////////
-    		/// \brief Draw a clored square at the given positions
+    		/// \brief Draw a colored square at the given positions
     		///
-    		/// A window is active only on the current thread, if you want to
-    		/// make it active on another thread you have to deactivate it
-    		/// on the previous thread first if it was active.
-    		/// Only one window can be active on a thread at a time, thus
-    		/// the window previously active (if any) automatically gets deactivated.
-    		/// This is not to be confused with requestFocus().
+    		/// This function is used by the core to draw a square at the
+    		///	given positions.
     		///
-    		/// \param color byte, will be between 0 and 16 (see documentation about Color byte)
+    		/// \param color color byte (see documentation about Color byte)
     		/// \param posX X index in the map
     		/// \param posY Y index in the map
     		///
@@ -138,16 +168,12 @@ namespace arc
 			virtual void drawSquare(unsigned char color, std::size_t posX, std::size_t posY) = 0;
 
 			////////////////////////////////////////////////////////////
-    		/// \brief Draw a clored circle at the given positions
+    		/// \brief Draw a colored circle at the given positions
     		///
-    		/// A window is active only on the current thread, if you want to
-    		/// make it active on another thread you have to deactivate it
-    		/// on the previous thread first if it was active.
-    		/// Only one window can be active on a thread at a time, thus
-    		/// the window previously active (if any) automatically gets deactivated.
-    		/// This is not to be confused with requestFocus().
+    		/// This function is used by the core to draw a circle at the
+    		///	given positions.
     		///
-    		/// \param color byte, will be between 0 and 16 (see documentation about Color byte)
+    		/// \param color color byte (see documentation about Color byte)
     		/// \param posX X index in the map
     		/// \param posY Y index in the map
     		///
@@ -155,51 +181,41 @@ namespace arc
 			virtual void drawCircle(unsigned char color, std::size_t posX, std::size_t posY) = 0;
 
 			////////////////////////////////////////////////////////////
-    		/// \brief Draw a clored cross at the given positions
+    		/// \brief Draw a colored cross at the given positions
     		///
-    		/// A window is active only on the current thread, if you want to
-    		/// make it active on another thread you have to deactivate it
-    		/// on the previous thread first if it was active.
-    		/// Only one window can be active on a thread at a time, thus
-    		/// the window previously active (if any) automatically gets deactivated.
-    		/// This is not to be confused with requestFocus().
+    		/// This function is used by the core to draw a cross at the
+    		///	given positions.
     		///
-    		/// \param color byte, will be between 0 and 16 (see documentation about Color byte)
+    		/// \param color color byte (see documentation about Color byte)
     		/// \param posX X index in the map
     		/// \param posY Y index in the map
     		///
     		////////////////////////////////////////////////////////////
 			virtual void drawCross(unsigned char color, std::size_t posX, std::size_t posY) = 0;
 
-
 			////////////////////////////////////////////////////////////
-    		/// \brief Draw a clored fdp at the given positions
+    		/// \brief Draw a colored cross at the given positions
     		///
-    		/// A window is active only on the current thread, if you want to
-    		/// make it active on another thread you have to deactivate it
-    		/// on the previous thread first if it was active.
-    		/// Only one window can be active on a thread at a time, thus
-    		/// the window previously active (if any) automatically gets deactivated.
-    		/// This is not to be confused with requestFocus().
+    		/// This function is used by the core to draw a cross at the
+    		///	given positions.
     		///
-    		/// \param color byte, will be between 0 and 16 (see documentation about Color byte)
+    		/// \param color color byte (see documentation about Color byte)
     		/// \param posX X index in the map
     		/// \param posY Y index in the map
     		///
     		////////////////////////////////////////////////////////////
-			virtual void drawFdp(unsigned char color, std::size_t posX, std::size_t posY) = 0;
+			virtual void drawLetter(unsigned char letter, std::size_t posX, std::size_t posY) = 0;
 
 			////////////////////////////////////////////////////////////
-    		/// \brief Draw a clored circle at the given positions
+    		/// \brief Draw a colored circle at the given positions
     		///
-    		/// A window is active only on the current thread, if you want to
-    		/// make it active on another thread you have to deactivate it
-    		/// on the previous thread first if it was active.
-    		/// Only one window can be active on a thread at a time, thus
-    		/// the window previously active (if any) automatically gets deactivated.
-    		/// This is not to be confused with requestFocus().
+    		/// This fonction is used to detect and return the Keys pressed
+			///	by the user. (see the documentation about Key)
+			///	You must return the available keys in the Key list.
+			///	To proceed, create an array of your graphical library keys
+			///	linked to the Key enumeration keys.
 			///
-			///	\return Keys vector corresponding to the event key list (see documentation about Key)
+			///	\return Keys vector corresponding to the event key list
     		////////////////////////////////////////////////////////////
 			virtual std::vector<Key> getKeys(void) = 0;
 	};
