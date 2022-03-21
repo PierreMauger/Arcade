@@ -5,37 +5,34 @@
 ## Main Makefile
 ##
 
-##################### SRC #######################
-SRC				=
+#################### PATH #####################
+PATH_NIBBLER		=	nibbler/
 
-#################### NAMES ######################
-NAME			=	libgames.so
+PATH_OTHER			=	other/
 
-##################### OBJ #######################
-OBJ				=	$(SRC:.cpp=.o)
+################# COMPILATION #################
+.PHONY: all nibbler other re clean fclean debug
 
-##################### FLAGS #####################
-CXXFLAGS		=	-fPIC -I include -W -Wall -Wextra
+all:
+	make -C	$(PATH_NIBBLER)
+	make -C	$(PATH_OTHER)
 
-CXXFLAGS_DEBUG	=	-g
+nibbler:
+	make -C	$(PATH_NIBBLER)
 
-################## COMPILATION ##################
-$(NAME):	$(OBJ)
-	@(g++ -shared $(OBJ) -o $(NAME) $(CXXFLAGS)) > /dev/null
-	cp $(NAME) ../lib/$(NAME)
-
-all:	$(NAME)
-
-debug:	CXXFLAGS += $(CXXFLAGS_DEBUG)
-debug:	re
+other:
+	make -C	$(PATH_OTHER)
 
 re:	fclean all
 
 clean:
-	@(rm -f $(OBJ)) > /dev/null
-	@find . -name "*.gcno" -delete
-	@find . -name "*.gcda" -delete
-	@find . -name "*.o" -delete
+	@(make clean -C $(PATH_NIBBLER)) > /dev/null
+	@(make clean -C $(PATH_OTHER)) > /dev/null
 
 fclean:	clean
-	@rm -f $(NAME)
+	@(make fclean -C $(PATH_NIBBLER)) > /dev/null
+	@(make fclean -C $(PATH_OTHER)) > /dev/null
+
+debug:
+	@(make debug -C $(PATH_NIBBLER)) > /dev/null
+	@(make debug -C $(PATH_OTHER)) > /dev/null

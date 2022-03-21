@@ -6,3 +6,4 @@ nanotekspice
 *.txt
 html
 latex
+*.so
