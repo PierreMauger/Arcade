@@ -5,40 +5,43 @@
 ## Main Makefile
 ##
 
-##################### SRC #######################
-SRC				=
+#################### PATH #####################
+PATH_CORE			=	core/
 
-SRC				+=	src/main.cpp						\
+PATH_GAMES			=	games/
 
-#################### NAMES ######################
-NAME 			=	nanotekspice
+PATH_GRAPHICALS		=	graphicals/
 
-##################### OBJ #######################
-OBJ				=	$(SRC:.cpp=.o)
+################# COMPILATION #################
+.PHONY: all core games graphicals re clean fclean debug
 
-##################### FLAGS #####################
-CXXFLAGS		=	-I include -Wall -Wextra -W
+all:
+	make -C	$(PATH_CORE)
+	make -C	$(PATH_GAMES)
+	make -C	$(PATH_GRAPHICALS)
 
-CXXFLAGS_DEBUG	=	-g
+core:
+	make -C	$(PATH_CORE)
 
-# CXX = clang++
+games:
+	make -C	$(PATH_GAMES)
 
-################## COMPILATION ##################
-$(NAME):	$(OBJ)
-	@(g++ $(OBJ) -o $(NAME)) > /dev/null
-
-all:	$(NAME)
-
-debug:	CXXFLAGS += $(CXXFLAGS_DEBUG)
-debug:	all
+graphicals:
+	make -C	$(PATH_GRAPHICALS)
 
 re:	fclean all
 
 clean:
-	@(rm -f $(OBJ)) > /dev/null
-	@find . -name "*.gcno" -delete
-	@find . -name "*.gcda" -delete
-	@find . -name "*.o" -delete
+	@(make clean -C $(PATH_CORE)) > /dev/null
+	@(make clean -C $(PATH_GAMES)) > /dev/null
+	@(make clean -C $(PATH_GRAPHICALS)) > /dev/null
 
 fclean:	clean
-	@(rm -f $(NAME)) > /dev/null
+	@(make fclean -C $(PATH_CORE)) > /dev/null
+	@(make fclean -C $(PATH_GAMES)) > /dev/null
+	@(make fclean -C $(PATH_GRAPHICALS)) > /dev/null
+
+debug:
+	@(make debug -C $(PATH_CORE)) > /dev/null
+	@(make debug -C $(PATH_GAMES)) > /dev/null
+	@(make debug -C $(PATH_GRAPHICALS)) > /dev/null
