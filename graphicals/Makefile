@@ -5,37 +5,43 @@
 ## Main Makefile
 ##
 
-##################### SRC #######################
-SRC				=	src/sfml.cpp
+#################### PATH #####################
+PATH_NCURSES		=	ncurses/
 
-#################### NAMES ######################
-NAME			=	libgraphicals.so
+PATH_SDL			=	sdl/
 
-##################### OBJ #######################
-OBJ				=	$(SRC:.cpp=.o)
+PATH_SFML			=	sfml/
 
-##################### FLAGS #####################
-CXXFLAGS		=	-fPIC -I include -I ../include -lsfml-graphics -lsfml-window -lsfml-system -W -Wall -Wextra
+################# COMPILATION #################
+.PHONY: all ncurses sdl sfml re clean fclean debug
 
-CXXFLAGS_DEBUG	=	-g
+all:
+	make -C	$(PATH_NCURSES)
+	make -C	$(PATH_SDL)
+	make -C	$(PATH_SFML)
 
-################## COMPILATION ##################
-$(NAME):	$(OBJ)
-	@(g++ -shared $(OBJ) -o $(NAME) $(CXXFLAGS)) > /dev/null
-	cp $(NAME) ../lib/$(NAME)
+ncurses:
+	make -C	$(PATH_NCURSES)
 
-all:	$(NAME)
+sdl:
+	make -C	$(PATH_SDL)
 
-debug:	CXXFLAGS += $(CXXFLAGS_DEBUG)
-debug:	re
+sfml:
+	make -C	$(PATH_SFML)
 
 re:	fclean all
 
 clean:
-	@(rm -f $(OBJ)) > /dev/null
-	@find . -name "*.gcno" -delete
-	@find . -name "*.gcda" -delete
-	@find . -name "*.o" -delete
+	@(make clean -C $(PATH_NCURSES)) > /dev/null
+	@(make clean -C $(PATH_SDL)) > /dev/null
+	@(make clean -C $(PATH_SFML)) > /dev/null
 
 fclean:	clean
-	@rm -f $(NAME)
+	@(make fclean -C $(PATH_NCURSES)) > /dev/null
+	@(make fclean -C $(PATH_SDL)) > /dev/null
+	@(make fclean -C $(PATH_SFML)) > /dev/null
+
+debug:
+	@(make debug -C $(PATH_NCURSES)) > /dev/null
+	@(make debug -C $(PATH_SDL)) > /dev/null
+	@(make debug -C $(PATH_SFML)) > /dev/null
