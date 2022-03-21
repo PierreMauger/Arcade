@@ -4,4 +4,6 @@
 .clang-format
 nanotekspice
 *.txt
+html
+latex
 *.so
