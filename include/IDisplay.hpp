@@ -12,6 +12,21 @@
 
 namespace arc
 {
+    enum class Color {
+        RED = (1 << 4),
+        BLUE = (2 << 4),
+        GREEN = (3 << 4),
+        WHITE = (4 << 4),
+        ORANGE = (5 << 4),
+        CYAN = (6 << 4),
+        PURPLE = (7 << 4),
+        YELLOW = (8 << 4),
+        LIME = (9 << 4),
+        BROWN = (10 << 4),
+        PINK = (11 << 4),
+        GRAY = (12 << 4),
+    };
+
     enum class Key {
 		ENTER,
 		BACKSPACE,

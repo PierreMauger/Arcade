@@ -6,7 +6,7 @@
 ##
 
 ##################### SRC #######################
-SRC				=
+SRC				=	src/sfml.cpp
 
 #################### NAMES ######################
 NAME			=	libgraphicals.so
@@ -15,7 +15,7 @@ NAME			=	libgraphicals.so
 OBJ				=	$(SRC:.cpp=.o)
 
 ##################### FLAGS #####################
-CXXFLAGS		=	-fPIC -I include -W -Wall -Wextra
+CXXFLAGS		=	-fPIC -I include -I ../include -lsfml-graphics -lsfml-window -lsfml-system -W -Wall -Wextra
 
 CXXFLAGS_DEBUG	=	-g
 
