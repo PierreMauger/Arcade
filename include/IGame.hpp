@@ -5,6 +5,17 @@
 ** Interfaces
 */
 
+/////////////////////////////////////////////////
+//  @file   IGame.hpp
+//  @brief  Game interface, used by all games libraries.
+//
+//	Game interface, used by all games libraries.
+//	Each functions is mandatory for the good
+//	working of the program.
+//	If you want to create a new game, you must
+//	implement all function of the interface.
+/////////////////////////////////////////////////
+
 #ifndef GAME_HPP
 #define GAME_HPP
 
@@ -13,29 +24,47 @@
 
 namespace arc
 {
-    enum class Shape {
-        SQUARE = (1 << 0),
-        CROSS = (1 << 1),
-        CIRCLE = (1 << 2),
-        FDP = (1 << 3),
+
+	////////////////////////////////////////////////////////////
+	///	@brief Enumeration corresponding to the differents Shapes
+	///
+	///	Will be in the map to precise the shapes.
+	///
+	////////////////////////////////////////////////////////////
+    enum Shape {
+        SQUARE = -1,
+        CROSS = -2,
+        CIRCLE = -3,
     };
 
-    enum class Color {
-        RED = (1 << 4),
-        BLUE = (2 << 4),
-        GREEN = (3 << 4),
-        WHITE = (4 << 4),
-        ORANGE = (5 << 4),
-        CYAN = (6 << 4),
-        PURPLE = (7 << 4),
-        YELLOW = (8 << 4),
-        LIME = (9 << 4),
-        BROWN = (10 << 4),
-        PINK = (11 << 4),
-        GRAY = (12 << 4),
+	////////////////////////////////////////////////////////////
+	///	@brief Enumeration corresponding to the differents Colors
+	///
+	///	Will be in the map to precise the shapes colors.
+	///
+	////////////////////////////////////////////////////////////
+    enum Color {
+        RED = -10,
+        BLUE = -11,
+        GREEN = -12,
+        WHITE = -13,
+        ORANGE = -14,
+        CYAN = -15,
+        PURPLE = -16,
+        YELLOW = -17,
+        LIME = -18,
+        BROWN = -19,
+        PINK = -20,
+        GRAY = -21,
     };
 
-    enum class Key {
+	////////////////////////////////////////////////////////////
+	///	@brief Enumeration corresponding to the differents Keys
+	///
+	///	Will be send in the update function.
+	///
+	////////////////////////////////////////////////////////////
+    enum Key {
 		ENTER,
 		BACKSPACE,
 		SPACE,
@@ -70,38 +99,121 @@ namespace arc
 		X_KEY,
 		Y_KEY,
 		Z_KEY,
-		F1,
-		F2,
-		F3,
-		F4,
-		F5,
-		F6,
-		F7,
-		F8,
-		F9,
-		F10,
-		F11,
-		F12,
+		KEY_0,
+		KEY_1,
+		KEY_2,
+		KEY_3,
+		KEY_4,
+		KEY_5,
+		KEY_6,
+		KEY_7,
+		KEY_8,
+		KEY_9,
 
         EVENTYPE_SIZE
     };
 
-    enum class State {
+	////////////////////////////////////////////////////////////
+	///	@brief Enumeration corresponding to the differents States
+	///
+	///	Correspond to the three states of the games.
+	///
+	////////////////////////////////////////////////////////////
+    enum State {
+		/// @var The game hasn't started yet or is finished
         STOP = 0,
+		/// @var Start the game
         START = 1,
+		/// @var Pause the game or resume it
         PAUSE = 2
     };
 
-    class IGame
-    {
+	////////////////////////////////////////////////////////////
+	///	@brief Interface Game, inherited by all games to precise
+	///	the functions used by the core
+	///
+	////////////////////////////////////////////////////////////
+    class IGame {
         public:
+
+			////////////////////////////////////////////////////////////
+    		/// \brief Default destructor
+    		///
+    		///	Will be overrided by your class destructor.
+    		///
+    		////////////////////////////////////////////////////////////
             virtual ~IGame() = default;
+
+			////////////////////////////////////////////////////////////
+    		/// \brief Initialisation of your game
+    		///
+    		///	Is the first function to be called by the core.
+    		///	It initialize your game library.
+    		///
+    		////////////////////////////////////////////////////////////
             virtual void init_game(void);
+
+			////////////////////////////////////////////////////////////
+    		/// \brief Destruction of your game
+    		///
+    		///	Is the last function to be called by the core.
+    		///	It destroy your game library.
+    		///
+    		////////////////////////////////////////////////////////////
             virtual void destroy_game(void);
-            virtual void update(std::vector<Key>) = 0;
+
+			////////////////////////////////////////////////////////////
+    		/// \brief Update your game
+    		///
+    		/// This function is used to simulate one tick of your game.
+    		///	It takes a key input list and must create the consequences,
+    		///	like a direction changement in your game when arrow is sended.
+    		///
+    		/// \param keys correspond to the user's inputs, sended by the graphical library
+    		///
+    		////////////////////////////////////////////////////////////
+            virtual void update(std::vector<Key> keys) = 0;
+
+			////////////////////////////////////////////////////////////
+    		/// \brief Set the game state to State var
+    		///
+    		/// This function is used to set the game state,
+    		///	like start or stop. To see the different State of the game,
+    		///	check the Status enumeration documentation.
+    		///
+    		/// \param state correspond to the game's state you whant to set
+    		///
+    		////////////////////////////////////////////////////////////
             virtual void setGameState(State state) = 0;
+
+			////////////////////////////////////////////////////////////
+    		/// \brief Return the current game's state
+    		///
+    		/// \return current game's state
+    		///
+    		////////////////////////////////////////////////////////////
             virtual State getGameState(void) = 0;
+
+			////////////////////////////////////////////////////////////
+    		/// \brief Return the game's map
+    		///
+    		///	This function return the game's map previously setted by
+    		///	the update function. The element in the map correspond to
+    		///	the differents shapes and colors to load at this index.
+    		///
+    		/// \return the current map
+    		///
+    		////////////////////////////////////////////////////////////
             virtual unsigned char **getMap(void) = 0;
+
+			////////////////////////////////////////////////////////////
+    		/// \brief Return the current game's score
+    		///
+    		///	This function return the current score of the player.
+    		///
+    		/// \return the current player score
+    		///
+    		////////////////////////////////////////////////////////////
             virtual std::size_t getScore(void) = 0;
     };
 } // namespace arc
