@@ -43,19 +43,19 @@ namespace arc
 	///	Will be in the map to precise the shapes colors.
 	///
 	////////////////////////////////////////////////////////////
-    enum Color {
-        RED = -10,
-        BLUE = -11,
-        GREEN = -12,
-        WHITE = -13,
-        ORANGE = -14,
-        CYAN = -15,
-        PURPLE = -16,
-        YELLOW = -17,
-        LIME = -18,
-        BROWN = -19,
-        PINK = -20,
-        GRAY = -21,
+    enum GameColor {
+        G_RED = -10,
+        G_BLUE = -11,
+        G_GREEN = -12,
+        G_WHITE = -13,
+        G_ORANGE = -14,
+        G_CYAN = -15,
+        G_PURPLE = -16,
+        G_YELLOW = -17,
+        G_LIME = -18,
+        G_BROWN = -19,
+        G_PINK = -20,
+        G_GRAY = -21,
     };
 
 	////////////////////////////////////////////////////////////
@@ -64,53 +64,53 @@ namespace arc
 	///	Will be send in the update function.
 	///
 	////////////////////////////////////////////////////////////
-    enum Key {
-		ENTER,
-		BACKSPACE,
-		SPACE,
-		ESCAPE,
-		UP_ARROW,
-		DOWN_ARROW,
-		LEFT_ARROW,
-		RIGHT_ARROW,
-		A_KEY,
-		B_KEY,
-		C_KEY,
-		D_KEY,
-		E_KEY,
-		F_KEY,
-		G_KEY,
-		H_KEY,
-		I_KEY,
-		J_KEY,
-		K_KEY,
-		L_KEY,
-		M_KEY,
-		N_KEY,
-		O_KEY,
-		P_KEY,
-		Q_KEY,
-		R_KEY,
-		S_KEY,
-		T_KEY,
-		U_KEY,
-		V_KEY,
-		W_KEY,
-		X_KEY,
-		Y_KEY,
-		Z_KEY,
-		KEY_0,
-		KEY_1,
-		KEY_2,
-		KEY_3,
-		KEY_4,
-		KEY_5,
-		KEY_6,
-		KEY_7,
-		KEY_8,
-		KEY_9,
+    enum GameKey {
+		G_ENTER,
+		G_BACKSPACE,
+		G_SPACE,
+		G_ESCAPE,
+		G_UP_ARROW,
+		G_DOWN_ARROW,
+		G_LEFT_ARROW,
+		G_RIGHT_ARROW,
+		G_A_KEY,
+		G_B_KEY,
+		G_C_KEY,
+		G_D_KEY,
+		G_E_KEY,
+		G_F_KEY,
+		G_G_KEY,
+		G_H_KEY,
+		G_I_KEY,
+		G_J_KEY,
+		G_K_KEY,
+		G_L_KEY,
+		G_M_KEY,
+		G_N_KEY,
+		G_O_KEY,
+		G_P_KEY,
+		G_Q_KEY,
+		G_R_KEY,
+		G_S_KEY,
+		G_T_KEY,
+		G_U_KEY,
+		G_V_KEY,
+		G_W_KEY,
+		G_X_KEY,
+		G_Y_KEY,
+		G_Z_KEY,
+		G_KEY_0,
+		G_KEY_1,
+		G_KEY_2,
+		G_KEY_3,
+		G_KEY_4,
+		G_KEY_5,
+		G_KEY_6,
+		G_KEY_7,
+		G_KEY_8,
+		G_KEY_9,
 
-        EVENTYPE_SIZE
+        G_KEY_SIZE
     };
 
 	////////////////////////////////////////////////////////////
@@ -151,7 +151,7 @@ namespace arc
     		///	It initialize your game library.
     		///
     		////////////////////////////////////////////////////////////
-            virtual void init_game(void);
+            virtual void initGame(void);
 
 			////////////////////////////////////////////////////////////
     		/// \brief Destruction of your game
@@ -160,7 +160,7 @@ namespace arc
     		///	It destroy your game library.
     		///
     		////////////////////////////////////////////////////////////
-            virtual void destroy_game(void);
+            virtual void destroyGame(void);
 
 			////////////////////////////////////////////////////////////
     		/// \brief Update your game
