@@ -10,6 +10,8 @@
 
 #include <memory>
 #include <string>
+#include <iostream>
+#include <fstream>
 
 #include "IDisplay.hpp"
 #include "IGame.hpp"
