@@ -17,5 +17,5 @@ void arc::Core::getScores(void)
 {
     std::ofstream confFile;
 
-
+    confFile.open("");
 }
