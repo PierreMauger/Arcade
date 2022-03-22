@@ -6,7 +6,7 @@
 ##
 
 ##################### SRC #######################
-SRC				=	src/sfml.cpp
+SRC				=	src/Sfml.cpp
 
 #################### NAMES ######################
 NAME			=	arcade_sfml.so
