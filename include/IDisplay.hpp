@@ -49,7 +49,6 @@ namespace arc
 	///	Will be returned by the event checker.
 	///
 	////////////////////////////////////////////////////////////
-	enum Key {
     enum class Color {
         RED = (1 << 4),
         BLUE = (2 << 4),
