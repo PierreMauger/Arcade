@@ -18,7 +18,7 @@ void arc::LibList::verifLibName(std::string libName)
     std::regex reg("(\\S+)(\\.so)");
     std::regex_search(libName, match, reg);
 
-    if (match.size() != 2) {
+    if (match.size() != 3) {
         throw FileError("FileError: Bad file format.");
     }
 }
@@ -34,10 +34,10 @@ void arc::LibList::getConf(void)
         try {
             verifLibName(match[1].str());
             this->_libs.push_back(match[1].str());
-            file = match[2].str();
         } catch (FileError const &error) {
             std::cerr << error.what() << std::endl;
         }
+        file = match[2].str();
     }
 }
 
