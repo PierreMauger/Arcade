@@ -8,6 +8,8 @@
 ##################### SRC #######################
 SRC				=	src/Core.cpp				\
 					src/Error.cpp				\
+					src/File.cpp				\
+					src/Score.cpp				\
 
 SRC				+=	main.c
 
@@ -18,7 +20,7 @@ NAME			=	arcade
 OBJ				=	$(SRC:.cpp=.o)
 
 ##################### FLAGS #####################
-CXXFLAGS		=	-I include -Wall -Wextra -W
+CXXFLAGS		=	-I include -I ../include -Wall -Wextra -W
 
 CXXFLAGS_DEBUG	=	-g
 

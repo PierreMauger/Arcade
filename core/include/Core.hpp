@@ -16,6 +16,8 @@
 #include "IDisplay.hpp"
 #include "IGame.hpp"
 
+#include "Score.hpp"
+
 namespace arc
 {
     class Core {
@@ -29,12 +31,11 @@ namespace arc
             std::shared_ptr<IGame> _game;
 
             std::string _playerName;
-            std::size_t _score;
+            Score _score;
 
             std::vector<std::string> _graphList;
             std::vector<std::string> _gameList;
 
-            void getScores(void);
             void getLibList(void);
     };
 } // namespace arc
