@@ -48,5 +48,14 @@ void arc::Score::getConf(void)
 
 void arc::Score::saveConf(void)
 {
+    std::ofstream file;
 
+    file.open(this->_fileName);
+    if (file.is_open() == false) {
+        throw FileError("FileError: Failed to saves scores.");
+    }
+    for(const auto &value: this->_score) {
+        file << value.gameName << ":" << value.playerName << ":" << value.score << std::endl;
+    }
+    file.close();
 }
