@@ -12,7 +12,7 @@ arc::Error::Error(const std::string &message) : _message(message)
 
 }
 
-const char* arc::Error::what() const noexcept
+const char *arc::Error::what() const noexcept
 {
     return _message.c_str();
 }

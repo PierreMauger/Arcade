@@ -11,7 +11,7 @@ SRC				=	src/Core.cpp				\
 					src/File.cpp				\
 					src/Score.cpp				\
 
-SRC				+=	main.c
+SRC				+=	main.cpp
 
 #################### NAMES ######################
 NAME			=	arcade
@@ -43,4 +43,4 @@ clean:
 	@find . -name "*.o" -delete
 
 fclean:	clean
-	@rm -f $(NAME)
+	@rm -f $(NAME) ../$(NAME)

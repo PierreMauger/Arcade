@@ -26,7 +26,7 @@ namespace arc
 
     class Score {
         public:
-            Score(std::string scoreFile);
+            Score(std::string scoreFile = "libs.conf");
             ~Score() = default;
 
             std::vector<score_t> getScores(void);
