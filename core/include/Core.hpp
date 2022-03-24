@@ -17,6 +17,7 @@
 #include "IGame.hpp"
 
 #include "Score.hpp"
+#include "LibList.hpp"
 
 namespace arc
 {
@@ -33,8 +34,8 @@ namespace arc
             std::string _playerName;
             Score _score;
 
-            std::vector<std::string> _graphList;
-            std::vector<std::string> _gameList;
+            LibList _graphList;
+            LibList _gameList;
 
             void getLibList(void);
     };

@@ -10,20 +10,27 @@
 
 #include <iostream>
 #include <vector>
+#include <string>
+#include <fstream>
+#include <memory>
+#include <regex>
 
 #include "ConfigFile.hpp"
 
 namespace arc
 {
-    class LibList : public ConfigFile{
+    class LibList : public ConfigFile {
         public:
-            LibList(std::string fileName = "./ressources/libs.conf");
+            LibList(std::string fileName);
             ~LibList() = default;
 
             void getConf(void);
             void saveConf(void);
 
             std::vector<std::string> _libs;
+
+        private:
+            void verifLibName(std::string libName);
     };
 }
 
