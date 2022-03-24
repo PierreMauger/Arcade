@@ -12,6 +12,7 @@
 #include <string>
 #include <iostream>
 #include <fstream>
+#include <map>
 
 #include "IDisplay.hpp"
 #include "IGame.hpp"
@@ -31,13 +32,16 @@ namespace arc
             std::shared_ptr<IDisplay> _graph;
             std::shared_ptr<IGame> _game;
 
+            Score _scoreList;
+            std::size_t _score;
             std::string _playerName;
-            Score _score;
 
             LibList _graphList;
             LibList _gameList;
 
-            void getLibList(void);
+            static std::map<Shape, std::function<void (void)>> _shapes;
+
+            void browseMap(void);
     };
 } // namespace arc
 

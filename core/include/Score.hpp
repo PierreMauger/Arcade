@@ -28,7 +28,7 @@ namespace arc
             void getConf(void);
             void saveConf(void);
 
-            std::vector<score_t> _score;
+            std::vector<score_t> _scoreList;
 
         private:
             std::size_t getScoreNumer(std::string score);

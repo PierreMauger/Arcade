@@ -33,7 +33,7 @@ void arc::Score::getConf(void)
             if (match.size() != 8) {
                 throw FileError("FileError: Bad scores file format.");
             }
-            this->_score.push_back((score_t) {
+            this->_scoreList.push_back((score_t) {
                 match[2].str(),
                 match[4].str(),
                 getScoreNumer(match[6].str()),
@@ -54,7 +54,7 @@ void arc::Score::saveConf(void)
     if (file.is_open() == false) {
         throw FileError("FileError: Failed to saves scores.");
     }
-    for(const auto &value: this->_score) {
+    for(const auto &value: this->_scoreList) {
         file << value.gameName << ":" << value.playerName << ":" << value.score << std::endl;
     }
     file.close();
