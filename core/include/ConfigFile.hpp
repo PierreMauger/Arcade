@@ -10,6 +10,10 @@
 
 #include <iostream>
 #include <vector>
+#include <string>
+#include <fstream>
+#include <memory>
+#include <regex>
 
 #include "Error.hpp"
 #include "File.hpp"

@@ -8,13 +8,6 @@
 #ifndef LIBLISTS_HPP
 #define LIBLISTS_HPP
 
-#include <iostream>
-#include <vector>
-#include <string>
-#include <fstream>
-#include <memory>
-#include <regex>
-
 #include "ConfigFile.hpp"
 
 namespace arc

@@ -9,6 +9,7 @@
 
 int main(int argc, char **argv)
 {
-    /* code */
+    // arc::Core core;
+
     return 0;
 }

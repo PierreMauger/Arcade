@@ -10,16 +10,13 @@
 
 #define MAX_SCORE_NUMBER 10
 
-#include <iostream>
-#include <vector>
-
 #include "ConfigFile.hpp"
 
 namespace arc
 {
     typedef struct {
-        std::string playerName;
         std::string gameName;
+        std::string playerName;
         std::size_t score;
     } score_t;
 
@@ -32,6 +29,9 @@ namespace arc
             void saveConf(void);
 
             std::vector<score_t> _score;
+
+        private:
+            std::size_t getScoreNumer(std::string score);
     };
 }
 
