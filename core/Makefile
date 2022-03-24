@@ -9,6 +9,8 @@
 SRC				=	src/Core.cpp				\
 					src/Error.cpp				\
 					src/File.cpp				\
+					src/ConfigFile.cpp			\
+					src/LibList.cpp				\
 					src/Score.cpp				\
 
 SRC				+=	main.cpp

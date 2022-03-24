@@ -19,11 +19,10 @@ namespace arc {
         public:
             File(void) = default;
             ~File() = default;
-            std::string &getFileBuff(void);
+
             void readFile(std::string fileName);
 
-        private:
-            std::string _file;
+            std::string file;
     };
 }
 

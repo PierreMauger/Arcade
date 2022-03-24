@@ -13,8 +13,7 @@
 #include <iostream>
 #include <vector>
 
-#include "Error.hpp"
-#include "File.hpp"
+#include "ConfigFile.hpp"
 
 namespace arc
 {
@@ -24,21 +23,15 @@ namespace arc
         std::size_t score;
     } score_t;
 
-    class Score {
+    class Score : public ConfigFile {
         public:
-            Score(std::string scoreFile = "libs.conf");
+            Score(std::string fileName = "./ressources/scores.conf");
             ~Score() = default;
 
-            std::vector<score_t> getScores(void);
-            void saveScores(void);
+            void getConf(void);
+            void saveConf(void);
 
-        private:
-            std::string _fileName;
-            File _file;
             std::vector<score_t> _score;
-
-            void getScoreFile(void);
-
     };
 }
 

@@ -5,14 +5,14 @@
 ** score
 */
 
-#include "Score.hpp"
+#include "LibList.hpp"
 
-arc::Score::Score(std::string fileName) : ConfigFile(fileName)
+arc::LibList::LibList(std::string fileName) : ConfigFile(fileName)
 {
 
 }
 
-void arc::Score::getConf(void)
+void arc::LibList::getConf(void)
 {
     std::string file(this->_file.file);
 
@@ -22,7 +22,7 @@ void arc::Score::getConf(void)
     // TODO
 }
 
-void arc::Score::saveConf(void)
+void arc::LibList::saveConf(void)
 {
 
 }
