@@ -5,7 +5,7 @@
 ** main
 */
 
-#include "sdl.hpp"
+#include "Sdl.hpp"
 
 static const int keyTab[] {
     SDLK_KP_ENTER,
