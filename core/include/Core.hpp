@@ -13,6 +13,7 @@
 #include <iostream>
 #include <fstream>
 #include <map>
+#include <functional>
 
 #include "IDisplay.hpp"
 #include "IGame.hpp"
@@ -32,6 +33,8 @@ namespace arc
             std::shared_ptr<IDisplay> _graph;
             std::shared_ptr<IGame> _game;
 
+            bool _exit = false;
+
             Score _scoreList;
             std::size_t _score;
             std::string _playerName;
@@ -39,9 +42,9 @@ namespace arc
             LibList _graphList;
             LibList _gameList;
 
-            static std::map<Shape, std::function<void (void)>> _shapes;
-
             void browseMap(void);
+            void coreKey(void);
+            void drawIdx(unsigned char idx, std::size_t x, std::size_t y);
     };
 } // namespace arc
 
