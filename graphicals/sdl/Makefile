@@ -6,7 +6,7 @@
 ##
 
 ##################### SRC #######################
-SRC				=
+SRC				=	src/sdl.cpp
 
 #################### NAMES ######################
 NAME			=	arcade_sdl2.so
@@ -15,7 +15,7 @@ NAME			=	arcade_sdl2.so
 OBJ				=	$(SRC:.cpp=.o)
 
 ##################### FLAGS #####################
-CXXFLAGS		=	-fPIC -I include -I ../../include -W -Wall -Wextra
+CXXFLAGS		=	-fPIC -I include -I ../../include -lSDL2main -lSDL2 -W -Wall -Wextra
 
 CXXFLAGS_DEBUG	=	-g
 

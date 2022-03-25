@@ -5,29 +5,35 @@
 ** main
 */
 
-#include <SFML/Graphics.hpp>
-#include <SFML/System.hpp>
-#include <SFML/Window.hpp>
+#include <SDL2/SDL.h>
 
 #include "IDisplay.hpp"
 
+typedef struct {
+    Uint8 r;
+    Uint8 g;
+    Uint8 b;
+    Uint8 a;
+} SDL_Color_t;
+
 namespace arc
 {
-    class sfml : virtual public IDisplay {
+    class sdl : virtual public IDisplay {
         private:
-            sf::RenderWindow _window;
-            sf::Event _event;
+            SDL_Window *_window;
+            SDL_Renderer *_renderer;
+            SDL_Event _events;
             std::vector<arc::DisplayKey> _eventVector;
-            sf::RectangleShape _rect;
-            sf::CircleShape _circle;
+            SDL_Rect _rect;
+            bool _isOpen;
 
         private:
-            arc::DisplayKey findEventKey(sf::Keyboard::Key key);
-            sf::Color findColor(unsigned char color);
+            arc::DisplayKey findEventKey(int key);
+            SDL_Color_t findColor(unsigned char color);
 
         public:
-            sfml(void);
-            ~sfml();
+            sdl(void);
+            ~sdl();
             void initDisplay(void);
             void destroyDisplay(void);
             void display(void);
@@ -37,5 +43,4 @@ namespace arc
             void drawFdp(unsigned char color, std::size_t posX, std::size_t posY);
             std::vector<DisplayKey> getKeys(void);
     };
-
 } // namespace arc

@@ -9,7 +9,7 @@
 
 static const sf::Keyboard::Key keyTab[] {
     sf::Keyboard::Enter,
-    sf::Keyboard::BackSpace,
+    sf::Keyboard::Backspace,
     sf::Keyboard::Space,
     sf::Keyboard::Escape,
     sf::Keyboard::Up,
@@ -71,12 +71,12 @@ static const sf::Color colorTab[] {
     sf::Color(128, 128, 128)
 };
 
-arc::Key arc::sfml::findEventKey(sf::Keyboard::Key key)
+arc::DisplayKey arc::sfml::findEventKey(sf::Keyboard::Key key)
 {
-    for (int i = 0; i < (int)arc::Key::EVENTYPE_SIZE; i++)
+    for (int i = 0; i < (int)arc::DisplayKey::D_KEY_SIZE; i++)
         if (keyTab[i] == key)
-            return (arc::Key)i;
-    return arc::Key::EVENTYPE_SIZE;
+            return (arc::DisplayKey)i;
+    return arc::DisplayKey::D_KEY_SIZE;
 }
 
 sf::Color arc::sfml::findColor(unsigned char color)
@@ -119,14 +119,14 @@ void arc::sfml::display(void)
 void arc::sfml::drawSquare(unsigned char color, std::size_t posX, std::size_t posY)
 {
     this->_rect.setFillColor(findColor(color));
-    this->_rect.setPosition({posX * 50, posY * 50});
+    this->_rect.setPosition({(float)posX * 50, (float)posY * 50});
     this->_window.draw(this->_rect);
 }
 
 void arc::sfml::drawCircle(unsigned char color, std::size_t posX, std::size_t posY)
 {
     this->_circle.setFillColor(findColor(color));
-    this->_circle.setPosition({posX * 50, posY * 50});
+    this->_circle.setPosition({(float)posX * 50, (float)posY * 50});
     this->_window.draw(this->_circle);
 }
 
@@ -140,7 +140,7 @@ void arc::sfml::drawFdp(unsigned char color, std::size_t posX, std::size_t posY)
 
 }
 
-std::vector<arc::Key> arc::sfml::getKeys(void)
+std::vector<arc::DisplayKey> arc::sfml::getKeys(void)
 {
     if (this->_eventVector.size())
         this->_eventVector.clear();
