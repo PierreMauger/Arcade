@@ -9,7 +9,7 @@
 
 static const sf::Keyboard::Key keyTab[] {
     sf::Keyboard::Enter,
-    sf::Keyboard::BackSpace,
+    sf::Keyboard::Backspace,
     sf::Keyboard::Space,
     sf::Keyboard::Escape,
     sf::Keyboard::Up,
@@ -81,12 +81,12 @@ static const sf::Color colorTab[] {
     sf::Color(128, 128, 128)    // GRAY
 };
 
-arc::Key arc::sfml::findEventKey(sf::Keyboard::Key key)
+arc::DisplayKey arc::sfml::findEventKey(sf::Keyboard::Key key)
 {
-    for (int i = 0; i < (int)arc::Key::EVENTYPE_SIZE; i++)
+    for (int i = 0; i < (int)arc::DisplayKey::D_KEY_SIZE; i++)
         if (keyTab[i] == key)
-            return (arc::Key)i;
-    return arc::Key::EVENTYPE_SIZE;
+            return (arc::DisplayKey)i;
+    return arc::DisplayKey::D_KEY_SIZE;
 }
 
 sf::Color arc::sfml::findColor(unsigned char color)
@@ -175,7 +175,7 @@ void arc::sfml::drawLetter(unsigned char letter, std::size_t posX, std::size_t p
     this->_window.draw(this->_letter);
 }
 
-std::vector<arc::Key> arc::sfml::getKeys(void)
+std::vector<arc::DisplayKey> arc::sfml::getKeys(void)
 {
     if (this->_eventVector.size())
         this->_eventVector.clear();
