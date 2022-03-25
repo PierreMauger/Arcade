@@ -42,9 +42,21 @@ namespace arc
             LibList _graphList;
             LibList _gameList;
 
+            static std::map<arc::Shape, std::function<void (arc::IDisplay *, unsigned char, std::size_t, std::size_t)>> shapes;
+            static std::map<arc::DisplayKey, std::function<void (arc::IDisplay *)>> coreEvent;
+
             void browseMap(void);
             void coreKey(void);
             void drawIdx(unsigned char idx, std::size_t x, std::size_t y);
+
+            // Core event
+            void previousGame(void);
+            void nextGame(void);
+            void restartGame(void);
+            void menuGame(void);
+            void exitGame(void);
+            void previousGraph(void);
+            void nextGraph(void);
     };
 } // namespace arc
 
