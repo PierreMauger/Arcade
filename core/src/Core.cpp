@@ -20,7 +20,7 @@ std::map<arc::DisplayKey, std::function<void (arc::Core *)>> arc::Core::coreEven
     {DisplayKey::D_F4, &Core::nextGame},
     {DisplayKey::D_F5, &Core::restartGame},
     {DisplayKey::D_F6, &Core::menuGame},
-    {DisplayKey::D_F7, &Core::exitGame},
+    {DisplayKey::D_F7, &Core::exit},
     // {DisplayKey::D_F8, &Core:: /* assign */ },
     // {DisplayKey::D_F9, &Core:: /* assign */ },
     // {DisplayKey::D_F10, &Core:: /* assign */ },
@@ -28,18 +28,44 @@ std::map<arc::DisplayKey, std::function<void (arc::Core *)>> arc::Core::coreEven
     // {DisplayKey::D_F12, &Core:: /* assign */ },
 };
 
-arc::Core::Core(std::shared_ptr<IDisplay> graph, std::shared_ptr<IGame> game) :
+arc::Core::Core(std::string graphLibName) :
 _scoreList("./ressources/scores.conf"),
 _graphList("./ressources/graphics.conf"),
 _gameList("./ressources/games.conf")
 {
-    this->_graph = graph;
-    this->_game = game;
+
+
+    /// LOAD MENU
     this->_graphList.getConf();
     this->_gameList.getConf();
     this->_scoreList.getConf();
+    this->getGamesEntryPoint();
+    this->getGraphsEntryPoint();
     this->_graph->initDisplay();
     this->_game->initGame();
+}
+
+void arc::Core::getMenuEntryPoint(void)
+{
+    this->_menuEntryPoint = this->_libLoader.getLibLoader<std::unique_ptr<IGame> (void), std::unique_ptr<IGame> (*)(void)>(std::string(PATH_LIBS + std::string("arcade_menu.so")) , "entryPoint");
+}
+
+void arc::Core::getGamesEntryPoint(void)
+{
+    for (auto it : this->_gameList._libs) {
+        this->_gameEntryPoint.push_back(
+            this->_libLoader.getLibLoader<std::unique_ptr<IGame> (void), std::unique_ptr<IGame> (*)(void)>(std::string(PATH_LIBS + it), "entryPoint")
+        );
+    }
+}
+
+void arc::Core::getGraphsEntryPoint(void)
+{
+    for (auto it : this->_graphList._libs) {
+        this->_graphEntryPoint.push_back(
+            this->_libLoader.getLibLoader<std::unique_ptr<IDisplay> (void), std::unique_ptr<IDisplay> (*)(void)>(std::string(PATH_LIBS + it), "entryPoint")
+        );
+    }
 }
 
 void arc::Core::drawIdx(unsigned char idx, std::size_t x, std::size_t y)
@@ -54,13 +80,14 @@ void arc::Core::drawIdx(unsigned char idx, std::size_t x, std::size_t y)
 void arc::Core::browseMap(void)
 {
     unsigned char **map = this->_game->getMap();
+    std::size_t score = this->_score;
 
-    for (size_t i = 0; map[i] != nullptr; i++) {
-        for (size_t j = 0; map[i][j] != '\0'; j++) {
-            if ((map[i][j] & 0b10000000) == 0b10000000) {
-                drawIdx(map[i][j], i, j);
+    for (std::size_t y = 0; map[y] != nullptr; y++) {
+        for (std::size_t x = 0; map[x][y] != '\0'; x++) {
+            if ((map[x][y] & 0b10000000) == 0b10000000) {
+                drawIdx(map[x][y], x, y);
             } else {
-                this->_graph->drawLetter(map[i][j], i, j);
+                this->_graph->drawLetter(map[x][y], x, y);
             }
         }
     }
@@ -84,11 +111,10 @@ void arc::Core::coreKey(void)
 
 void arc::Core::coreLoop(void)
 {
-    this->_score = this->_game->getScore();
-
     while (this->_exit == false) {
         this->browseMap();
         this->coreKey();
+        this->_graph->display();
     }
 }
 
@@ -112,9 +138,9 @@ void arc::Core::menuGame(void)
 
 }
 
-void arc::Core::exitGame(void)
+void arc::Core::exit(void)
 {
-
+    this->_exit = true;
 }
 
 void arc::Core::previousGraph(void)

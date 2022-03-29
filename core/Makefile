@@ -12,7 +12,7 @@ SRC				=	src/Core.cpp				\
 					src/ConfigFile.cpp			\
 					src/LibList.cpp				\
 					src/Score.cpp				\
-					src/GameLoader.cpp			\
+					src/LibLoader.cpp			\
 
 SRC				+=	main.cpp
 
