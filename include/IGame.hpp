@@ -151,7 +151,7 @@ namespace arc
     		///	It initialize your game library.
     		///
     		////////////////////////////////////////////////////////////
-            virtual void initGame(void);
+            virtual void initGame(void) = 0;
 
 			////////////////////////////////////////////////////////////
     		/// \brief Destruction of your game
@@ -160,7 +160,7 @@ namespace arc
     		///	It destroy your game library.
     		///
     		////////////////////////////////////////////////////////////
-            virtual void destroyGame(void);
+            virtual void destroyGame(void) = 0;
 
 			////////////////////////////////////////////////////////////
     		/// \brief Update your game

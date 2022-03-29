@@ -2,17 +2,17 @@
 ** EPITECH PROJECT, 2022
 ** Include
 ** File description:
-** GameLoader
+** LibLoader
 */
 
-#include "GameLoader.hpp"
+#include "LibLoader.hpp"
 
-arc::GameLoader::GameLoader(void)
+arc::LibLoader::LibLoader(void)
 {
 
 }
 
-arc::GameLoader::~GameLoader()
+arc::LibLoader::~LibLoader()
 {
     for (auto &handle : handleList) {
         dlclose(handle);
