@@ -90,21 +90,14 @@ arc::DisplayKey arc::sdl::findEventKey(int key)
 
 SDL_Color_t arc::sdl::findColor(unsigned char color)
 {
-    for (int i = 1; i <= 12; i++) {
+    for (int i = 1; i <= 12; i++)
         if (color == i * 16)
             return colorTab[i];
-    }
     return colorTab[0];
 }
 
 arc::sdl::sdl(void)
 {
-
-}
-
-arc::sdl::~sdl()
-{
-
 }
 
 void arc::sdl::initDisplay(void)
@@ -131,27 +124,24 @@ void arc::sdl::display(void)
 
 void arc::sdl::drawSquare(unsigned char color, std::size_t posX, std::size_t posY)
 {
-    this->_rect.x = posX * 50;
-    this->_rect.y = posY * 50;
     SDL_Color_t col = findColor(color);
 
+    this->_rect.x = posX * 50;
+    this->_rect.y = posY * 50;
     SDL_SetRenderDrawColor(this->_renderer, col.r, col.g, col.b, col.a);
     SDL_RenderFillRect(this->_renderer, &this->_rect);
 }
 
 void arc::sdl::drawCircle(unsigned char color, std::size_t posX, std::size_t posY)
 {
-
 }
 
 void arc::sdl::drawCross(unsigned char color, std::size_t posX, std::size_t posY)
 {
-
 }
 
 void arc::sdl::drawLetter(unsigned char letter, std::size_t posX, std::size_t posY)
 {
-
 }
 
 std::vector<arc::DisplayKey> arc::sdl::getKeys(void)
@@ -159,9 +149,9 @@ std::vector<arc::DisplayKey> arc::sdl::getKeys(void)
     if (this->_eventVector.size())
         this->_eventVector.clear();
     while (SDL_PollEvent(&this->_events)) {
-        if  (this->_events.type == SDL_QUIT)
+        if (this->_events.type == SDL_QUIT)
             this->_isOpen = false;
-        if  (this->_events.type == SDL_KEYDOWN)
+        if (this->_events.type == SDL_KEYDOWN)
             this->_eventVector.push_back(findEventKey(this->_events.key.keysym.sym));
     }
     return this->_eventVector;

@@ -5,6 +5,9 @@
 ** main
 */
 
+#ifndef SDL_HPP
+#define SDL_HPP
+
 #include <SDL2/SDL.h>
 
 #include "IDisplay.hpp"
@@ -18,7 +21,8 @@ typedef struct {
 
 namespace arc
 {
-    class sdl : virtual public IDisplay {
+    class sdl : virtual public IDisplay
+    {
         private:
             SDL_Window *_window;
             SDL_Renderer *_renderer;
@@ -33,7 +37,7 @@ namespace arc
 
         public:
             sdl(void);
-            ~sdl();
+            ~sdl() = default;
             void initDisplay(void);
             void destroyDisplay(void);
             void display(void);
@@ -44,3 +48,5 @@ namespace arc
             std::vector<DisplayKey> getKeys(void);
     };
 } // namespace arc
+
+#endif // MENU_HPP

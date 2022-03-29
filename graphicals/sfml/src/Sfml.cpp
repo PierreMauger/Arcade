@@ -123,11 +123,6 @@ arc::sfml::sfml(void)
     this->_letter.setCharacterSize(15);
 }
 
-arc::sfml::~sfml()
-{
-
-}
-
 void arc::sfml::initDisplay(void)
 {
     this->_window.create(sf::VideoMode(720, 480), "Arcade");

@@ -9,7 +9,7 @@
 SRC				=
 
 #################### NAMES ######################
-NAME			=	arcade_other.so
+NAME			=	arcade_menu.so
 
 ##################### OBJ #######################
 OBJ				=	$(SRC:.cpp=.o)

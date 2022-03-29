@@ -8,31 +8,31 @@
 #################### PATH #####################
 PATH_NIBBLER		=	nibbler/
 
-PATH_OTHER			=	other/
+PATH_MENU			=	menu/
 
 ################# COMPILATION #################
-.PHONY: all nibbler other re clean fclean debug
+.PHONY: all nibbler menu re clean fclean debug
 
 all:
 	make -C	$(PATH_NIBBLER)
-	make -C	$(PATH_OTHER)
+	make -C	$(PATH_MENU)
 
 nibbler:
 	make -C	$(PATH_NIBBLER)
 
-other:
-	make -C	$(PATH_OTHER)
+menu:
+	make -C	$(PATH_MENU)
 
 re:	fclean all
 
 clean:
 	@(make clean -C $(PATH_NIBBLER)) > /dev/null
-	@(make clean -C $(PATH_OTHER)) > /dev/null
+	@(make clean -C $(PATH_MENU)) > /dev/null
 
 fclean:	clean
 	@(make fclean -C $(PATH_NIBBLER)) > /dev/null
-	@(make fclean -C $(PATH_OTHER)) > /dev/null
+	@(make fclean -C $(PATH_MENU)) > /dev/null
 
 debug:
 	@(make debug -C $(PATH_NIBBLER)) > /dev/null
-	@(make debug -C $(PATH_OTHER)) > /dev/null
+	@(make debug -C $(PATH_MENU)) > /dev/null

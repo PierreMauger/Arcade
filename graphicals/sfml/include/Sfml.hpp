@@ -5,6 +5,9 @@
 ** main
 */
 
+#ifndef SFML_HPP
+#define SFML_HPP
+
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
 #include <SFML/Window.hpp>
@@ -14,7 +17,8 @@
 
 namespace arc
 {
-    class sfml : virtual public IDisplay {
+    class sfml : virtual public IDisplay
+    {
         private:
             sf::RenderWindow _window;
             sf::Event _event;
@@ -32,7 +36,7 @@ namespace arc
 
         public:
             sfml(void);
-            ~sfml();
+            ~sfml() = default;
             void initDisplay(void);
             void destroyDisplay(void);
             void display(void);
@@ -42,5 +46,6 @@ namespace arc
             void drawLetter(unsigned char letter, std::size_t posX, std::size_t posY);
             std::vector<DisplayKey> getKeys(void);
     };
-
 } // namespace arc
+
+#endif // SFML_HPP
