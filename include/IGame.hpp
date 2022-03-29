@@ -172,7 +172,7 @@ namespace arc
     		/// \param keys correspond to the user's inputs, sended by the graphical library
     		///
     		////////////////////////////////////////////////////////////
-            virtual void update(std::vector<Key> keys) = 0;
+            virtual void update(std::vector<GameKey> keys) = 0;
 
 			////////////////////////////////////////////////////////////
     		/// \brief Set the game state to State var

@@ -8,26 +8,30 @@
 #ifndef SCORE_HPP
 #define SCORE_HPP
 
-#include <iostream>
+#define MAX_SCORE_NUMBER 10
 
-#include "Error.hpp"
+#include "ConfigFile.hpp"
 
 namespace arc
 {
+    typedef struct {
+        std::string gameName;
+        std::string playerName;
+        std::size_t score;
+    } score_t;
 
-
-    class Score {
+    class Score : public ConfigFile {
         public:
-            Score(std::string scoreFile);
+            Score(std::string fileName = "./ressources/scores.conf");
             ~Score() = default;
 
-            void getScores(void);
-            void saveScores(void);
+            void getConf(void);
+            void saveConf(void);
+
+            std::vector<score_t> _scoreList;
 
         private:
-            std::string fileName;
-
-
+            std::size_t getScoreNumer(std::string score);
     };
 }
 

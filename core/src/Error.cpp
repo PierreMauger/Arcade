@@ -5,31 +5,19 @@
 ** Link
 */
 
-#include "Error/Error.hpp"
+#include "Error.hpp"
 
-#include <iostream>
-
-nts::Error::Error(const std::string &message) : _message(message)
+arc::Error::Error(const std::string &message) : _message(message)
 {
 
 }
 
-const char* nts::Error::what() const noexcept
+const char *arc::Error::what() const noexcept
 {
     return _message.c_str();
 }
 
-nts::FileError::FileError(std::string const &message) : nts::Error(message)
-{
-
-}
-
-nts::ComponentError::ComponentError(std::string const &message) : nts::Error(message)
-{
-
-}
-
-nts::CommandError::CommandError(std::string const &message) : nts::Error(message)
+arc::FileError::FileError(std::string const &message) : arc::Error(message)
 {
 
 }

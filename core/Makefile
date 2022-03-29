@@ -8,8 +8,13 @@
 ##################### SRC #######################
 SRC				=	src/Core.cpp				\
 					src/Error.cpp				\
+					src/File.cpp				\
+					src/ConfigFile.cpp			\
+					src/LibList.cpp				\
+					src/Score.cpp				\
+					src/GameLoader.cpp			\
 
-SRC				+=	main.c
+SRC				+=	main.cpp
 
 #################### NAMES ######################
 NAME			=	arcade
@@ -18,7 +23,7 @@ NAME			=	arcade
 OBJ				=	$(SRC:.cpp=.o)
 
 ##################### FLAGS #####################
-CXXFLAGS		=	-I include -Wall -Wextra -W
+CXXFLAGS		=	-I include -I ../include -ldl -Wall -Wextra -W -std=c++17
 
 CXXFLAGS_DEBUG	=	-g
 
@@ -41,4 +46,4 @@ clean:
 	@find . -name "*.o" -delete
 
 fclean:	clean
-	@rm -f $(NAME)
+	@rm -f $(NAME) ../$(NAME)
