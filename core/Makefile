@@ -12,6 +12,7 @@ SRC				=	src/Core.cpp				\
 					src/ConfigFile.cpp			\
 					src/LibList.cpp				\
 					src/Score.cpp				\
+					src/GameLoader.cpp			\
 
 SRC				+=	main.cpp
 
@@ -22,7 +23,7 @@ NAME			=	arcade
 OBJ				=	$(SRC:.cpp=.o)
 
 ##################### FLAGS #####################
-CXXFLAGS		=	-I include -I ../include -Wall -Wextra -W
+CXXFLAGS		=	-I include -I ../include -ldl -Wall -Wextra -W -std=c++17
 
 CXXFLAGS_DEBUG	=	-g
 

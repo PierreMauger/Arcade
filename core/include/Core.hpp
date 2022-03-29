@@ -58,6 +58,13 @@ namespace arc
             void previousGraph(void);
             void nextGraph(void);
     };
+
+    template<class T>
+    std::unique_ptr<T> entryPoint(void)
+    {
+        return std::make_unique<T>;
+    }
+
 } // namespace arc
 
 #endif // CORE_HPP
