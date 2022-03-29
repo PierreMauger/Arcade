@@ -19,34 +19,32 @@
 #include "Error.hpp"
 
 namespace arc {
-    template<class T>
     class GameLoader {
         public:
             GameLoader(void);
             ~GameLoader();
 
             // ex: std::unique_ptr<IGame> (void)
-            std::function<T> getLib(std::string libName);
-
             template<class T>
-            std::function<T> arc::GameLoader::getLib(std::string libName, std::string functionName)
+            std::function<T> getLib(std::string libName, std::string functionName)
             {
                 std::function<T> entryPoint = nullptr;
+                void *handle = NULL;
 
-                this->handle = dlopen(libName.c_str(), RTLD_LAZY);
-                if (this->handle == NULL) {
+                handle = dlopen(libName.c_str(), RTLD_LAZY);
+                if (handle == NULL) {
                     throw arc::FileError("FileError: Cannot open lib file.");
                 }
-                // To verif
                 entryPoint = std::function<T>(reinterpret_cast<std::unique_ptr<T> (*)(void)>(dlsym(handle, functionName.c_str())));
                 if (entryPoint == nullptr) {
                     throw arc::FileError("FileError: Bad lib file.");
                 }
+                this->handleList.push_back(handle);
                 return entryPoint;
             }
 
         private:
-            void *handle;
+            std::vector<void *> handleList;
     };
 }
 

@@ -11,3 +11,10 @@ arc::GameLoader::GameLoader(void)
 {
 
 }
+
+arc::GameLoader::~GameLoader()
+{
+    for (auto &handle : handleList) {
+        dlclose(handle);
+    }
+}
