@@ -69,16 +69,18 @@ void arc::Core::browseMap(void)
 void arc::Core::coreKey(void)
 {
     std::vector<DisplayKey> keys = this->_graph->getKeys();
+    std::vector<GameKey> keyUpdate;
 
-    for (auto key: keys) {
-        if (key >= DisplayKey::D_F1 && key <= DisplayKey::D_F12) {
-            // auto keyPos = coreEvent.find(key);
-            // std::bind(keyPos->second, this->_graph);
-
-            // filter elems TODO
-            // keys.erase(key);
+    for (auto key = keys.begin(); key != keys.end(); key++) {
+        if (*key >= DisplayKey::D_F1 && *key <= DisplayKey::D_F12) {
+            auto keyPos = coreEvent.find(*key);
+            std::bind(keyPos->second, this->_graph);
+            keys.erase(key);
+        } else {
+            keyUpdate.push_back((GameKey)(*key));
         }
     }
+    this->_game->update(keyUpdate);
 }
 
 void arc::Core::coreLoop(void)
