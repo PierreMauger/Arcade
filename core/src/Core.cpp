@@ -33,16 +33,25 @@ _scoreList("./ressources/scores.conf"),
 _graphList("./ressources/graphics.conf"),
 _gameList("./ressources/games.conf")
 {
-
-
-    /// LOAD MENU
     this->_graphList.getConf();
     this->_gameList.getConf();
     this->_scoreList.getConf();
+    this->getMenuEntryPoint();
     this->getGamesEntryPoint();
     this->getGraphsEntryPoint();
-    this->_graph->initDisplay();
-    this->_game->initGame();
+    this->getGraphLibByName(graphLibName);
+    this->loadGameLib(this->_menuEntryPoint);
+}
+
+void arc::Core::getGraphLibByName(std::string graphLibName)
+{
+    std::size_t pos = std::distance(this->_graphList._libs.begin(), std::find(this->_graphList._libs.begin(), this->_graphList._libs.end(), graphLibName));
+
+    if (pos == this->_graphList._libs.size()) {
+        throw FileError("FileError: " + graphLibName + " is not a valid lib name.");
+    }
+    this->_graphIdx = pos;
+    this->loadGraphLib(this->_graphEntryPoint[pos]);
 }
 
 void arc::Core::getMenuEntryPoint(void)
@@ -80,7 +89,6 @@ void arc::Core::drawIdx(unsigned char idx, std::size_t x, std::size_t y)
 void arc::Core::browseMap(void)
 {
     unsigned char **map = this->_game->getMap();
-    std::size_t score = this->_score;
 
     for (std::size_t y = 0; map[y] != nullptr; y++) {
         for (std::size_t x = 0; map[x][y] != '\0'; x++) {
@@ -118,24 +126,63 @@ void arc::Core::coreLoop(void)
     }
 }
 
+void arc::Core::loadGameLib(std::function<std::unique_ptr<IGame>(void)> entryPoint)
+{
+    this->_game = entryPoint();
+    this->_game->initGame();
+    this->_game->setGameState(State::START);
+}
+
+void arc::Core::loadGraphLib(std::function<std::unique_ptr<IDisplay>(void)> entryPoint)
+{
+    this->_graph = entryPoint();
+    this->_graph->initDisplay();
+}
+
+void arc::Core::unloadGameLib(void)
+{
+    this->_game->destroyGame();
+    this->_game = nullptr;
+}
+
+void arc::Core::unloadGraphLib(void)
+{
+    this->_graph->destroyDisplay();
+    this->_graph = nullptr;
+}
+
 void arc::Core::previousGame(void)
 {
-
+    this->unloadGameLib();
+    if (this->_gameIdx == 0) {
+        this->_gameIdx = this->_gameEntryPoint.size() - 1;
+    } else {
+        this->_gameIdx--;
+    }
+    this->loadGameLib(this->_gameEntryPoint[this->_gameIdx]);
 }
 
 void arc::Core::nextGame(void)
 {
-
+    this->unloadGameLib();
+    if (this->_gameIdx == this->_gameEntryPoint.size() - 1) {
+        this->_gameIdx = 0;
+    } else {
+        this->_gameIdx++;
+    }
+    this->loadGameLib(this->_gameEntryPoint[this->_gameIdx]);
 }
 
 void arc::Core::restartGame(void)
 {
-
+    this->unloadGameLib();
+    this->loadGameLib(this->_gameEntryPoint[this->_gameIdx]);
 }
 
 void arc::Core::menuGame(void)
 {
-
+    this->unloadGameLib();
+    this->loadGameLib(this->_menuEntryPoint);
 }
 
 void arc::Core::exit(void)
@@ -145,10 +192,22 @@ void arc::Core::exit(void)
 
 void arc::Core::previousGraph(void)
 {
-
+    this->unloadGraphLib();
+    if (this->_graphIdx == 0) {
+        this->_graphIdx = this->_graphEntryPoint.size() - 1;
+    } else {
+        this->_graphIdx--;
+    }
+    this->loadGraphLib(this->_graphEntryPoint[this->_graphIdx]);
 }
 
 void arc::Core::nextGraph(void)
 {
-
+    this->unloadGraphLib();
+    if (this->_graphIdx == this->_graphEntryPoint.size() - 1) {
+        this->_graphIdx = 0;
+    } else {
+        this->_graphIdx++;
+    }
+    this->loadGraphLib(this->_graphEntryPoint[this->_graphIdx]);
 }
