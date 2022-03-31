@@ -29,7 +29,7 @@ namespace arc
     class Core {
         public:
             Core(std::string graphLibName);
-            ~Core() = default;
+            ~Core();
 
             void coreLoop(void);
         private:

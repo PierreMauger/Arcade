@@ -34,13 +34,17 @@ _graphList("./ressources/graphics.conf"),
 _gameList("./ressources/games.conf")
 {
     this->_graphList.getConf();
-    this->_gameList.getConf();
+    // this->_gameList.getConf();
     this->_scoreList.getConf();
     this->getMenuEntryPoint();
     this->getGamesEntryPoint();
     this->getGraphsEntryPoint();
     this->getGraphLibByName(graphLibName);
     this->loadGameLib(this->_menuEntryPoint);
+}
+
+arc::Core::~Core()
+{
 }
 
 void arc::Core::getGraphLibByName(std::string graphLibName)

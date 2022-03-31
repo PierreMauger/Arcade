@@ -12,10 +12,16 @@ _scoreList("./ressources/scores.conf"),
 _graphList("./ressources/graphics.conf"),
 _gameList("./ressources/games.conf")
 {
+    this->_map = new unsigned char *[50];
+    for (int i = 0; i < 50; i++)
+        this->_map[i] = new unsigned char[50];
 }
 
 arc::Menu::~Menu()
 {
+    for (int i = 0; i < 50; i++)
+        delete[] this->_map[i];
+    delete[] this->_map;
 }
 
 void arc::Menu::initGame(void)

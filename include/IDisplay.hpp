@@ -17,6 +17,7 @@
 #define DISPLAY_HPP
 
 #include <vector>
+#include <memory>
 
 namespace arc
 {
