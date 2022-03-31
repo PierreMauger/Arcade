@@ -34,5 +34,5 @@ fclean:	clean
 	@(make fclean -C $(PATH_MENU)) > /dev/null
 
 debug:
-	@(make debug -C $(PATH_NIBBLER)) > /dev/null
-	@(make debug -C $(PATH_MENU)) > /dev/null
+	make debug -C $(PATH_NIBBLER)
+	make debug -C $(PATH_MENU)

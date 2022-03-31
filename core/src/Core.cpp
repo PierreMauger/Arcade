@@ -92,8 +92,11 @@ void arc::Core::drawIdx(unsigned char idx, std::size_t x, std::size_t y)
 
 void arc::Core::browseMap(void)
 {
-    unsigned char **map = this->_game->getMap();
+    unsigned char **map;
 
+    if (this->_game == nullptr || this->_graph == nullptr)
+        return;
+    map = this->_game->getMap();
     for (std::size_t y = 0; map[y] != nullptr; y++) {
         for (std::size_t x = 0; map[x][y] != '\0'; x++) {
             if ((map[x][y] & 0b10000000) == 0b10000000) {
