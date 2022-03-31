@@ -33,6 +33,11 @@ namespace arc
             unsigned char **getMap(void);
             std::size_t getScore(void);
     };
+
+    extern "C" std::unique_ptr<Menu> entryPoint(void)
+    {
+        return std::make_unique<Menu>();
+    }
 } // namespace arc
 
 #endif // MENU_HPP
