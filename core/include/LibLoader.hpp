@@ -1,8 +1,8 @@
 /*
 ** EPITECH PROJECT, 2022
 ** Include
-** GameLoader description:
-** GameLoader
+** LibLoader description:
+** LibLoader
 */
 
 #ifndef GAMELOADER_HPP
@@ -19,23 +19,23 @@
 #include "Error.hpp"
 
 namespace arc {
-    class GameLoader {
+    class LibLoader {
         public:
-            GameLoader(void);
-            ~GameLoader();
+            LibLoader(void);
+            ~LibLoader();
 
             // ex: std::unique_ptr<IGame> (void)
-            template<class T>
-            std::function<T> getLib(std::string libName, std::string functionName)
+            template<class T, class F>
+            std::function<T> getLibLoader(std::string libName, std::string functionName)
             {
                 std::function<T> entryPoint = nullptr;
                 void *handle = NULL;
 
                 handle = dlopen(libName.c_str(), RTLD_LAZY);
                 if (handle == NULL) {
-                    throw arc::FileError("FileError: Cannot open lib file.");
+                    throw arc::FileError("FileError: Cannot open \"" + libName + "\" lib file.");
                 }
-                entryPoint = std::function<T>(reinterpret_cast<std::unique_ptr<T> (*)(void)>(dlsym(handle, functionName.c_str())));
+                entryPoint = std::function<T>(reinterpret_cast<F>(dlsym(handle, functionName.c_str())));
                 if (entryPoint == nullptr) {
                     throw arc::FileError("FileError: Bad lib file.");
                 }
