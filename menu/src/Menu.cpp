@@ -12,9 +12,14 @@ _scoreList("./ressources/scores.conf"),
 _graphList("./ressources/graphics.conf"),
 _gameList("./ressources/games.conf")
 {
-    this->_map = new unsigned char *[50];
-    for (int i = 0; i < 50; i++)
-        this->_map[i] = new unsigned char[50];
+    this->_map = new unsigned char *[51];
+    for (int i = 0; i < 50; i++) {
+        this->_map[i] = new unsigned char[51];
+        for (int j = 0; j < 51; j++) {
+            this->_map[i][j] = '\0';
+        }
+    }
+    this->_map[50] = nullptr;
 }
 
 arc::Menu::~Menu()

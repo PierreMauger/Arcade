@@ -16,6 +16,8 @@
 #include <fstream>
 #include <map>
 #include <functional>
+#include <chrono>
+#include <thread>
 
 #include "IDisplay.hpp"
 #include "IGame.hpp"

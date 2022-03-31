@@ -45,6 +45,8 @@ _gameList("./ressources/games.conf")
 
 arc::Core::~Core()
 {
+    this->unloadGameLib();
+    this->unloadGraphLib();
 }
 
 void arc::Core::getGraphLibByName(std::string graphLibName)
@@ -130,6 +132,8 @@ void arc::Core::coreLoop(void)
         this->browseMap();
         this->coreKey();
         this->_graph->display();
+        // TODO TIME
+        // std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }
 }
 
