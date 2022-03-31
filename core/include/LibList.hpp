@@ -23,7 +23,7 @@ namespace arc
             std::vector<std::string> _libs;
 
         private:
-            void verifLibName(std::string libName);
+            std::string getRawLibName(std::string libName);
     };
 }
 

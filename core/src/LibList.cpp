@@ -12,7 +12,7 @@ arc::LibList::LibList(std::string fileName) : ConfigFile(fileName)
 
 }
 
-void arc::LibList::verifLibName(std::string libName)
+std::string arc::LibList::getRawLibName(std::string libName)
 {
     std::smatch match;
     std::regex reg("(\\S+)(\\.so)");
@@ -21,6 +21,7 @@ void arc::LibList::verifLibName(std::string libName)
     if (match.size() != 3) {
         throw FileError("FileError: Bad file format.");
     }
+    return match[1];
 }
 
 void arc::LibList::getConf(void)
@@ -32,8 +33,7 @@ void arc::LibList::getConf(void)
     while (std::regex_search(file, match, reg))
     {
         try {
-            verifLibName(match[1].str());
-            this->_libs.push_back(match[1].str());
+            this->_libs.push_back(getRawLibName(match[1].str()));
         } catch (FileError const &error) {
             std::cerr << error.what() << std::endl;
         }

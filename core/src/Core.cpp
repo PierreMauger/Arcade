@@ -52,10 +52,12 @@ arc::Core::~Core()
 void arc::Core::getGraphLibByName(std::string graphLibName)
 {
     std::string rawLibName = this->getRawLibName(graphLibName);
+    std::string extention = rawLibName.substr(rawLibName.size() - 3, 3);
+    rawLibName.erase(rawLibName.size() - 3, 3);
     std::size_t pos = std::distance(this->_graphList._libs.begin(), std::find(this->_graphList._libs.begin(), this->_graphList._libs.end(), rawLibName));
 
     if (pos == this->_graphList._libs.size()) {
-        throw FileError("FileError: " + rawLibName + " is not a valid lib name.");
+        throw FileError("FileError: " + rawLibName + extention + " is not a valid lib name.");
     }
     this->_graphIdx = pos;
     this->loadGraphLib(this->_graphEntryPoint[pos]);
@@ -79,7 +81,7 @@ void arc::Core::getGamesEntryPoint(void)
 {
     for (auto it : this->_gameList._libs) {
         this->_gameEntryPoint.push_back(
-            this->_libLoader.getLibLoader<std::unique_ptr<IGame> (void), std::unique_ptr<IGame> (*)(void)>(std::string(PATH_LIBS + it), "entryPoint")
+            this->_libLoader.getLibLoader<std::unique_ptr<IGame> (void), std::unique_ptr<IGame> (*)(void)>(std::string(PATH_LIBS + it + ".so"), "entryPoint")
         );
     }
 }
@@ -88,7 +90,7 @@ void arc::Core::getGraphsEntryPoint(void)
 {
     for (auto it : this->_graphList._libs) {
         this->_graphEntryPoint.push_back(
-            this->_libLoader.getLibLoader<std::unique_ptr<IDisplay> (void), std::unique_ptr<IDisplay> (*)(void)>(std::string(PATH_LIBS + it), "entryPoint")
+            this->_libLoader.getLibLoader<std::unique_ptr<IDisplay> (void), std::unique_ptr<IDisplay> (*)(void)>(std::string(PATH_LIBS + it + ".so"), "entryPoint")
         );
     }
 }
