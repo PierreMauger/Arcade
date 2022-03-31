@@ -61,6 +61,7 @@ namespace arc
             static std::map<arc::Shape, std::function<void (arc::IDisplay *, unsigned char, std::size_t, std::size_t)>> shapes;
             static std::map<arc::DisplayKey, std::function<void (arc::Core *)>> coreEvent;
 
+            std::string getRawLibName(std::string libName);
             void getGraphLibByName(std::string graphLibName);
 
             void getMenuEntryPoint(void);

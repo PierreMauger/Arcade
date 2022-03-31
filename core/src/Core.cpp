@@ -51,13 +51,23 @@ arc::Core::~Core()
 
 void arc::Core::getGraphLibByName(std::string graphLibName)
 {
-    std::size_t pos = std::distance(this->_graphList._libs.begin(), std::find(this->_graphList._libs.begin(), this->_graphList._libs.end(), graphLibName));
+    std::string rawLibName = this->getRawLibName(graphLibName);
+    std::size_t pos = std::distance(this->_graphList._libs.begin(), std::find(this->_graphList._libs.begin(), this->_graphList._libs.end(), rawLibName));
 
     if (pos == this->_graphList._libs.size()) {
-        throw FileError("FileError: " + graphLibName + " is not a valid lib name.");
+        throw FileError("FileError: " + rawLibName + " is not a valid lib name.");
     }
     this->_graphIdx = pos;
     this->loadGraphLib(this->_graphEntryPoint[pos]);
+}
+
+std::string arc::Core::getRawLibName(std::string libName)
+{
+    std::size_t pos = libName.find_last_of("/");
+
+    if (pos == std::string::npos)
+        return libName;
+    return libName.substr(pos + 1);
 }
 
 void arc::Core::getMenuEntryPoint(void)
