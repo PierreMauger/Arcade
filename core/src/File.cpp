@@ -13,7 +13,7 @@ void arc::File::readFile(std::string fileName)
 
     fileBuff.open(fileName);
     if (!fileBuff.is_open()) {
-        throw arc::FileError("FileError: Cannot open file.");
+        throw arc::FileError("FileError: Cannot open \"" + fileName + "\" file.");
     } else {
         std::getline(fileBuff, this->file, '\0');
         fileBuff.close();

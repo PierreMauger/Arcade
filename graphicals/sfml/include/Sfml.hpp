@@ -43,4 +43,9 @@ namespace arc
             std::vector<DisplayKey> getKeys(void);
     };
 
+    extern "C" std::unique_ptr<sfml> entryPoint(void)
+    {
+        return std::make_unique<sfml>();
+    }
+
 } // namespace arc

@@ -43,4 +43,9 @@ namespace arc
             void drawLetter(unsigned char letter, std::size_t posX, std::size_t posY);
             std::vector<DisplayKey> getKeys(void);
     };
+
+    extern "C" std::unique_ptr<sdl> entryPoint(void)
+    {
+        return std::make_unique<sdl>();
+    }
 } // namespace arc

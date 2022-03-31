@@ -33,7 +33,7 @@ namespace arc {
 
                 handle = dlopen(libName.c_str(), RTLD_LAZY);
                 if (handle == NULL) {
-                    throw arc::FileError("FileError: Cannot open lib file.");
+                    throw arc::FileError("FileError: Cannot open \"" + libName + "\" lib file.");
                 }
                 entryPoint = std::function<T>(reinterpret_cast<F>(dlsym(handle, functionName.c_str())));
                 if (entryPoint == nullptr) {
