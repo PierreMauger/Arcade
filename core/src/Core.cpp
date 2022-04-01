@@ -131,6 +131,7 @@ void arc::Core::coreKey(void)
         if (*key >= DisplayKey::D_F1 && *key <= DisplayKey::D_F12) {
             auto keyPos = coreEvent.find(*key);
             std::bind(keyPos->second, this->_graph);
+            keyPos->second(this);
         } else {
             keyUpdate.push_back((GameKey)(*key));
         }
