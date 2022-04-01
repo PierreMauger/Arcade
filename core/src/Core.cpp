@@ -107,13 +107,14 @@ void arc::Core::getGraphsEntryPoint(void)
 
 void arc::Core::drawIdx(int idx, std::size_t x, std::size_t y)
 {
-    for(auto it = this->shapes.cbegin(); it != this->shapes.cend(); ++it) {
-        if ((it->first & idx) == it->first) {
-            std::bind(it->second, this->_graph, idx ^ it->first, x, y);
-            it->second(this->_graph.get(), idx, x, y);
+    Shape shapeIdx = this->getShape(idx);
+
+    for(auto it = this->shapes.cbegin(); it != this->shapes.cend(); it++) {
+        if (it->first == shapeIdx) {
+            std::bind(it->second, this->_graph, this->getColor(idx), x, y);
+            it->second(this->_graph.get(), this->getColor(idx), x, y);
             break;
         }
-        std::cout << "idx: " << idx << " | shape: " << it->first << " | other: " << (idx ^ it->first) << std::endl;
     }
 }
 
@@ -127,10 +128,11 @@ void arc::Core::browseMap(void)
     for (std::size_t y = 0; y < map.size(); y++) {
         for (std::size_t x = 0; x < map[y].size(); x++) {
             if ((map[y][x]) != 0) {
-                if ((map[y][x] >> 8) == 0) {
+                if (this->getLetter(map[y][x]) == 0) {
                     drawIdx(map[y][x], x, y);
                 } else {
-                    this->_graph->drawLetter(map[y][x], x, y);
+                    // see for color
+                    this->_graph->drawLetter(this->getLetter(map[y][x]), x, y);
                 }
             }
         }
@@ -249,4 +251,21 @@ void arc::Core::nextGraph(void)
         this->_graphIdx++;
     }
     this->loadGraphLib(this->_graphEntryPoint[this->_graphIdx]);
+}
+
+char arc::Core::getLetter(int mapIdx)
+{
+    return (char)mapIdx;
+}
+
+arc::Shape arc::Core::getShape(int mapIdx)
+{
+    mapIdx <<= 16;
+    return (Shape)(mapIdx >>= 24);
+}
+
+arc::GameColor arc::Core::getColor(int mapIdx)
+{
+    mapIdx <<= 8;
+    return (GameColor)(mapIdx >>= 24);
 }

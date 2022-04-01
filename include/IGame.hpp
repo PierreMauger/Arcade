@@ -34,9 +34,9 @@ namespace arc
 	///
 	////////////////////////////////////////////////////////////
     enum Shape {
-        SQUARE = 1 << 8,
-        CROSS = 2 << 8,
-        CIRCLE = 3 << 8,
+        SQUARE = 1,
+        CROSS = 2,
+        CIRCLE = 3,
     };
 
 	////////////////////////////////////////////////////////////
@@ -46,18 +46,18 @@ namespace arc
 	///
 	////////////////////////////////////////////////////////////
     enum GameColor {
-        G_RED = 1 << 16,
-        G_BLUE = 2 << 16,
-        G_GREEN = 3 << 16,
-        G_WHITE = 4 << 16,
-        G_ORANGE = 5 << 16,
-        G_CYAN = 6 << 16,
-        G_PURPLE = 7 << 16,
-        G_YELLOW = 8 << 16,
-        G_LIME = 9 << 16,
-        G_BROWN = 10 << 16,
-        G_PINK = 11 << 16,
-        G_GRAY = 12 << 16,
+        G_RED = 1,
+        G_BLUE = 2,
+        G_GREEN = 3,
+        G_WHITE = 4,
+        G_ORANGE = 5,
+        G_CYAN = 6,
+        G_PURPLE = 7,
+        G_YELLOW = 8,
+        G_LIME = 9,
+        G_BROWN = 10,
+        G_PINK = 11,
+        G_GRAY = 12,
     };
 
 	////////////////////////////////////////////////////////////

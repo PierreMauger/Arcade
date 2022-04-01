@@ -76,6 +76,10 @@ namespace arc
             void coreKey(void);
             void drawIdx(int idx, std::size_t x, std::size_t y);
 
+            char getLetter(int mapIdx);
+            Shape getShape(int mapIdx);
+            GameColor getColor(int mapIdx);
+
             // Core event
             void previousGame(void);
             void nextGame(void);
