@@ -56,17 +56,24 @@ namespace arc
 
             pos_t _food;
 
-            void goUp(void);
-            void goLeft(void);
-            void goDown(void);
-            void goRight(void);
+            void move(void);
+            void moveUp(void);
+            void moveLeft(void);
+            void moveDown(void);
+            void moveRight(void);
+
+            void changeDirUp(void);
+            void changeDirLeft(void);
+            void changeDirDown(void);
+            void changeDirRight(void);
 
             bool checkWallCollision(void);
+            bool checkSelfCollision(void);
+            bool checkFoodCollision(void);
 
-            void setFoodPos(void);
+            void addSnakePart(void);
 
-            void drawFood(void);
-            void drawSnake(void);
+            void putFood(void);
     };
 }
 

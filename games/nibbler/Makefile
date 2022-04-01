@@ -6,9 +6,7 @@
 ##
 
 ##################### SRC #######################
-SRC				=
-
-SRC				+=	src/main.c
+SRC				=	src/Nibbler.cpp
 
 #################### NAMES ######################
 NAME			=	arcade_nibbler.so
