@@ -22,6 +22,7 @@ CXXFLAGS_DEBUG	=	-g
 ################## COMPILATION ##################
 $(NAME):	$(OBJ)
 	@(g++ -shared $(OBJ) -o $(NAME) $(CXXFLAGS)) > /dev/null
+	mkdir -p ../../lib/
 	cp $(NAME) ../../lib/$(NAME)
 
 all:	$(NAME)
