@@ -12,6 +12,7 @@
 
 #include <map>
 #include <functional>
+#include <memory>
 
 namespace arc
 {
@@ -21,6 +22,11 @@ namespace arc
         private:
 
     };
+
+    extern "C" std::unique_ptr<Nibbler> entryPoint(void)
+    {
+        return std::make_unique<Nibbler>();
+    }
 }
 
 #endif // QIX_HPP
