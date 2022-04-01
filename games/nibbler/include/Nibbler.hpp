@@ -25,12 +25,12 @@ namespace arc
             void setGameState(State state);
             State getGameState(void);
 
-            unsigned char **getMap(void);
+            std::vector<std::vector<int>> getMap(void);
 
             std::size_t getScore(void);
 
         private:
-            unsigned char **_map;
+            std::vector<std::vector<int>> _map;
 
             std::size_t _score;
 

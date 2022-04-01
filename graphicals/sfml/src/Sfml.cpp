@@ -136,7 +136,7 @@ void arc::sfml::destroyDisplay(void)
 void arc::sfml::display(void)
 {
     this->_window.display();
-    this->_window.clear();
+    // this->_window.clear();
 }
 
 void arc::sfml::drawSquare(unsigned char color, std::size_t posX, std::size_t posY)

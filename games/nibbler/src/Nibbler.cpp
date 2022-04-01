@@ -49,7 +49,7 @@ arc::State arc::Nibbler::getGameState(void)
 
 }
 
-unsigned char **arc::Nibbler::getMap(void)
+std::vector<std::vector<int>> arc::Nibbler::getMap(void)
 {
 
 }

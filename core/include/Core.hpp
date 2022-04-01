@@ -74,7 +74,7 @@ namespace arc
 
             void browseMap(void);
             void coreKey(void);
-            void drawIdx(unsigned char idx, std::size_t x, std::size_t y);
+            void drawIdx(int idx, std::size_t x, std::size_t y);
 
             // Core event
             void previousGame(void);

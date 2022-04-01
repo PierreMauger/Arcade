@@ -35,8 +35,8 @@ namespace arc
 	////////////////////////////////////////////////////////////
     enum Shape {
         SQUARE = 1 << 8,
-        CROSS,
-        CIRCLE,
+        CROSS = 2 << 8,
+        CIRCLE = 3 << 8,
     };
 
 	////////////////////////////////////////////////////////////
@@ -47,17 +47,17 @@ namespace arc
 	////////////////////////////////////////////////////////////
     enum GameColor {
         G_RED = 1 << 16,
-        G_BLUE,
-        G_GREEN,
-        G_WHITE,
-        G_ORANGE,
-        G_CYAN,
-        G_PURPLE,
-        G_YELLOW,
-        G_LIME,
-        G_BROWN,
-        G_PINK,
-        G_GRAY,
+        G_BLUE = 2 << 16,
+        G_GREEN = 3 << 16,
+        G_WHITE = 4 << 16,
+        G_ORANGE = 5 << 16,
+        G_CYAN = 6 << 16,
+        G_PURPLE = 7 << 16,
+        G_YELLOW = 8 << 16,
+        G_LIME = 9 << 16,
+        G_BROWN = 10 << 16,
+        G_PINK = 11 << 16,
+        G_GRAY = 12 << 16,
     };
 
 	////////////////////////////////////////////////////////////
@@ -206,7 +206,7 @@ namespace arc
     		/// \return the current map
     		///
     		////////////////////////////////////////////////////////////
-            virtual unsigned char **getMap(void) = 0;
+            virtual std::vector<std::vector<int>> getMap(void) = 0;
 
 			////////////////////////////////////////////////////////////
     		/// \brief Return the current game's score

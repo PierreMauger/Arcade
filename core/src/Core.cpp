@@ -41,6 +41,16 @@ _gameList("./ressources/games.conf")
     this->getGraphsEntryPoint();
     this->getGraphLibByName(graphLibName);
     this->loadGameLib(this->_menuEntryPoint);
+
+    // print map
+    std::vector<std::vector<int>> map = this->_game->getMap();
+    for (int i = 0; i < 50; i++) {
+        for (int j = 0; j < 51; j++) {
+            std::cerr << (int)map[i][j] << " ";
+        }
+        std::cerr << std::endl;
+    }
+
 }
 
 arc::Core::~Core()
@@ -95,28 +105,33 @@ void arc::Core::getGraphsEntryPoint(void)
     }
 }
 
-void arc::Core::drawIdx(unsigned char idx, std::size_t x, std::size_t y)
+void arc::Core::drawIdx(int idx, std::size_t x, std::size_t y)
 {
     for(auto it = this->shapes.cbegin(); it != this->shapes.cend(); ++it) {
         if ((it->first & idx) == it->first) {
             std::bind(it->second, this->_graph, idx ^ it->first, x, y);
+            it->second(this->_graph.get(), idx, x, y);
+            break;
         }
+        std::cout << "idx: " << idx << " | shape: " << it->first << " | other: " << (idx ^ it->first) << std::endl;
     }
 }
 
 void arc::Core::browseMap(void)
 {
-    unsigned char **map;
+    std::vector<std::vector<int>> map;
 
     if (this->_game == nullptr || this->_graph == nullptr)
         return;
     map = this->_game->getMap();
-    for (std::size_t y = 0; map[y] != nullptr; y++) {
-        for (std::size_t x = 0; map[x][y] != '\0'; x++) {
-            if ((map[x][y] & 0b10000000) == 0b10000000) {
-                drawIdx(map[x][y], x, y);
-            } else {
-                this->_graph->drawLetter(map[x][y], x, y);
+    for (std::size_t y = 0; y < map.size(); y++) {
+        for (std::size_t x = 0; x < map[y].size(); x++) {
+            if ((map[y][x]) != 0) {
+                if ((map[y][x] >> 8) == 0) {
+                    drawIdx(map[y][x], x, y);
+                } else {
+                    this->_graph->drawLetter(map[y][x], x, y);
+                }
             }
         }
     }

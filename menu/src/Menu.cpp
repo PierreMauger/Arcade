@@ -10,23 +10,9 @@
 arc::Menu::Menu(void) :
 _scoreList("./ressources/scores.conf"),
 _graphList("./ressources/graphics.conf"),
-_gameList("./ressources/games.conf")
+_gameList("./ressources/games.conf"),
+_map(std::vector<std::vector<int>>(50, std::vector<int>(50, 0)))
 {
-    this->_map = new unsigned char *[51];
-    for (int i = 0; i < 50; i++) {
-        this->_map[i] = new unsigned char[51];
-        for (int j = 0; j < 51; j++) {
-            this->_map[i][j] = '\0';
-        }
-    }
-    this->_map[50] = nullptr;
-}
-
-arc::Menu::~Menu()
-{
-    for (int i = 0; i < 50; i++)
-        delete[] this->_map[i];
-    delete[] this->_map;
 }
 
 void arc::Menu::initGame(void)
@@ -34,10 +20,12 @@ void arc::Menu::initGame(void)
     int tempX = 50;
     int tempY = 50;
 
-    for (int i = 0; i < tempX / 2; i++) {
-        this->_map[0][i] = (unsigned char)(Shape::SQUARE | GameColor::G_CYAN);
-        this->_map[tempY / 2][i] = (unsigned char)(Shape::SQUARE | GameColor::G_CYAN);
-    }
+        this->_map[0][0] = Shape::CIRCLE;
+        std::cerr << (int)this->_map[3][0] << std::endl;
+    // for (int i = 0; i < tempX / 2; i++) {
+        // this->_map[0][i] = (unsigned char)(Shape::SQUARE | GameColor::G_CYAN);
+        // this->_map[tempY / 2][i] = (unsigned char)(Shape::SQUARE | GameColor::G_CYAN);
+    // }
 }
 
 void arc::Menu::destroyGame(void)
@@ -60,7 +48,7 @@ arc::State arc::Menu::getGameState(void)
     return arc::State::START;
 }
 
-unsigned char **arc::Menu::getMap(void)
+std::vector<std::vector<int>> arc::Menu::getMap(void)
 {
     return this->_map;
 }

@@ -17,20 +17,20 @@ namespace arc
     class Menu : virtual public IGame
     {
         private:
-            unsigned char **_map;
+            std::vector<std::vector<int>> _map;
             Score _scoreList;
             LibList _graphList;
             LibList _gameList;
 
         public:
             Menu(void);
-            ~Menu();
+            ~Menu() = default;
             void initGame(void);
             void destroyGame(void);
             void update(std::vector<GameKey> keys);
             void setGameState(State state);
             State getGameState(void);
-            unsigned char **getMap(void);
+            std::vector<std::vector<int>> getMap(void);
             std::size_t getScore(void);
     };
 
