@@ -19,6 +19,8 @@
 #ifndef GAME_HPP
 #define GAME_HPP
 
+#define MAP_SIZE (50)
+
 #include <iostream>
 #include <vector>
 
@@ -32,9 +34,9 @@ namespace arc
 	///
 	////////////////////////////////////////////////////////////
     enum Shape {
-        SQUARE = -1,
-        CROSS = -2,
-        CIRCLE = -3,
+        SQUARE = 1 << 8,
+        CROSS,
+        CIRCLE,
     };
 
 	////////////////////////////////////////////////////////////
@@ -44,18 +46,18 @@ namespace arc
 	///
 	////////////////////////////////////////////////////////////
     enum GameColor {
-        G_RED = -10,
-        G_BLUE = -11,
-        G_GREEN = -12,
-        G_WHITE = -13,
-        G_ORANGE = -14,
-        G_CYAN = -15,
-        G_PURPLE = -16,
-        G_YELLOW = -17,
-        G_LIME = -18,
-        G_BROWN = -19,
-        G_PINK = -20,
-        G_GRAY = -21,
+        G_RED = 1 << 16,
+        G_BLUE,
+        G_GREEN,
+        G_WHITE,
+        G_ORANGE,
+        G_CYAN,
+        G_PURPLE,
+        G_YELLOW,
+        G_LIME,
+        G_BROWN,
+        G_PINK,
+        G_GRAY,
     };
 
 	////////////////////////////////////////////////////////////

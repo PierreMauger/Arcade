@@ -30,18 +30,18 @@ namespace arc
 	///
 	////////////////////////////////////////////////////////////
 	enum DisplayColor {
-        D_RED = -10,
-        D_BLUE = -11,
-        D_GREEN = -12,
-        D_WHITE = -13,
-        D_ORANGE = -14,
-        D_CYAN = -15,
-        D_PURPLE = -16,
-        D_YELLOW = -17,
-        D_LIME = -18,
-        D_BROWN = -19,
-        D_PINK = -20,
-        D_GRAY = -21,
+        D_RED = 1 << 16,
+        D_BLUE,
+        D_GREEN,
+        D_WHITE,
+        D_ORANGE,
+        D_CYAN,
+        D_PURPLE,
+        D_YELLOW,
+        D_LIME,
+        D_BROWN,
+        D_PINK,
+        D_GRAY,
     };
 
 	////////////////////////////////////////////////////////////
