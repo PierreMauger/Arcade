@@ -175,8 +175,10 @@ std::vector<arc::DisplayKey> arc::sfml::getKeys(void)
     if (this->_eventVector.size())
         this->_eventVector.clear();
     while (this->_window.pollEvent(this->_event)) {
-        if (this->_event.type == sf::Event::Closed)
+        if (this->_event.type == sf::Event::Closed) {
             this->_window.close();
+            this->_eventVector.push_back(arc::DisplayKey::D_F7);
+        }
         if (this->_event.type == sf::Event::KeyPressed)
             this->_eventVector.push_back(findEventKey(this->_event.key.code));
     }

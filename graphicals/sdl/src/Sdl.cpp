@@ -105,7 +105,6 @@ void arc::sdl::initDisplay(void)
     SDL_Init(SDL_INIT_VIDEO);
     SDL_CreateWindowAndRenderer(800, 600, SDL_WINDOW_SHOWN, &this->_window, &this->_renderer);
     SDL_SetWindowTitle(this->_window, "Arcade");
-    this->_isOpen = true;
 }
 
 void arc::sdl::destroyDisplay(void)
@@ -149,8 +148,10 @@ std::vector<arc::DisplayKey> arc::sdl::getKeys(void)
     if (this->_eventVector.size())
         this->_eventVector.clear();
     while (SDL_PollEvent(&this->_events)) {
-        if (this->_events.type == SDL_QUIT)
-            this->_isOpen = false;
+        if (this->_events.type == SDL_QUIT) {
+            destroyDisplay();
+            this->_eventVector.push_back(arc::DisplayKey::D_F7);
+        }
         if (this->_events.type == SDL_KEYDOWN)
             this->_eventVector.push_back(findEventKey(this->_events.key.keysym.sym));
     }

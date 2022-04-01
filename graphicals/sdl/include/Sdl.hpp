@@ -29,7 +29,6 @@ namespace arc
             SDL_Event _events;
             std::vector<arc::DisplayKey> _eventVector;
             SDL_Rect _rect;
-            bool _isOpen;
 
         private:
             arc::DisplayKey findEventKey(int key);
