@@ -66,18 +66,18 @@ static const int keyTab[] {
 };
 
 static const SDL_Color_t colorTab[] {
-    {255,   0,   0, 255},
-    {  0,   0, 255, 255},
-    {  0, 128,   0, 255},
-    {255, 255, 255, 255},
-    {255, 128,   0, 255},
-    {  0, 255, 255, 255},
-    {128,   0, 128, 255},
-    {255, 255,   0, 255},
-    {  0, 255,   0, 255},
-    {128,   0,   0, 255},
-    {255, 105, 147, 255},
-    {128, 128, 128, 255},
+    {255,   0,   0, 255},   // RED
+    {  0,   0, 255, 255},   // BLUE
+    {  0, 128,   0, 255},   // GREEN
+    {255, 255, 255, 255},   // WHITE
+    {255, 128,   0, 255},   // ORANGE
+    {  0, 255, 255, 255},   // CYAN
+    {128,   0, 128, 255},   // PURPLE
+    {255, 255,   0, 255},   // YELLOW
+    {  0, 255,   0, 255},   // LIME
+    {128,   0,   0, 255},   // BROWN
+    {255, 105, 147, 255},   // PINK
+    {128, 128, 128, 255}    // GRAY
 };
 
 arc::DisplayKey arc::sdl::findEventKey(int key)
@@ -90,8 +90,8 @@ arc::DisplayKey arc::sdl::findEventKey(int key)
 
 SDL_Color_t arc::sdl::findColor(unsigned char color)
 {
-    for (int i = 1; i <= 12; i++)
-        if (color == i * 16)
+    for (int i = 0; i < 12; i++)
+        if (color == i + 1)
             return colorTab[i];
     return colorTab[0];
 }

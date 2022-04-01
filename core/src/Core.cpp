@@ -41,16 +41,6 @@ _gameList("./ressources/games.conf")
     this->getGraphsEntryPoint();
     this->getGraphLibByName(graphLibName);
     this->loadGameLib(this->_menuEntryPoint);
-
-    // print map
-    std::vector<std::vector<int>> map = this->_game->getMap();
-    for (int i = 0; i < 50; i++) {
-        for (int j = 0; j < 51; j++) {
-            std::cerr << (int)map[i][j] << " ";
-        }
-        std::cerr << std::endl;
-    }
-
 }
 
 arc::Core::~Core()
@@ -147,8 +137,10 @@ void arc::Core::coreKey(void)
     for (auto key = keys.begin(); key != keys.end(); key++) {
         if (*key >= DisplayKey::D_F1 && *key <= DisplayKey::D_F12) {
             auto keyPos = coreEvent.find(*key);
-            std::bind(keyPos->second, this->_graph);
-            keyPos->second(this);
+            if (keyPos != coreEvent.end()) {
+                std::bind(keyPos->second, this->_graph);
+                keyPos->second(this);
+            }
         } else {
             keyUpdate.push_back((GameKey)(*key));
         }

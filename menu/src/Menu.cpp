@@ -20,8 +20,7 @@ void arc::Menu::initGame(void)
     int tempX = 50;
     int tempY = 50;
 
-        this->_map[0][0] = Shape::CIRCLE;
-        std::cerr << (int)this->_map[3][0] << std::endl;
+    this->_map[0][0] = Shape::SQUARE << 8 | GameColor::G_CYAN << 16;
     // for (int i = 0; i < tempX / 2; i++) {
         // this->_map[0][i] = (unsigned char)(Shape::SQUARE | GameColor::G_CYAN);
         // this->_map[tempY / 2][i] = (unsigned char)(Shape::SQUARE | GameColor::G_CYAN);
