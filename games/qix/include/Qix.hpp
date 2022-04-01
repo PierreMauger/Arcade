@@ -23,9 +23,9 @@ namespace arc
 
     };
 
-    extern "C" std::unique_ptr<Nibbler> entryPoint(void)
+    extern "C" std::unique_ptr<Qix> entryPoint(void)
     {
-        return std::make_unique<Nibbler>();
+        return std::make_unique<Qix>();
     }
 }
 
