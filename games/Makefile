@@ -17,7 +17,7 @@ PATH_MENU			=	menu/
 
 all:
 	make -C	$(PATH_NIBBLER)
-	make -C	$(PATH_QIX)
+	# make -C	$(PATH_QIX)
 	# make -C	$(PATH_MENU)
 
 nibbler:

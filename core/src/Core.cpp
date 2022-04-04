@@ -34,7 +34,7 @@ _graphList("./ressources/graphics.conf"),
 _gameList("./ressources/games.conf")
 {
     this->_graphList.getConf();
-    // this->_gameList.getConf();
+    this->_gameList.getConf();
     this->_scoreList.getConf();
     this->getMenuEntryPoint();
     this->getGamesEntryPoint();

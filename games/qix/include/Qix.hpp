@@ -18,7 +18,20 @@ namespace arc
 {
     class Qix : public IGame {
         public:
+            Qix(void);
+            ~Qix() = default;
 
+            void initGame(void);
+            void destroyGame(void);
+
+            void update(std::vector<GameKey> keys);
+
+            void setGameState(State state);
+            State getGameState(void);
+
+            std::vector<std::vector<int>> getMap(void);
+
+            std::size_t getScore(void);
         private:
 
     };
