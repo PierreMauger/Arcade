@@ -100,26 +100,27 @@ sf::Color arc::sfml::findColor(unsigned char color)
 arc::sfml::sfml(void)
 {
     this->_rect.setPosition({0, 0});
-    this->_rect.setSize({50, 50});
+    this->_rect.setSize({20, 20});
     this->_rect.setFillColor(sf::Color::White);
     this->_circle.setPosition({0, 0});
-    this->_circle.setRadius(50);
+    this->_circle.setRadius(10);
     this->_circle.setFillColor(sf::Color::White);
     this->_line1.setPosition({0, 0});
-    this->_line1.setSize({std::sqrt(50 * 50 + 50 * 50), 5});
-    this->_line1.setRotation(-45);
+    this->_line1.setSize({std::sqrt(20 * 20 + 20 * 20), 2});
+    this->_line1.setRotation(45);
     this->_line1.setFillColor(sf::Color::White);
-    // this->_line1.setOrigin({0, 3});
-    this->_line2.setPosition({0, 50});
-    this->_line2.setSize({std::sqrt(50 * 50 + 50 * 50), 5});
-    this->_line2.setRotation(45);
+    this->_line1.setOrigin({0, 2});
+    this->_line2.setPosition({0, 20});
+    this->_line2.setSize({std::sqrt(20 * 20 + 20 * 20), 2});
+    this->_line2.setRotation(-45);
     this->_line2.setFillColor(sf::Color::White);
-    // this->_line2.setOrigin({0, 3});
+    this->_line2.setOrigin({0, 2});
     this->_font.loadFromFile("./graphicals/sfml/arial.ttf");
+    this->_letter.setCharacterSize(25);
     this->_letter.setFont(this->_font);
     this->_letter.setPosition({0, 0});
-    this->_letter.setString("a");
-    this->_letter.setCharacterSize(15);
+    this->_letter.setString("a\0");
+    this->_letter.setOrigin({0, this->_letter.getGlobalBounds().height + this->_letter.getGlobalBounds().top});
 }
 
 void arc::sfml::initDisplay(void)
@@ -148,7 +149,7 @@ void arc::sfml::drawSquare(unsigned char color, std::size_t posX, std::size_t po
 void arc::sfml::drawCircle(unsigned char color, std::size_t posX, std::size_t posY)
 {
     this->_circle.setFillColor(findColor(color));
-    this->_circle.setPosition({(float)posX * 50, (float)posY * 50});
+    this->_circle.setPosition({(float)posX * 20, (float)posY * 20});
     this->_window.draw(this->_circle);
 }
 
@@ -156,16 +157,20 @@ void arc::sfml::drawCross(unsigned char color, std::size_t posX, std::size_t pos
 {
     this->_line1.setFillColor(findColor(color));
     this->_line2.setFillColor(findColor(color));
-    this->_line1.setPosition({(float)posX * 50, (float)posY * 50});
-    this->_line2.setPosition({(float)posX * 50, (float)posY * 50 + 50});
+    this->_line1.setPosition({(float)posX * 20, (float)posY * 20});
+    this->_line2.setPosition({(float)posX * 20, (float)posY * 20 + 20});
     this->_window.draw(this->_line1);
     this->_window.draw(this->_line2);
 }
 
 void arc::sfml::drawLetter(unsigned char letter, std::size_t posX, std::size_t posY)
 {
-    this->_letter.setPosition({(float)posX * 50, (float)posY * 50});
-    this->_letter.setString((char *)&letter);
+    char str[] = "\0\0";
+    str[0] = letter;
+
+    this->_letter.setPosition({(float)posX * 20, (float)posY * 20});
+    // this->_letter.setString(str);
+    // this->_letter.setOrigin({0, this->_letter.getGlobalBounds().height + this->_letter.getGlobalBounds().top});
     this->_window.draw(this->_letter);
 }
 

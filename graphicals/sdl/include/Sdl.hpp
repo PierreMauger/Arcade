@@ -9,7 +9,7 @@
 #define SDL_HPP
 
 #include <SDL2/SDL.h>
-
+#include <SDL2/SDL_ttf.h>
 #include "IDisplay.hpp"
 
 typedef struct {
@@ -29,6 +29,9 @@ namespace arc
             SDL_Event _events;
             std::vector<arc::DisplayKey> _eventVector;
             SDL_Rect _rect;
+            TTF_Font *_font;
+            SDL_Surface *_textSurface;
+            SDL_Texture *_textTexture;
 
         private:
             arc::DisplayKey findEventKey(int key);

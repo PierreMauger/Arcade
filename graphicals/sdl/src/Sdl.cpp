@@ -103,12 +103,16 @@ arc::sdl::sdl(void)
 void arc::sdl::initDisplay(void)
 {
     SDL_Init(SDL_INIT_VIDEO);
+    TTF_Init();
     SDL_CreateWindowAndRenderer(800, 600, SDL_WINDOW_SHOWN, &this->_window, &this->_renderer);
     SDL_SetWindowTitle(this->_window, "Arcade");
+    this->_font = TTF_OpenFont("graphicals/sfml/arial.ttf", 20);
 }
 
 void arc::sdl::destroyDisplay(void)
 {
+    TTF_CloseFont(this->_font);
+    TTF_Quit();
     SDL_DestroyRenderer(this->_renderer);
     SDL_DestroyWindow(this->_window);
     SDL_Quit();
@@ -125,8 +129,8 @@ void arc::sdl::drawSquare(unsigned char color, std::size_t posX, std::size_t pos
 {
     SDL_Color_t col = findColor(color);
 
-    this->_rect.x = posX * 50;
-    this->_rect.y = posY * 50;
+    this->_rect.x = posX * 20;
+    this->_rect.y = posY * 20;
     SDL_SetRenderDrawColor(this->_renderer, col.r, col.g, col.b, col.a);
     SDL_RenderFillRect(this->_renderer, &this->_rect);
 }
@@ -141,6 +145,16 @@ void arc::sdl::drawCross(unsigned char color, std::size_t posX, std::size_t posY
 
 void arc::sdl::drawLetter(unsigned char letter, std::size_t posX, std::size_t posY)
 {
+    char str[] = "\0\0";
+    str[0] = letter;
+
+    this->_rect.x = posX * 20;
+    this->_rect.y = posY * 20;
+    this->_textSurface = TTF_RenderText_Solid(this->_font, str, {255, 255, 255, 255});
+    this->_textTexture = SDL_CreateTextureFromSurface(this->_renderer, this->_textSurface);
+    SDL_RenderCopy(this->_renderer, this->_textTexture, NULL, &this->_rect);
+    SDL_FreeSurface(this->_textSurface);
+    SDL_DestroyTexture(this->_textTexture);
 }
 
 std::vector<arc::DisplayKey> arc::sdl::getKeys(void)

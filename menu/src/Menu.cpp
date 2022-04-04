@@ -21,6 +21,9 @@ void arc::Menu::initGame(void)
     int tempY = 50;
 
     this->_map[0][0] = Shape::SQUARE << 8 | GameColor::G_CYAN << 16;
+    this->_map[0][1] = Shape::CIRCLE << 8 | GameColor::G_CYAN << 16;
+    this->_map[0][2] = Shape::CROSS << 8 | GameColor::G_CYAN << 16;
+    this->_map[0][3] = 'a' | GameColor::G_CYAN << 16;
     // for (int i = 0; i < tempX / 2; i++) {
         // this->_map[0][i] = (unsigned char)(Shape::SQUARE | GameColor::G_CYAN);
         // this->_map[tempY / 2][i] = (unsigned char)(Shape::SQUARE | GameColor::G_CYAN);
