@@ -19,8 +19,6 @@
 #ifndef GAME_HPP
 #define GAME_HPP
 
-#define MAP_SIZE (50)
-
 #include <iostream>
 #include <vector>
 
