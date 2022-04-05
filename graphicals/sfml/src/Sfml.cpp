@@ -126,7 +126,7 @@ arc::sfml::sfml(void)
 
 void arc::sfml::initDisplay(void)
 {
-    this->_window.create(sf::VideoMode(720, 480), "Arcade");
+    this->_window.create(sf::VideoMode(1000, 1000), "Arcade");
 }
 
 void arc::sfml::destroyDisplay(void)

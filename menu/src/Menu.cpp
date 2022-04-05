@@ -15,20 +15,24 @@ _map(std::vector<std::vector<int>>(50, std::vector<int>(50, 0)))
 {
 }
 
+void arc::Menu::drawRectangle(int x, int y, int width, int height, int color)
+{
+    for (int i = 0; i < width; i++) {
+        this->_map[y + 0][x + i] = Shape::SQUARE << 8 | color << 16;
+        this->_map[y + height - 1][x + i] = Shape::SQUARE << 8 | color << 16;
+    }
+    for (int i = 1; i < height - 1; i++) {
+        this->_map[y + i][x + 0] = Shape::SQUARE << 8 | color << 16;
+        this->_map[y + i][x + width - 1] = Shape::SQUARE << 8 | color << 16;
+    }
+}
+
 void arc::Menu::initGame(void)
 {
-    int tempX = 50;
-    int tempY = 50;
-
-    // this->_map[3][3] = Shape::SQUARE << 8 | GameColor::G_RED << 16;
-    // this->_map[0][1] = Shape::CIRCLE << 8 | GameColor::G_CYAN << 16;
-    // this->_map[0][2] = Shape::CROSS << 8 | GameColor::G_CYAN << 16;
-    // this->_map[2][3] = 'a' | GameColor::G_GREEN << 16;
-    for (int i = 0; i < tempX / 2; i++) {
-        this->_map[2][i] = Shape::SQUARE << 8 | GameColor::G_RED << 16;
-        this->_map[3][i] = Shape::CIRCLE << 8 | GameColor::G_LIME << 16;
-        this->_map[4][i] = 'm' | GameColor::G_LIME << 16;
-    }
+    drawRectangle(0, 0, 25, 25, GameColor::G_CYAN);
+    drawRectangle(0, 25, 25, 25, GameColor::G_YELLOW);
+    drawRectangle(25, 0, 25, 25, GameColor::G_RED);
+    drawRectangle(25, 25, 25, 25, GameColor::G_LIME);
 }
 
 void arc::Menu::destroyGame(void)

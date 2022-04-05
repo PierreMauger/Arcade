@@ -22,6 +22,7 @@ namespace arc
             LibList _graphList;
             LibList _gameList;
 
+            void drawRectangle(int x, int y, int width, int height, int color);
         public:
             Menu(void);
             ~Menu() = default;
