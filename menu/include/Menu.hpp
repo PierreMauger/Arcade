@@ -17,11 +17,12 @@ namespace arc
     class Menu : virtual public IGame
     {
         private:
-            std::vector<std::vector<int>> _map;
             Score _scoreList;
             LibList _graphList;
             LibList _gameList;
+            std::vector<std::vector<int>> _map;
 
+            void drawRectangle(int x, int y, int width, int height, int color);
         public:
             Menu(void);
             ~Menu() = default;

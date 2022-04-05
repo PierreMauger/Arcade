@@ -98,15 +98,16 @@ SDL_Color_t arc::sdl::findColor(unsigned char color)
 
 arc::sdl::sdl(void)
 {
+    this->_rect = {0, 0, 20, 20};
 }
 
 void arc::sdl::initDisplay(void)
 {
     SDL_Init(SDL_INIT_VIDEO);
-    TTF_Init();
-    SDL_CreateWindowAndRenderer(800, 600, SDL_WINDOW_SHOWN, &this->_window, &this->_renderer);
+    SDL_CreateWindowAndRenderer(1000, 1000, SDL_WINDOW_SHOWN, &this->_window, &this->_renderer);
     SDL_SetWindowTitle(this->_window, "Arcade");
-    this->_font = TTF_OpenFont("graphicals/sfml/arial.ttf", 20);
+    TTF_Init();
+    this->_font = TTF_OpenFont("ressources/arial.ttf", 200);
 }
 
 void arc::sdl::destroyDisplay(void)
@@ -135,12 +136,47 @@ void arc::sdl::drawSquare(unsigned char color, std::size_t posX, std::size_t pos
     SDL_RenderFillRect(this->_renderer, &this->_rect);
 }
 
+static void SDL_RenderFillCircle(SDL_Renderer *renderer, int x, int y, int radius)
+{
+    int x_pos = radius;
+    int y_pos = 0;
+    int err = 0;
+
+    while (x_pos >= y_pos) {
+        SDL_RenderDrawPoint(renderer, x + x_pos, y + y_pos);
+        SDL_RenderDrawPoint(renderer, x + y_pos, y + x_pos);
+        SDL_RenderDrawPoint(renderer, x - y_pos, y + x_pos);
+        SDL_RenderDrawPoint(renderer, x - x_pos, y + y_pos);
+        SDL_RenderDrawPoint(renderer, x - x_pos, y - y_pos);
+        SDL_RenderDrawPoint(renderer, x - y_pos, y - x_pos);
+        SDL_RenderDrawPoint(renderer, x + y_pos, y - x_pos);
+        SDL_RenderDrawPoint(renderer, x + x_pos, y - y_pos);
+        y_pos++;
+        err += 1 + 2 * y_pos;
+        if (2 * (err - x_pos) + 1 > 0) {
+            x_pos--;
+            err += 1 - 2 * x_pos;
+        }
+    }
+}
+
 void arc::sdl::drawCircle(unsigned char color, std::size_t posX, std::size_t posY)
 {
+    SDL_Color_t col = findColor(color);
+
+    SDL_SetRenderDrawColor(this->_renderer, col.r, col.g, col.b, col.a);
+    SDL_RenderFillCircle(this->_renderer, posX * 20 + 10, posY * 20 + 10, 10);
 }
 
 void arc::sdl::drawCross(unsigned char color, std::size_t posX, std::size_t posY)
 {
+    SDL_Color_t col = findColor(color);
+
+    this->_rect.x = posX * 20;
+    this->_rect.y = posY * 20;
+    SDL_SetRenderDrawColor(this->_renderer, col.r, col.g, col.b, col.a);
+    SDL_RenderDrawLine(this->_renderer, this->_rect.x, this->_rect.y, this->_rect.x + 20, this->_rect.y + 20);
+    SDL_RenderDrawLine(this->_renderer, this->_rect.x, this->_rect.y + 20, this->_rect.x + 20, this->_rect.y);
 }
 
 void arc::sdl::drawLetter(unsigned char letter, std::size_t posX, std::size_t posY)
@@ -150,7 +186,7 @@ void arc::sdl::drawLetter(unsigned char letter, std::size_t posX, std::size_t po
 
     this->_rect.x = posX * 20;
     this->_rect.y = posY * 20;
-    this->_textSurface = TTF_RenderText_Solid(this->_font, str, {255, 255, 255, 255});
+    this->_textSurface = TTF_RenderText_Blended(this->_font, str, {255, 255, 255, 255});
     this->_textTexture = SDL_CreateTextureFromSurface(this->_renderer, this->_textSurface);
     SDL_RenderCopy(this->_renderer, this->_textTexture, NULL, &this->_rect);
     SDL_FreeSurface(this->_textSurface);
@@ -162,10 +198,8 @@ std::vector<arc::DisplayKey> arc::sdl::getKeys(void)
     if (this->_eventVector.size())
         this->_eventVector.clear();
     while (SDL_PollEvent(&this->_events)) {
-        if (this->_events.type == SDL_QUIT) {
-            destroyDisplay();
+        if (this->_events.type == SDL_QUIT)
             this->_eventVector.push_back(arc::DisplayKey::D_F7);
-        }
         if (this->_events.type == SDL_KEYDOWN)
             this->_eventVector.push_back(findEventKey(this->_events.key.keysym.sym));
     }
