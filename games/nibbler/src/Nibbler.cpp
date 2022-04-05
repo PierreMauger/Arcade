@@ -23,12 +23,14 @@ _map(std::vector<std::vector<int>>(50, std::vector<int>(50, 0)))
 void arc::Nibbler::initGame(void)
 {
     for (int i = 0; i < 50; i++) {
-        this->_map[0][i] = (unsigned char)(Shape::SQUARE | GameColor::G_CYAN);
-        this->_map[50][i] = (unsigned char)(Shape::SQUARE | GameColor::G_CYAN);
-        this->_map[i][0] = (unsigned char)(Shape::SQUARE | GameColor::G_CYAN);
-        this->_map[i][50] = (unsigned char)(Shape::SQUARE | GameColor::G_CYAN);
+        this->_map[0][i] = ((GameColor::G_CYAN << 16) | (Shape::SQUARE << 8));
+        this->_map[50][i] = ((GameColor::G_CYAN << 16) | (Shape::SQUARE << 8));
+        this->_map[i][0] = ((GameColor::G_CYAN << 16) | (Shape::SQUARE << 8));
+        this->_map[i][50] = ((GameColor::G_CYAN << 16) | (Shape::SQUARE << 8));
     }
-    this->_snake.push_back({24, 24});
+    for (std::size_t i = 0; i < 3; i++) {
+        this->_snake.push_back({24, 25 + i});
+    }
     this->_direction = RIGHT;
     this->_gameState = State::STOP;
 }
@@ -164,7 +166,7 @@ void arc::Nibbler::moveRight(void)
 
 bool arc::Nibbler::checkWallCollision(void)
 {
-    if (this->_snake[0].x == 0 || this->_snake[0].x == 50 || this->_snake[0].y == 0 || this->_snake[0].y == 50)
+    if (this->_snake[0].x == 1 || this->_snake[0].x == 49 || this->_snake[0].y == 1 || this->_snake[0].y == 49)
         return true;
     return false;
 }

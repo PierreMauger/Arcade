@@ -16,6 +16,11 @@
 
 namespace arc
 {
+    typedef struct {
+        std::size_t x;
+        std::size_t y;
+    } pos_t;
+
     class Qix : public IGame {
         public:
             Qix(void);
@@ -33,7 +38,22 @@ namespace arc
 
             std::size_t getScore(void);
         private:
+            static std::map<arc::GameKey, std::function<void (arc::Qix *)>> keys;
 
+            std::vector<std::vector<int>> _map;
+            std::size_t _score;
+            State _gameState;
+
+            std::vector<pos_t> _qix;
+            std::vector<pos_t> _enemies;
+            pos_t _player;
+
+            void createQix(void);
+
+            void moveUp(void);
+            void moveLeft(void);
+            void moveDown(void);
+            void moveRight(void);
     };
 
     extern "C" std::unique_ptr<Qix> entryPoint(void)
