@@ -15,18 +15,18 @@ std::map<arc::GameKey, std::function<void (arc::Nibbler *)>> arc::Nibbler::keys 
 };
 
 arc::Nibbler::Nibbler(void) :
-_map(std::vector<std::vector<int>>(50, std::vector<int>(50, 0)))
+_map(std::vector<std::vector<int>>(MAP_SIZE, std::vector<int>(MAP_SIZE, 0)))
 {
 
 }
 
 void arc::Nibbler::initGame(void)
 {
-    for (int i = 0; i < 50; i++) {
-        this->_map[0][i] = ((GameColor::G_CYAN << 16) | (Shape::SQUARE << 8));
-        this->_map[50][i] = ((GameColor::G_CYAN << 16) | (Shape::SQUARE << 8));
-        this->_map[i][0] = ((GameColor::G_CYAN << 16) | (Shape::SQUARE << 8));
-        this->_map[i][50] = ((GameColor::G_CYAN << 16) | (Shape::SQUARE << 8));
+    for (int i = 0; i < MAP_SIZE; i++) {
+        this->_map[0][i] = ((GameColor::G_WHITE << 16) | (Shape::SQUARE << 8));
+        this->_map[MAP_SIZE - 1][i] = ((GameColor::G_WHITE << 16) | (Shape::SQUARE << 8));
+        this->_map[i][0] = ((GameColor::G_WHITE << 16) | (Shape::SQUARE << 8));
+        this->_map[i][MAP_SIZE - 1] = ((GameColor::G_WHITE << 16) | (Shape::SQUARE << 8));
     }
     for (std::size_t i = 0; i < 3; i++) {
         this->_snake.push_back({24, 25 + i});
@@ -128,7 +128,7 @@ void arc::Nibbler::moveUp(void)
     this->_map[last.y][last.x] = 0;
     last.y = head.y - 1;
     last.x = head.x;
-    this->_map[last.y][last.x] = ((GameColor::G_CYAN << 16) | (Shape::SQUARE << 8));
+    this->_map[last.y][last.x] = ((GameColor::G_RED << 16) | (Shape::SQUARE << 8));
 }
 
 void arc::Nibbler::moveLeft(void)
@@ -139,7 +139,7 @@ void arc::Nibbler::moveLeft(void)
     this->_map[last.y][last.x] = 0;
     last.y = head.y;
     last.x = head.x - 1;
-    this->_map[last.y][last.x] = ((GameColor::G_CYAN << 16) | (Shape::SQUARE << 8));
+    this->_map[last.y][last.x] = ((GameColor::G_RED << 16) | (Shape::SQUARE << 8));
 }
 
 void arc::Nibbler::moveDown(void)
@@ -150,7 +150,7 @@ void arc::Nibbler::moveDown(void)
     this->_map[last.y][last.x] = 0;
     last.y = head.y + 1;
     last.x = head.x;
-    this->_map[last.y][last.x] = ((GameColor::G_CYAN << 16) | (Shape::SQUARE << 8));
+    this->_map[last.y][last.x] = ((GameColor::G_RED << 16) | (Shape::SQUARE << 8));
 }
 
 void arc::Nibbler::moveRight(void)
@@ -161,7 +161,7 @@ void arc::Nibbler::moveRight(void)
     this->_map[last.y][last.x] = 0;
     last.y = head.y;
     last.x = head.x + 1;
-    this->_map[last.y][last.x] = ((GameColor::G_CYAN << 16) | (Shape::SQUARE << 8));
+    this->_map[last.y][last.x] = ((GameColor::G_RED << 16) | (Shape::SQUARE << 8));
 }
 
 bool arc::Nibbler::checkWallCollision(void)
@@ -200,12 +200,12 @@ void arc::Nibbler::addSnakePart(void)
 
 void arc::Nibbler::putFood(void)
 {
-    int x = rand() % 50;
-    int y = rand() % 50;
+    int x = rand() % MAP_SIZE;
+    int y = rand() % MAP_SIZE;
 
     while (this->_map[y][x] != 0) {
-        x = rand() % 50;
-        y = rand() % 50;
+        x = rand() % MAP_SIZE;
+        y = rand() % MAP_SIZE;
     }
     this->_food.x = x;
     this->_food.y = y;

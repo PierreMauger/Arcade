@@ -8,6 +8,8 @@
 #ifndef NIBBLER_HPP
 #define NIBBLER_HPP
 
+#define MAP_SIZE (50)
+
 #include "IGame.hpp"
 
 #include <map>

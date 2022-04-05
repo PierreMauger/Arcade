@@ -8,6 +8,8 @@
 #ifndef QIX_HPP
 #define QIX_HPP
 
+#define MAP_SIZE (50)
+
 #include "IGame.hpp"
 
 #include <map>
@@ -49,6 +51,7 @@ namespace arc
             pos_t _player;
 
             void createQix(void);
+            void createLines(void);
 
             void moveUp(void);
             void moveLeft(void);
