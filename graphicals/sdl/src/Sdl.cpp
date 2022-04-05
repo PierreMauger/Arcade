@@ -170,6 +170,13 @@ void arc::sdl::drawCircle(unsigned char color, std::size_t posX, std::size_t pos
 
 void arc::sdl::drawCross(unsigned char color, std::size_t posX, std::size_t posY)
 {
+    SDL_Color_t col = findColor(color);
+
+    this->_rect.x = posX * 20;
+    this->_rect.y = posY * 20;
+    SDL_SetRenderDrawColor(this->_renderer, col.r, col.g, col.b, col.a);
+    SDL_RenderDrawLine(this->_renderer, this->_rect.x, this->_rect.y, this->_rect.x + 20, this->_rect.y + 20);
+    SDL_RenderDrawLine(this->_renderer, this->_rect.x, this->_rect.y + 20, this->_rect.x + 20, this->_rect.y);
 }
 
 void arc::sdl::drawLetter(unsigned char letter, std::size_t posX, std::size_t posY)

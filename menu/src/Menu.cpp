@@ -13,6 +13,8 @@ _graphList("./ressources/graphics.conf"),
 _gameList("./ressources/games.conf"),
 _map(std::vector<std::vector<int>>(50, std::vector<int>(50, 0)))
 {
+    this->_graphList.getConf();
+    this->_gameList.getConf();
 }
 
 void arc::Menu::drawRectangle(int x, int y, int width, int height, int color)
@@ -39,14 +41,21 @@ void arc::Menu::initGame(void)
     std::string title3 = "Scores";
     std::string title4 = "Enter name:";
 
-    for (int i = 0; i < title1.size(); i++)
+    for (std::size_t i = 0; i < title1.size(); i++)
         this->_map[1][i + 1] = title1[i] | GameColor::G_WHITE << 16;
-    for (int i = 0; i < title2.size(); i++)
+    for (std::size_t i = 0; i < title2.size(); i++)
         this->_map[26][i + 1] = title2[i] | GameColor::G_WHITE << 16;
-    for (int i = 0; i < title3.size(); i++)
+    for (std::size_t i = 0; i < title3.size(); i++)
         this->_map[1][i + 26] = title3[i] | GameColor::G_WHITE << 16;
-    for (int i = 0; i < title4.size(); i++)
+    for (std::size_t i = 0; i < title4.size(); i++)
         this->_map[26][i + 26] = title4[i] | GameColor::G_WHITE << 16;
+
+    for (std::size_t i = 0; i < this->_gameList._libs.size(); i++)
+        for (std::size_t j = 0; j < this->_gameList._libs[i].size(); j++)
+            this->_map[i + 3][j + 1] = this->_gameList._libs[i][j] | GameColor::G_WHITE << 16;
+    for (std::size_t i = 0; i < this->_graphList._libs.size(); i++)
+        for (std::size_t j = 0; j < this->_graphList._libs[i].size(); j++)
+            this->_map[i + 28][j + 1] = this->_graphList._libs[i][j] | GameColor::G_WHITE << 16;
 }
 
 void arc::Menu::destroyGame(void)
