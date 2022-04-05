@@ -29,10 +29,12 @@ void arc::Nibbler::initGame(void)
         this->_map[i][MAP_SIZE - 1] = ((GameColor::G_WHITE << 16) | (Shape::SQUARE << 8));
     }
     for (std::size_t i = 0; i < 3; i++) {
-        this->_snake.push_back({24, 25 + i});
+        this->_snake.push_back({MAP_SIZE / 2 + i, MAP_SIZE / 2});
+        this->_map[this->_snake.back().y][this->_snake.back().x] = ((GameColor::G_RED << 16) | (Shape::SQUARE << 8));
     }
-    this->_direction = RIGHT;
-    this->_gameState = State::STOP;
+    this->putFood();
+    this->_direction = Direction::LEFT;
+    this->_gameState = State::PAUSE;
 }
 
 void arc::Nibbler::destroyGame(void)
@@ -46,9 +48,7 @@ void arc::Nibbler::update(std::vector<GameKey> keys)
         if (this->keys.find(key) != this->keys.end())
             this->keys[key](this);
     }
-    if (keys.size() != 0) {
-        this->_gameState = State::START;
-    } else if (this->_gameState == State::START) {
+    if (this->_gameState == State::START) {
         this->move();
         if (this->checkFoodCollision()) {
             this->addSnakePart();
@@ -58,7 +58,11 @@ void arc::Nibbler::update(std::vector<GameKey> keys)
         }
         if (this->checkSelfCollision() || this->checkWallCollision()) {
             this->_gameState = State::STOP;
+            std::cout << "LOOSE" << std::endl;
         }
+    }
+    if (keys.size() != 0 && this->_gameState != State::STOP) {
+        this->_gameState = State::START;
     }
 }
 
@@ -84,22 +88,26 @@ std::size_t arc::Nibbler::getScore(void)
 
 void arc::Nibbler::changeDirUp(void)
 {
-    this->_direction = arc::Direction::UP;
+    if (this->_direction != arc::Direction::DOWN)
+        this->_direction = arc::Direction::UP;
 }
 
 void arc::Nibbler::changeDirLeft(void)
 {
-    this->_direction = arc::Direction::LEFT;
+    if (this->_direction != arc::Direction::RIGHT)
+        this->_direction = arc::Direction::LEFT;
 }
 
 void arc::Nibbler::changeDirDown(void)
 {
-    this->_direction = arc::Direction::DOWN;
+    if (this->_direction != arc::Direction::UP)
+        this->_direction = arc::Direction::DOWN;
 }
 
 void arc::Nibbler::changeDirRight(void)
 {
-    this->_direction = arc::Direction::RIGHT;
+    if (this->_direction != arc::Direction::LEFT)
+        this->_direction = arc::Direction::RIGHT;
 }
 
 void arc::Nibbler::move(void)
@@ -125,10 +133,12 @@ void arc::Nibbler::moveUp(void)
     pos_t last = this->_snake.back();
     pos_t head = this->_snake.front();
 
+    this->_snake.pop_back();
     this->_map[last.y][last.x] = 0;
     last.y = head.y - 1;
     last.x = head.x;
     this->_map[last.y][last.x] = ((GameColor::G_RED << 16) | (Shape::SQUARE << 8));
+    this->_snake.insert(this->_snake.begin(), last);
 }
 
 void arc::Nibbler::moveLeft(void)
@@ -136,10 +146,13 @@ void arc::Nibbler::moveLeft(void)
     pos_t last = this->_snake.back();
     pos_t head = this->_snake.front();
 
+    this->_snake.pop_back();
     this->_map[last.y][last.x] = 0;
     last.y = head.y;
     last.x = head.x - 1;
     this->_map[last.y][last.x] = ((GameColor::G_RED << 16) | (Shape::SQUARE << 8));
+    this->_snake.insert(this->_snake.begin(), last);
+    this->_snake.insert(this->_snake.begin(), last);
 }
 
 void arc::Nibbler::moveDown(void)
@@ -147,10 +160,12 @@ void arc::Nibbler::moveDown(void)
     pos_t last = this->_snake.back();
     pos_t head = this->_snake.front();
 
+    this->_snake.pop_back();
     this->_map[last.y][last.x] = 0;
     last.y = head.y + 1;
     last.x = head.x;
     this->_map[last.y][last.x] = ((GameColor::G_RED << 16) | (Shape::SQUARE << 8));
+    this->_snake.insert(this->_snake.begin(), last);
 }
 
 void arc::Nibbler::moveRight(void)
@@ -158,10 +173,12 @@ void arc::Nibbler::moveRight(void)
     pos_t last = this->_snake.back();
     pos_t head = this->_snake.front();
 
+    this->_snake.pop_back();
     this->_map[last.y][last.x] = 0;
     last.y = head.y;
     last.x = head.x + 1;
     this->_map[last.y][last.x] = ((GameColor::G_RED << 16) | (Shape::SQUARE << 8));
+    this->_snake.insert(this->_snake.begin(), last);
 }
 
 bool arc::Nibbler::checkWallCollision(void)
@@ -209,5 +226,5 @@ void arc::Nibbler::putFood(void)
     }
     this->_food.x = x;
     this->_food.y = y;
-    this->_map[y][x] = ((GameColor::G_RED << 16) | (Shape::SQUARE << 8));
+    this->_map[y][x] = ((GameColor::G_GREEN << 16) | (Shape::SQUARE << 8));
 }

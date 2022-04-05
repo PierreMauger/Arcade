@@ -142,7 +142,7 @@ void arc::sfml::display(void)
 void arc::sfml::drawSquare(unsigned char color, std::size_t posX, std::size_t posY)
 {
     this->_rect.setFillColor(findColor(color));
-    this->_rect.setPosition({(float)posX * 50, (float)posY * 50});
+    this->_rect.setPosition({(float)posX * 20, (float)posY * 20});
     this->_window.draw(this->_rect);
 }
 
