@@ -150,12 +150,19 @@ void arc::Core::coreKey(void)
 
 void arc::Core::coreLoop(void)
 {
+    auto lastIteration = std::chrono::high_resolution_clock::now();
+    auto currentIteration = std::chrono::high_resolution_clock::now();
+    double elapsed = 0;
+
     while (this->_exit == false) {
-        this->browseMap();
-        this->coreKey();
-        this->_graph->display();
-        // TODO TIME
-        // std::this_thread::sleep_for(std::chrono::milliseconds(100));
+        currentIteration = std::chrono::high_resolution_clock::now();
+        elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(currentIteration - lastIteration).count();
+        for (; elapsed >= FRAME_RATE; elapsed -= FRAME_RATE) {
+            lastIteration = currentIteration;
+            this->browseMap();
+            this->coreKey();
+            this->_graph->display();
+        }
     }
 }
 

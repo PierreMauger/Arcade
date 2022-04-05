@@ -10,6 +10,8 @@
 
 #define PATH_LIBS "./lib/"
 
+#define FRAME_RATE (16)
+
 #include <memory>
 #include <string>
 #include <iostream>
@@ -18,6 +20,7 @@
 #include <functional>
 #include <chrono>
 #include <thread>
+#include <cstdint>
 
 #include "IDisplay.hpp"
 #include "IGame.hpp"
