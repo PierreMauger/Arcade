@@ -10,7 +10,7 @@
 
 #define PATH_LIBS "./lib/"
 
-#define FRAME_RATE (16)
+#define FRAME_RATE (200)
 
 #include <memory>
 #include <string>

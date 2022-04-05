@@ -28,7 +28,7 @@ void arc::Nibbler::initGame(void)
         this->_map[i][0] = ((GameColor::G_WHITE << 16) | (Shape::SQUARE << 8));
         this->_map[i][MAP_SIZE - 1] = ((GameColor::G_WHITE << 16) | (Shape::SQUARE << 8));
     }
-    for (std::size_t i = 0; i < 3; i++) {
+    for (std::size_t i = 0; i < 20; i++) {
         this->_snake.push_back({MAP_SIZE / 2 + i, MAP_SIZE / 2});
         this->_map[this->_snake.back().y][this->_snake.back().x] = ((GameColor::G_RED << 16) | (Shape::SQUARE << 8));
     }
@@ -49,16 +49,16 @@ void arc::Nibbler::update(std::vector<GameKey> keys)
             this->keys[key](this);
     }
     if (this->_gameState == State::START) {
-        this->move();
-        if (this->checkFoodCollision()) {
-            this->addSnakePart();
-            this->_map[this->_food.y][this->_food.x] = 0;
-            this->putFood();
-            this->_score += 1000;
-        }
         if (this->checkSelfCollision() || this->checkWallCollision()) {
             this->_gameState = State::STOP;
-            std::cout << "LOOSE" << std::endl;
+        } else {
+            this->move();
+        }
+        if (this->checkFoodCollision()) {
+            this->addSnakePart();
+            this->_map[this->_food.y][this->_food.x] = ((GameColor::G_RED << 16) | (Shape::SQUARE << 8));
+            this->putFood();
+            this->_score += 1000;
         }
     }
     if (keys.size() != 0 && this->_gameState != State::STOP) {
@@ -152,7 +152,6 @@ void arc::Nibbler::moveLeft(void)
     last.x = head.x - 1;
     this->_map[last.y][last.x] = ((GameColor::G_RED << 16) | (Shape::SQUARE << 8));
     this->_snake.insert(this->_snake.begin(), last);
-    this->_snake.insert(this->_snake.begin(), last);
 }
 
 void arc::Nibbler::moveDown(void)
@@ -183,17 +182,16 @@ void arc::Nibbler::moveRight(void)
 
 bool arc::Nibbler::checkWallCollision(void)
 {
-    if (this->_snake[0].x == 1 || this->_snake[0].x == 49 || this->_snake[0].y == 1 || this->_snake[0].y == 49)
+    if (this->_snake[0].x == 1 || this->_snake[0].x == (MAP_SIZE - 2) || this->_snake[0].y == 1 || this->_snake[0].y == (MAP_SIZE - 2))
         return true;
     return false;
 }
 
 bool arc::Nibbler::checkSelfCollision(void)
 {
-    auto head = this->_snake.front();
-
+    // check head collision
     for (std::size_t i = 1; i < this->_snake.size(); i++) {
-        if (head.x == this->_snake[i].x && head.y == this->_snake[i].y)
+        if (this->_snake[0].x == this->_snake[i].x && this->_snake[0].y == this->_snake[i].y)
             return true;
     }
     return false;
