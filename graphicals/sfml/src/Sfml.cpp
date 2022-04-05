@@ -116,7 +116,7 @@ arc::sfml::sfml(void)
     this->_line2.setRotation(-45);
     this->_line2.setFillColor(sf::Color::White);
     this->_line2.setOrigin({0, 2});
-    this->_font.loadFromFile("./graphicals/sfml/arial.ttf");
+    this->_font.loadFromFile("ressources/arial.ttf");
     this->_letter.setCharacterSize(25);
     this->_letter.setFont(this->_font);
     this->_letter.setString("a\0");
