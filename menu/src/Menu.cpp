@@ -33,6 +33,20 @@ void arc::Menu::initGame(void)
     drawRectangle(0, 25, 25, 25, GameColor::G_YELLOW);
     drawRectangle(25, 0, 25, 25, GameColor::G_RED);
     drawRectangle(25, 25, 25, 25, GameColor::G_LIME);
+
+    std::string title1 = "Game librairies";
+    std::string title2 = "Graphic librairies";
+    std::string title3 = "Scores";
+    std::string title4 = "Enter name:";
+
+    for (int i = 0; i < title1.size(); i++)
+        this->_map[1][i + 1] = title1[i] | GameColor::G_WHITE << 16;
+    for (int i = 0; i < title2.size(); i++)
+        this->_map[26][i + 1] = title2[i] | GameColor::G_WHITE << 16;
+    for (int i = 0; i < title3.size(); i++)
+        this->_map[1][i + 26] = title3[i] | GameColor::G_WHITE << 16;
+    for (int i = 0; i < title4.size(); i++)
+        this->_map[26][i + 26] = title4[i] | GameColor::G_WHITE << 16;
 }
 
 void arc::Menu::destroyGame(void)
