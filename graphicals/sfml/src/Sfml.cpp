@@ -6,6 +6,7 @@
 */
 
 #include "../include/Sfml.hpp"
+#include <iostream>
 
 static const sf::Keyboard::Key keyTab[] {
     sf::Keyboard::Enter,
@@ -115,17 +116,17 @@ arc::sfml::sfml(void)
     this->_line2.setRotation(-45);
     this->_line2.setFillColor(sf::Color::White);
     this->_line2.setOrigin({0, 2});
-    this->_font.loadFromFile("./graphicals/sfml/arial.ttf");
+    this->_font.loadFromFile("ressources/arial.ttf");
     this->_letter.setCharacterSize(25);
     this->_letter.setFont(this->_font);
-    this->_letter.setPosition({0, 0});
     this->_letter.setString("a\0");
-    this->_letter.setOrigin({0, this->_letter.getGlobalBounds().height + this->_letter.getGlobalBounds().top});
+    this->_letter.setOrigin({this->_letter.getGlobalBounds().width / 2, this->_letter.getGlobalBounds().height + this->_letter.getGlobalBounds().top});
+    this->_letter.setPosition({0, 0});
 }
 
 void arc::sfml::initDisplay(void)
 {
-    this->_window.create(sf::VideoMode(720, 480), "Arcade");
+    this->_window.create(sf::VideoMode(1000, 1000), "Arcade");
 }
 
 void arc::sfml::destroyDisplay(void)
@@ -142,7 +143,7 @@ void arc::sfml::display(void)
 void arc::sfml::drawSquare(unsigned char color, std::size_t posX, std::size_t posY)
 {
     this->_rect.setFillColor(findColor(color));
-    this->_rect.setPosition({(float)posX * 50, (float)posY * 50});
+    this->_rect.setPosition({(float)posX * 20, (float)posY * 20});
     this->_window.draw(this->_rect);
 }
 
@@ -168,9 +169,9 @@ void arc::sfml::drawLetter(unsigned char letter, std::size_t posX, std::size_t p
     char str[] = "\0\0";
     str[0] = letter;
 
-    this->_letter.setPosition({(float)posX * 20, (float)posY * 20});
-    // this->_letter.setString(str);
-    // this->_letter.setOrigin({0, this->_letter.getGlobalBounds().height + this->_letter.getGlobalBounds().top});
+    this->_letter.setPosition({(float)posX * 20 + 10, (float)posY * 20 + 20});
+    this->_letter.setString(str);
+    this->_letter.setOrigin({this->_letter.getGlobalBounds().width / 2, this->_letter.getOrigin().y});
     this->_window.draw(this->_letter);
 }
 
@@ -179,10 +180,8 @@ std::vector<arc::DisplayKey> arc::sfml::getKeys(void)
     if (this->_eventVector.size())
         this->_eventVector.clear();
     while (this->_window.pollEvent(this->_event)) {
-        if (this->_event.type == sf::Event::Closed) {
-            this->_window.close();
+        if (this->_event.type == sf::Event::Closed)
             this->_eventVector.push_back(arc::DisplayKey::D_F7);
-        }
         if (this->_event.type == sf::Event::KeyPressed)
             this->_eventVector.push_back(findEventKey(this->_event.key.code));
     }

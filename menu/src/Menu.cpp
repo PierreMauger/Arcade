@@ -13,21 +13,49 @@ _graphList("./ressources/graphics.conf"),
 _gameList("./ressources/games.conf"),
 _map(std::vector<std::vector<int>>(50, std::vector<int>(50, 0)))
 {
+    this->_graphList.getConf();
+    this->_gameList.getConf();
+}
+
+void arc::Menu::drawRectangle(int x, int y, int width, int height, int color)
+{
+    for (int i = 0; i < width; i++) {
+        this->_map[y + 0][x + i] = Shape::SQUARE << 8 | color << 16;
+        this->_map[y + height - 1][x + i] = Shape::SQUARE << 8 | color << 16;
+    }
+    for (int i = 1; i < height - 1; i++) {
+        this->_map[y + i][x + 0] = Shape::SQUARE << 8 | color << 16;
+        this->_map[y + i][x + width - 1] = Shape::SQUARE << 8 | color << 16;
+    }
 }
 
 void arc::Menu::initGame(void)
 {
-    int tempX = 50;
-    int tempY = 50;
+    drawRectangle(0, 0, 25, 25, GameColor::G_CYAN);
+    drawRectangle(0, 25, 25, 25, GameColor::G_YELLOW);
+    drawRectangle(25, 0, 25, 25, GameColor::G_RED);
+    drawRectangle(25, 25, 25, 25, GameColor::G_LIME);
 
-    this->_map[0][0] = Shape::SQUARE << 8 | GameColor::G_CYAN << 16;
-    this->_map[0][1] = Shape::CIRCLE << 8 | GameColor::G_CYAN << 16;
-    this->_map[0][2] = Shape::CROSS << 8 | GameColor::G_CYAN << 16;
-    this->_map[0][3] = 'a' | GameColor::G_CYAN << 16;
-    // for (int i = 0; i < tempX / 2; i++) {
-        // this->_map[0][i] = (unsigned char)(Shape::SQUARE | GameColor::G_CYAN);
-        // this->_map[tempY / 2][i] = (unsigned char)(Shape::SQUARE | GameColor::G_CYAN);
-    // }
+    std::string title1 = "Game librairies";
+    std::string title2 = "Graphic librairies";
+    std::string title3 = "Scores";
+    std::string title4 = "Enter name:";
+
+    for (std::size_t i = 0; i < title1.size(); i++)
+        this->_map[1][i + 1] = title1[i] | GameColor::G_WHITE << 16;
+    for (std::size_t i = 0; i < title2.size(); i++)
+        this->_map[26][i + 1] = title2[i] | GameColor::G_WHITE << 16;
+    for (std::size_t i = 0; i < title3.size(); i++)
+        this->_map[1][i + 26] = title3[i] | GameColor::G_WHITE << 16;
+    for (std::size_t i = 0; i < title4.size(); i++)
+        this->_map[26][i + 26] = title4[i] | GameColor::G_WHITE << 16;
+
+    for (std::size_t i = 0; i < this->_gameList._libs.size(); i++)
+        for (std::size_t j = 0; j < this->_gameList._libs[i].size(); j++)
+            this->_map[i + 3][j + 1] = this->_gameList._libs[i][j] | GameColor::G_WHITE << 16;
+    for (std::size_t i = 0; i < this->_graphList._libs.size(); i++)
+        for (std::size_t j = 0; j < this->_graphList._libs[i].size(); j++)
+            this->_map[i + 28][j + 1] = this->_graphList._libs[i][j] | GameColor::G_WHITE << 16;
 }
 
 void arc::Menu::destroyGame(void)
