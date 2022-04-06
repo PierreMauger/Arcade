@@ -217,6 +217,26 @@ namespace arc
     		///
     		////////////////////////////////////////////////////////////
             virtual std::size_t getScore(void) = 0;
+
+			////////////////////////////////////////////////////////////
+    		/// \brief Return the name of the current player
+    		///
+    		///	This function return the current player's name.
+    		///
+    		/// \return the current player name
+    		///
+    		////////////////////////////////////////////////////////////
+			virtual std::string getPlayerName(void) = 0;
+
+			////////////////////////////////////////////////////////////
+    		/// \brief Return the name of the current game
+    		///
+    		///	This function return the current game's name.
+    		///
+    		/// \return the current game name
+    		///
+    		////////////////////////////////////////////////////////////
+			virtual std::string getGameName(void) = 0;
     };
 } // namespace arc
 

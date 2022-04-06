@@ -46,6 +46,8 @@ namespace arc
             std::vector<std::vector<int>> getMap(void);
 
             std::size_t getScore(void);
+            std::string getPlayerName(void);
+            std::string getGameName(void);
 
         private:
             static std::map<arc::GameKey, std::function<void (arc::Nibbler *)>> keys;

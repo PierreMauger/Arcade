@@ -86,6 +86,16 @@ std::size_t arc::Nibbler::getScore(void)
     return this->_score;
 }
 
+std::string arc::Nibbler::getPlayerName(void)
+{
+    return "";
+}
+
+std::string arc::Nibbler::getGameName(void)
+{
+    return "Nibbler";
+}
+
 void arc::Nibbler::changeDirUp(void)
 {
     if (this->_direction != arc::Direction::DOWN)

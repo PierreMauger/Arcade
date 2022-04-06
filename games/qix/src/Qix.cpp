@@ -96,6 +96,16 @@ std::size_t arc::Qix::getScore(void)
     return this->_score;
 }
 
+std::string arc::Qix::getPlayerName(void)
+{
+    return "";
+}
+
+std::string arc::Qix::getGameName(void)
+{
+    return "Qix";
+}
+
 void arc::Qix::moveUp(void)
 {
 

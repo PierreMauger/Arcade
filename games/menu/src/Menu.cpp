@@ -89,3 +89,14 @@ std::size_t arc::Menu::getScore(void)
     // no score
     return 0;
 }
+
+std::string arc::Menu::getPlayerName(void)
+{
+    // code get player name
+    return "";
+}
+
+std::string arc::Menu::getGameName(void)
+{
+    return "Menu";
+}

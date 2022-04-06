@@ -33,6 +33,8 @@ namespace arc
             State getGameState(void);
             std::vector<std::vector<int>> getMap(void);
             std::size_t getScore(void);
+            std::string getPlayerName(void);
+            std::string getGameName(void);
     };
 
     extern "C" std::unique_ptr<Menu> entryPoint(void)
