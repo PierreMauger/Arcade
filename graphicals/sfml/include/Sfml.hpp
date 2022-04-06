@@ -43,7 +43,7 @@ namespace arc
             void drawSquare(unsigned char color, std::size_t posX, std::size_t posY);
             void drawCircle(unsigned char color, std::size_t posX, std::size_t posY);
             void drawCross(unsigned char color, std::size_t posX, std::size_t posY);
-            void drawLetter(unsigned char letter, std::size_t posX, std::size_t posY);
+            void drawLetter(unsigned char letter, unsigned char color, std::size_t posX, std::size_t posY);
             std::vector<DisplayKey> getKeys(void);
     };
 

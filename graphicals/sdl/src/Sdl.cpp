@@ -66,7 +66,7 @@ static const int keyTab[] {
     SDLK_F12
 };
 
-static const SDL_Color_t colorTab[] {
+static const SDL_Color colorTab[] {
     {255,   0,   0, 255},   // RED
     {  0,   0, 255, 255},   // BLUE
     {  0, 128,   0, 255},   // GREEN
@@ -89,7 +89,7 @@ arc::DisplayKey arc::sdl::findEventKey(int key)
     return arc::DisplayKey::D_KEY_SIZE;
 }
 
-SDL_Color_t arc::sdl::findColor(unsigned char color)
+SDL_Color arc::sdl::findColor(unsigned char color)
 {
     for (int i = 0; i < (int)arc::DisplayColor::D_COLOR_SIZE - 1; i++)
         if (color == i + 1)
@@ -129,7 +129,7 @@ void arc::sdl::display(void)
 
 void arc::sdl::drawSquare(unsigned char color, std::size_t posX, std::size_t posY)
 {
-    SDL_Color_t col = findColor(color);
+    SDL_Color col = findColor(color);
 
     this->_rect.x = posX * 20;
     this->_rect.y = posY * 20;
@@ -163,7 +163,7 @@ static void SDL_RenderFillCircle(SDL_Renderer *renderer, int x, int y, int radiu
 
 void arc::sdl::drawCircle(unsigned char color, std::size_t posX, std::size_t posY)
 {
-    SDL_Color_t col = findColor(color);
+    SDL_Color col = findColor(color);
 
     SDL_SetRenderDrawColor(this->_renderer, col.r, col.g, col.b, col.a);
     SDL_RenderFillCircle(this->_renderer, posX * 20 + 10, posY * 20 + 10, 10);
@@ -171,7 +171,7 @@ void arc::sdl::drawCircle(unsigned char color, std::size_t posX, std::size_t pos
 
 void arc::sdl::drawCross(unsigned char color, std::size_t posX, std::size_t posY)
 {
-    SDL_Color_t col = findColor(color);
+    SDL_Color col = findColor(color);
 
     this->_rect.x = posX * 20;
     this->_rect.y = posY * 20;
@@ -180,14 +180,15 @@ void arc::sdl::drawCross(unsigned char color, std::size_t posX, std::size_t posY
     SDL_RenderDrawLine(this->_renderer, this->_rect.x, this->_rect.y + 20, this->_rect.x + 20, this->_rect.y);
 }
 
-void arc::sdl::drawLetter(unsigned char letter, std::size_t posX, std::size_t posY)
+void arc::sdl::drawLetter(unsigned char letter, unsigned char color, std::size_t posX, std::size_t posY)
 {
+    SDL_Color col = findColor(color);
     char str[] = "\0\0";
     str[0] = letter;
 
     this->_rect.x = posX * 20;
     this->_rect.y = posY * 20;
-    this->_textSurface = TTF_RenderText_Blended(this->_font, str, {255, 255, 255, 255});
+    this->_textSurface = TTF_RenderText_Blended(this->_font, str, col);
     this->_textTexture = SDL_CreateTextureFromSurface(this->_renderer, this->_textSurface);
     SDL_RenderCopy(this->_renderer, this->_textTexture, NULL, &this->_rect);
     SDL_FreeSurface(this->_textSurface);

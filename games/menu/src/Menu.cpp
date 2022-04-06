@@ -42,13 +42,13 @@ void arc::Menu::initGame(void)
     std::string title4 = "Enter name:";
 
     for (std::size_t i = 0; i < title1.size(); i++)
-        this->_map[1][i + 1] = title1[i] | GameColor::G_WHITE << 16;
+        this->_map[1][i + 1] = title1[i] | GameColor::G_CYAN << 16;
     for (std::size_t i = 0; i < title2.size(); i++)
-        this->_map[26][i + 1] = title2[i] | GameColor::G_WHITE << 16;
+        this->_map[26][i + 1] = title2[i] | GameColor::G_YELLOW << 16;
     for (std::size_t i = 0; i < title3.size(); i++)
-        this->_map[1][i + 26] = title3[i] | GameColor::G_WHITE << 16;
+        this->_map[1][i + 26] = title3[i] | GameColor::G_RED << 16;
     for (std::size_t i = 0; i < title4.size(); i++)
-        this->_map[26][i + 26] = title4[i] | GameColor::G_WHITE << 16;
+        this->_map[26][i + 26] = title4[i] | GameColor::G_LIME << 16;
 
     for (std::size_t i = 0; i < this->_gameList._libs.size(); i++)
         for (std::size_t j = 0; j < this->_gameList._libs[i].size(); j++)

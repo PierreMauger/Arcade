@@ -20,7 +20,7 @@ NAME			=	arcade_menu.so
 OBJ				=	$(SRC:.cpp=.o)
 
 ##################### FLAGS #####################
-CXXFLAGS		=	-fPIC -I include -I ../../include -W -Wall -Wextra
+CXXFLAGS		=	-fPIC -I include -I ../../include -fno-gnu-unique -W -Wall -Wextra
 
 CXXFLAGS_DEBUG	=	-g
 

@@ -15,7 +15,7 @@ NAME			=	arcade_sfml.so
 OBJ				=	$(SRC:.cpp=.o)
 
 ##################### FLAGS #####################
-CXXFLAGS		=	-fPIC -I include -I ../../include -lsfml-graphics -lsfml-window -lsfml-system -W -Wall -Wextra
+CXXFLAGS		=	-fPIC -I include -I ../../include -lsfml-graphics -lsfml-window -lsfml-system -fno-gnu-unique -W -Wall -Wextra
 
 CXXFLAGS_DEBUG	=	-g
 

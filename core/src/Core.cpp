@@ -121,8 +121,7 @@ void arc::Core::browseMap(void)
                 if (this->getLetter(map[y][x]) == 0) {
                     drawIdx(map[y][x], x, y);
                 } else {
-                    // see for color
-                    this->_graph->drawLetter(this->getLetter(map[y][x]), x, y);
+                    this->_graph->drawLetter(this->getLetter(map[y][x]), this->getColor(map[y][x]), x, y);
                 }
             }
         }

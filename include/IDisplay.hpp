@@ -207,7 +207,7 @@ namespace arc
     		/// \param posY Y index in the map
     		///
     		////////////////////////////////////////////////////////////
-			virtual void drawLetter(unsigned char letter, std::size_t posX, std::size_t posY) = 0;
+			virtual void drawLetter(unsigned char letter, unsigned char color, std::size_t posX, std::size_t posY) = 0;
 
 			////////////////////////////////////////////////////////////
     		/// \brief Draw a colored circle at the given positions

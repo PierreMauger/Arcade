@@ -164,8 +164,9 @@ void arc::sfml::drawCross(unsigned char color, std::size_t posX, std::size_t pos
     this->_window.draw(this->_line2);
 }
 
-void arc::sfml::drawLetter(unsigned char letter, std::size_t posX, std::size_t posY)
+void arc::sfml::drawLetter(unsigned char letter, unsigned char color, std::size_t posX, std::size_t posY)
 {
+    this->_letter.setFillColor(findColor(color));
     char str[] = "\0\0";
     str[0] = letter;
 
