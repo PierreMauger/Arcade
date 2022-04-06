@@ -7,7 +7,6 @@
 
 #################### PATH #####################
 PATH_CORE			=	core/
-PATH_MENU			=	menu/
 
 PATH_GAMES			=	games/
 
@@ -23,7 +22,6 @@ all:
 
 core:
 	make -C	$(PATH_CORE)
-	make -C	$(PATH_MENU)
 
 games:
 	make -C	$(PATH_GAMES)

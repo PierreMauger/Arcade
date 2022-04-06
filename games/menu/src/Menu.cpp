@@ -62,12 +62,13 @@ void arc::Menu::destroyGame(void)
 {
 }
 
-void arc::Menu::update(std::vector<GameKey> keys)
+// unused params
+void arc::Menu::update(std::vector<GameKey> __attribute__ ((unused))keys)
 {
     // does nothing
 }
 
-void arc::Menu::setGameState(State state)
+void arc::Menu::setGameState(State __attribute__ ((unused))state)
 {
     // no game state
 }

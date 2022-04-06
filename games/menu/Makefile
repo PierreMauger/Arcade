@@ -20,14 +20,15 @@ NAME			=	arcade_menu.so
 OBJ				=	$(SRC:.cpp=.o)
 
 ##################### FLAGS #####################
-CXXFLAGS		=	-fPIC -I include -I ../include -W -Wall -Wextra
+CXXFLAGS		=	-fPIC -I include -I ../../include -W -Wall -Wextra
 
 CXXFLAGS_DEBUG	=	-g
 
 ################## COMPILATION ##################
 $(NAME):	$(OBJ)
 	@(g++ -shared $(OBJ) -o $(NAME) $(CXXFLAGS)) > /dev/null
-	cp $(NAME) ../lib/$(NAME)
+	mkdir -p ../../lib/
+	cp $(NAME) ../../lib/$(NAME)
 
 all:	$(NAME)
 
@@ -44,4 +45,4 @@ clean:
 
 fclean:	clean
 	@rm -f $(NAME)
-	@rm -f ../lib/$(NAME)
+	@rm -f ../../lib/$(NAME)
