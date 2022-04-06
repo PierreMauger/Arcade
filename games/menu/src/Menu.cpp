@@ -13,6 +13,7 @@ _graphList("./ressources/graphics.conf"),
 _gameList("./ressources/games.conf"),
 _map(std::vector<std::vector<int>>(50, std::vector<int>(50, 0)))
 {
+    this->_scoreList.getConf();
     this->_graphList.getConf();
     this->_gameList.getConf();
 }
@@ -52,10 +53,22 @@ void arc::Menu::initGame(void)
 
     for (std::size_t i = 0; i < this->_gameList._libs.size(); i++)
         for (std::size_t j = 0; j < this->_gameList._libs[i].size(); j++)
-            this->_map[i + 3][j + 1] = this->_gameList._libs[i][j] | GameColor::G_WHITE << 16;
+            this->_map[i * 2 + 3][j + 1] = this->_gameList._libs[i][j] | GameColor::G_WHITE << 16;
     for (std::size_t i = 0; i < this->_graphList._libs.size(); i++)
         for (std::size_t j = 0; j < this->_graphList._libs[i].size(); j++)
-            this->_map[i + 28][j + 1] = this->_graphList._libs[i][j] | GameColor::G_WHITE << 16;
+            this->_map[i * 2 + 28][j + 1] = this->_graphList._libs[i][j] | GameColor::G_WHITE << 16;
+
+    std::size_t delay = 0;
+    for (std::size_t i = 0; i < this->_scoreList._scoreList.size(); i++) {
+        for (std::size_t j = 0; j < this->_scoreList._scoreList[i].gameName.size(); j++)
+            this->_map[i + 3][j + 26] = this->_scoreList._scoreList[i].gameName[j] | GameColor::G_WHITE << 16;
+        delay = this->_scoreList._scoreList[i].gameName.size() + 1;
+        for (std::size_t j = 0; j < this->_scoreList._scoreList[i].playerName.size(); j++)
+            this->_map[i + 3][j + 26 + delay] = this->_scoreList._scoreList[i].playerName[j] | GameColor::G_WHITE << 16;
+        delay = std::to_string(this->_scoreList._scoreList[i].score).size();
+        for (std::size_t j = 0; j < std::to_string(this->_scoreList._scoreList[i].score).size(); j++)
+            this->_map[i + 3][j + 49 - delay] = std::to_string(this->_scoreList._scoreList[i].score)[j] | GameColor::G_WHITE << 16;
+    }
 }
 
 void arc::Menu::destroyGame(void)
@@ -66,10 +79,12 @@ void arc::Menu::destroyGame(void)
 void arc::Menu::update(std::vector<GameKey> __attribute__ ((unused))keys)
 {
     for (GameKey &key : keys) {
-        if (key >= GameKey::G_KEY_A && key <= GameKey::G_KEY_Z)
-            this->_playerName += key + 57;
-        if (key >= GameKey::G_KEY_1 && key <= GameKey::G_KEY_9)
+        if (key >= GameKey::G_KEY_A && key <= GameKey::G_KEY_Z && this->_playerName.size() < 10)
+            this->_playerName += key + 89;
+        if (key >= GameKey::G_KEY_1 && key <= GameKey::G_KEY_9 && this->_playerName.size() < 10)
             this->_playerName += key + 15;
+        if (key == GameKey::G_KEY_0 && this->_playerName.size() < 10)
+            this->_playerName += key + 5;
         if (key == GameKey::G_BACKSPACE && this->_playerName.size() > 0)
             this->_playerName.pop_back();
     }
