@@ -28,7 +28,7 @@ void arc::Nibbler::initGame(void)
         this->_map[i][0] = ((GameColor::G_WHITE << 16) | (Shape::SQUARE << 8));
         this->_map[i][MAP_SIZE - 1] = ((GameColor::G_WHITE << 16) | (Shape::SQUARE << 8));
     }
-    for (std::size_t i = 0; i < 20; i++) {
+    for (std::size_t i = 0; i < 3; i++) {
         this->_snake.push_back({MAP_SIZE / 2 + i, MAP_SIZE / 2});
         this->_map[this->_snake.back().y][this->_snake.back().x] = ((GameColor::G_RED << 16) | (Shape::SQUARE << 8));
     }
