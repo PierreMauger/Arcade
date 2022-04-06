@@ -21,7 +21,7 @@ std::map<arc::DisplayKey, std::function<void (arc::Core *)>> arc::Core::coreEven
     {DisplayKey::D_F5, &Core::restartGame},
     {DisplayKey::D_F6, &Core::menuGame},
     {DisplayKey::D_F7, &Core::exit},
-    // {DisplayKey::D_F8, &Core:: /* assign */ },
+    {DisplayKey::D_F8, &Core::pauseGame},
     // {DisplayKey::D_F9, &Core:: /* assign */ },
     // {DisplayKey::D_F10, &Core:: /* assign */ },
     // {DisplayKey::D_F11, &Core:: /* assign */ },
@@ -235,6 +235,16 @@ void arc::Core::exit(void)
     this->_exit = true;
 }
 
+void arc::Core::pauseGame(void)
+{
+    State state = this->_game->getGameState();
+
+    if (state == State::START)
+        this->_game->setGameState(State::PAUSE);
+    else if (state == State::PAUSE)
+        this->_game->setGameState(State::START);
+}
+
 void arc::Core::previousGraph(void)
 {
     this->unloadGraphLib();
@@ -278,7 +288,7 @@ void arc::Core::changePlayerName(void)
 {
     std::string name = this->_game->getPlayerName();
 
-    if (name == "") {
+    if (name != "") {
         this->_playerName = name;
     }
 }

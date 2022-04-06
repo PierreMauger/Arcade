@@ -53,7 +53,7 @@ namespace arc
             static std::map<arc::GameKey, std::function<void (arc::Nibbler *)>> keys;
 
             std::vector<std::vector<int>> _map;
-            std::size_t _score;
+            std::size_t _score = 0;
             State _gameState;
 
             std::vector<pos_t> _snake;

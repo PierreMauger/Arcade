@@ -200,7 +200,6 @@ bool arc::Nibbler::checkWallCollision(void)
 
 bool arc::Nibbler::checkSelfCollision(void)
 {
-    // check head collision
     for (std::size_t i = 1; i < this->_snake.size(); i++) {
         if (this->_snake[0].x == this->_snake[i].x && this->_snake[0].y == this->_snake[i].y)
             return true;

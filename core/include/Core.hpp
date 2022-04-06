@@ -45,10 +45,10 @@ namespace arc
 
             std::function<std::unique_ptr<IGame>(void)> _menuEntryPoint;
 
-            std::size_t _gameIdx;
+            std::size_t _gameIdx = 0;
             std::vector<std::function<std::unique_ptr<IGame>(void)>> _gameEntryPoint;
 
-            std::size_t _graphIdx;
+            std::size_t _graphIdx = 0;
             std::vector<std::function<std::unique_ptr<IDisplay>(void)>> _graphEntryPoint;
 
             bool _exit = false;
@@ -93,6 +93,7 @@ namespace arc
             void previousGraph(void);
             void nextGraph(void);
             void exit(void);
+            void pauseGame(void);
     };
 
     template<class T>
