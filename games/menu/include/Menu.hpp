@@ -21,6 +21,7 @@ namespace arc
             LibList _graphList;
             LibList _gameList;
             std::vector<std::vector<int>> _map;
+            std::string _playerName;
 
             void drawRectangle(int x, int y, int width, int height, int color);
         public:

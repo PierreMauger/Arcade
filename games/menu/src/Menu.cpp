@@ -42,13 +42,13 @@ void arc::Menu::initGame(void)
     std::string title4 = "Enter name:";
 
     for (std::size_t i = 0; i < title1.size(); i++)
-        this->_map[1][i + 1] = title1[i] | GameColor::G_CYAN << 16;
+        this->_map[1][i + 1] = title1[i] | GameColor::G_BLUE << 16;
     for (std::size_t i = 0; i < title2.size(); i++)
-        this->_map[26][i + 1] = title2[i] | GameColor::G_YELLOW << 16;
+        this->_map[26][i + 1] = title2[i] | GameColor::G_ORANGE << 16;
     for (std::size_t i = 0; i < title3.size(); i++)
-        this->_map[1][i + 26] = title3[i] | GameColor::G_RED << 16;
+        this->_map[1][i + 26] = title3[i] | GameColor::G_BROWN << 16;
     for (std::size_t i = 0; i < title4.size(); i++)
-        this->_map[26][i + 26] = title4[i] | GameColor::G_LIME << 16;
+        this->_map[26][i + 26] = title4[i] | GameColor::G_GREEN << 16;
 
     for (std::size_t i = 0; i < this->_gameList._libs.size(); i++)
         for (std::size_t j = 0; j < this->_gameList._libs[i].size(); j++)
@@ -65,7 +65,15 @@ void arc::Menu::destroyGame(void)
 // unused params
 void arc::Menu::update(std::vector<GameKey> __attribute__ ((unused))keys)
 {
-    // does nothing
+    for (GameKey &key : keys) {
+        if (key >= GameKey::G_KEY_A && key <= GameKey::G_KEY_Z)
+            this->_playerName += key + 57;
+        if (key >= GameKey::G_KEY_1 && key <= GameKey::G_KEY_9)
+            this->_playerName += key + 15;
+        if (key == GameKey::G_BACKSPACE && this->_playerName.size() > 0)
+            this->_playerName.pop_back();
+    }
+    std::cout << this->_playerName << std::endl;
 }
 
 void arc::Menu::setGameState(State __attribute__ ((unused))state)
@@ -92,8 +100,7 @@ std::size_t arc::Menu::getScore(void)
 
 std::string arc::Menu::getPlayerName(void)
 {
-    // code get player name
-    return "";
+    return this->_playerName;
 }
 
 std::string arc::Menu::getGameName(void)
