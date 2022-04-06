@@ -56,6 +56,8 @@ namespace arc
         G_BROWN,
         G_PINK,
         G_GRAY,
+
+        G_COLOR_SIZE
     };
 
 	////////////////////////////////////////////////////////////

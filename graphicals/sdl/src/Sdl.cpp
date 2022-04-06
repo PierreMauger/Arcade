@@ -11,6 +11,7 @@ static const int keyTab[] {
     SDLK_KP_ENTER,
     SDLK_BACKSPACE,
     SDLK_SPACE,
+    SDLK_ESCAPE,
     SDLK_UP,
     SDLK_DOWN,
     SDLK_LEFT,
@@ -90,7 +91,7 @@ arc::DisplayKey arc::sdl::findEventKey(int key)
 
 SDL_Color_t arc::sdl::findColor(unsigned char color)
 {
-    for (int i = 0; i < 12; i++)
+    for (int i = 0; i < (int)arc::DisplayColor::D_COLOR_SIZE - 1; i++)
         if (color == i + 1)
             return colorTab[i];
     return colorTab[0];

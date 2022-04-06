@@ -42,6 +42,8 @@ namespace arc
         D_BROWN,
         D_PINK,
         D_GRAY,
+
+        D_COLOR_SIZE
     };
 
 	////////////////////////////////////////////////////////////

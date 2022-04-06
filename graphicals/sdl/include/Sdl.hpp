@@ -9,6 +9,7 @@
 #define SDL_HPP
 
 #include <SDL2/SDL.h>
+#include <iostream>
 #include <SDL2/SDL_ttf.h>
 #include "IDisplay.hpp"
 

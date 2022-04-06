@@ -92,7 +92,7 @@ arc::DisplayKey arc::sfml::findEventKey(sf::Keyboard::Key key)
 
 sf::Color arc::sfml::findColor(unsigned char color)
 {
-    for (int i = 0; i < 12; i++)
+    for (int i = 0; i < (int)arc::DisplayColor::D_COLOR_SIZE - 1; i++)
         if (color == i + 1)
             return colorTab[i];
     return colorTab[0];
