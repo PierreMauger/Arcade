@@ -53,10 +53,10 @@ namespace arc
 
             bool _exit = false;
 
-            // need to do something with this
             Score _scoreList;
-            std::size_t _score;
-            std::string _playerName;
+            std::size_t _score = 0;
+            std::string _gameName = std::string("");
+            std::string _playerName = std::string("");
 
             LibList _graphList;
             LibList _gameList;
@@ -82,6 +82,8 @@ namespace arc
             char getLetter(int mapIdx);
             Shape getShape(int mapIdx);
             GameColor getColor(int mapIdx);
+
+            void changePlayerName(void);
 
             // Core event
             void previousGame(void);

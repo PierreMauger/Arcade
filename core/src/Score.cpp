@@ -46,6 +46,16 @@ void arc::Score::getConf(void)
     }
 }
 
+void arc::Score::addScore(std::string gameName, std::string playerName, std::size_t score)
+{
+    score_t newScore;
+
+    newScore.gameName = gameName;
+    newScore.playerName = playerName;
+    newScore.score = score;
+    this->_scoreList.push_back(newScore);
+}
+
 void arc::Score::saveConf(void)
 {
     std::ofstream file;

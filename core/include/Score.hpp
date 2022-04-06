@@ -28,6 +28,8 @@ namespace arc
             void getConf(void);
             void saveConf(void);
 
+            void addScore(std::string gameName, std::string playerName, std::size_t score);
+
             std::vector<score_t> _scoreList;
 
         private:

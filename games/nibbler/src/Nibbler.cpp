@@ -53,6 +53,7 @@ void arc::Nibbler::update(std::vector<GameKey> keys)
             this->_gameState = State::STOP;
         } else {
             this->move();
+            this->_score += 10;
         }
         if (this->checkFoodCollision()) {
             this->addSnakePart();

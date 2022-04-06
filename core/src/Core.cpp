@@ -47,6 +47,7 @@ arc::Core::~Core()
 {
     this->unloadGameLib();
     this->unloadGraphLib();
+    this->_scoreList.saveConf();
 }
 
 void arc::Core::getGraphLibByName(std::string graphLibName)
@@ -160,6 +161,7 @@ void arc::Core::coreLoop(void)
             lastIteration = currentIteration;
             this->browseMap();
             this->coreKey();
+            this->_score = this->_game->getScore();
             this->_graph->display();
         }
     }
@@ -170,6 +172,7 @@ void arc::Core::loadGameLib(std::function<std::unique_ptr<IGame>(void)> entryPoi
     this->_game = entryPoint();
     this->_game->initGame();
     this->_game->setGameState(State::START);
+    this->_gameName = this->_game->getGameName();
 }
 
 void arc::Core::loadGraphLib(std::function<std::unique_ptr<IDisplay>(void)> entryPoint)
@@ -180,6 +183,9 @@ void arc::Core::loadGraphLib(std::function<std::unique_ptr<IDisplay>(void)> entr
 
 void arc::Core::unloadGameLib(void)
 {
+    this->changePlayerName();
+    if (this->_score != 0)
+        this->_scoreList.addScore(this->_gameName, this->_playerName, this->_score);
     this->_game->destroyGame();
     this->_game = nullptr;
 }
@@ -266,4 +272,13 @@ arc::GameColor arc::Core::getColor(int mapIdx)
 {
     mapIdx <<= 8;
     return (GameColor)(mapIdx >>= 24);
+}
+
+void arc::Core::changePlayerName(void)
+{
+    std::string name = this->_game->getPlayerName();
+
+    if (name == "") {
+        this->_playerName = name;
+    }
 }
