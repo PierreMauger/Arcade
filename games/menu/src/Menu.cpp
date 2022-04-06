@@ -73,7 +73,6 @@ void arc::Menu::update(std::vector<GameKey> __attribute__ ((unused))keys)
         if (key == GameKey::G_BACKSPACE && this->_playerName.size() > 0)
             this->_playerName.pop_back();
     }
-    std::cout << this->_playerName << std::endl;
 }
 
 void arc::Menu::setGameState(State __attribute__ ((unused))state)
