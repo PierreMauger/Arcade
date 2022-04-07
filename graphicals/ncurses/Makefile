@@ -6,7 +6,7 @@
 ##
 
 ##################### SRC #######################
-SRC				=
+SRC				=	src/Ncurses.cpp
 
 #################### NAMES ######################
 NAME			=	arcade_ncurses.so
@@ -15,7 +15,7 @@ NAME			=	arcade_ncurses.so
 OBJ				=	$(SRC:.cpp=.o)
 
 ##################### FLAGS #####################
-CXXFLAGS		=	-fPIC -I include -I ../../include -W -Wall -fno-gnu-unique  -Wextra
+CXXFLAGS		=	-fPIC -I include -I ../../include -W -Wall -fno-gnu-unique -lncurses -Wextra
 
 CXXFLAGS_DEBUG	=	-g
 
