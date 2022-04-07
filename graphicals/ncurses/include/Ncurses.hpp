@@ -8,6 +8,7 @@
 #ifndef NCURSES_HPP
 #define NCURSES_HPP
 
+#include <ncurses.h>
 #include "IDisplay.hpp"
 
 namespace arc
