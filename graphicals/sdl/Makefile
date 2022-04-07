@@ -15,7 +15,7 @@ NAME			=	arcade_sdl2.so
 OBJ				=	$(SRC:.cpp=.o)
 
 ##################### FLAGS #####################
-CXXFLAGS		=	-fPIC -I include -I ../../include -lSDL2main -lSDL2 -lSDL2_ttf -fno-gnu-unique -W -Wall -Wextra
+CXXFLAGS		=	-fPIC -I include -I ../../include -lSDL2main -lSDL2 -lSDL2_ttf -W -Wall -fno-gnu-unique  -Wextra
 
 CXXFLAGS_DEBUG	=	-g
 

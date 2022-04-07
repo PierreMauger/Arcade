@@ -23,7 +23,7 @@ NAME			=	arcade
 OBJ				=	$(SRC:.cpp=.o)
 
 ##################### FLAGS #####################
-CXXFLAGS		=	-I include -I ../include -ldl -fno-gnu-unique -Wall -Wextra -W -std=c++17
+CXXFLAGS		=	-I include -I ../include -ldl -Wall -fno-gnu-unique  -Wextra -W -std=c++17
 
 CXXFLAGS_DEBUG	=	-g
 

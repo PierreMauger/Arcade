@@ -51,9 +51,9 @@ namespace arc
             std::vector<DisplayKey> getKeys(void);
     };
 
-    extern "C" std::unique_ptr<sdl> entryPoint(void)
+    extern "C" sdl *entryPoint(void)
     {
-        return std::make_unique<sdl>();
+        return new sdl();
     }
 } // namespace arc
 

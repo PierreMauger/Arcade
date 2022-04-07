@@ -78,14 +78,14 @@ std::string arc::Core::getRawLibName(std::string libName)
 
 void arc::Core::getMenuEntryPoint(void)
 {
-    this->_menuEntryPoint = this->_libLoader.getLibLoader<std::unique_ptr<IGame> (void), std::unique_ptr<IGame> (*)(void)>(std::string(PATH_LIBS + std::string("arcade_menu.so")) , "entryPoint");
+    this->_menuEntryPoint = this->_libLoader.getLibLoader<IGame *(void), IGame *(*)(void)>(std::string(PATH_LIBS + std::string("arcade_menu.so")) , "entryPoint");
 }
 
 void arc::Core::getGamesEntryPoint(void)
 {
     for (auto it : this->_gameList._libs) {
-        this->_gameEntryPoint.push_back(
-            this->_libLoader.getLibLoader<std::unique_ptr<IGame> (void), std::unique_ptr<IGame> (*)(void)>(std::string(PATH_LIBS + it + ".so"), "entryPoint")
+        this->_gameEntryPoint.emplace_back(
+            this->_libLoader.getLibLoader<IGame *(void), IGame *(*)(void)>(std::string(PATH_LIBS + it + ".so"), "entryPoint")
         );
     }
 }
@@ -93,8 +93,8 @@ void arc::Core::getGamesEntryPoint(void)
 void arc::Core::getGraphsEntryPoint(void)
 {
     for (auto it : this->_graphList._libs) {
-        this->_graphEntryPoint.push_back(
-            this->_libLoader.getLibLoader<std::unique_ptr<IDisplay> (void), std::unique_ptr<IDisplay> (*)(void)>(std::string(PATH_LIBS + it + ".so"), "entryPoint")
+        this->_graphEntryPoint.emplace_back(
+            this->_libLoader.getLibLoader<IDisplay *(void), IDisplay *(*)(void)>(std::string(PATH_LIBS + it + ".so"), "entryPoint")
         );
     }
 }
@@ -105,7 +105,7 @@ void arc::Core::drawIdx(int idx, std::size_t x, std::size_t y)
 
     for(auto it = this->shapes.cbegin(); it != this->shapes.cend(); it++) {
         if (it->first == shapeIdx) {
-            std::bind(it->second, this->_graph, this->getColor(idx), x, y);
+            std::bind(it->second, this->_graph.get(), this->getColor(idx), x, y);
             it->second(this->_graph.get(), this->getColor(idx), x, y);
             break;
         }
@@ -141,7 +141,6 @@ void arc::Core::coreKey(void)
         if (*key >= DisplayKey::D_F1 && *key <= DisplayKey::D_F12) {
             auto keyPos = coreEvent.find(*key);
             if (keyPos != coreEvent.end()) {
-                std::bind(keyPos->second, this->_graph);
                 keyPos->second(this);
             }
         } else {
@@ -170,17 +169,17 @@ void arc::Core::coreLoop(void)
     }
 }
 
-void arc::Core::loadGameLib(std::function<std::unique_ptr<IGame>(void)> entryPoint)
+void arc::Core::loadGameLib(std::function<IGame *(void)> entryPoint)
 {
-    this->_game = entryPoint();
+    this->_game = std::unique_ptr<IGame>(entryPoint());
     this->_game->initGame();
     this->_game->setGameState(State::START);
     this->_gameName = this->_game->getGameName();
 }
 
-void arc::Core::loadGraphLib(std::function<std::unique_ptr<IDisplay>(void)> entryPoint)
+void arc::Core::loadGraphLib(std::function<IDisplay *(void)> entryPoint)
 {
-    this->_graph = entryPoint();
+    this->_graph = std::unique_ptr<IDisplay>(entryPoint());
     this->_graph->initDisplay();
 }
 
@@ -190,13 +189,13 @@ void arc::Core::unloadGameLib(void)
     if (this->_score != 0)
         this->_scoreList.addScore(this->_gameName, this->_playerName, this->_score);
     this->_game->destroyGame();
-    this->_game = nullptr;
+    this->_game.reset();
 }
 
 void arc::Core::unloadGraphLib(void)
 {
     this->_graph->destroyDisplay();
-    this->_graph = nullptr;
+    this->_graph.reset();
 }
 
 void arc::Core::previousGame(void)

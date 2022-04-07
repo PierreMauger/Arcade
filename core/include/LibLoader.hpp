@@ -39,7 +39,7 @@ namespace arc {
                 if (entryPoint == nullptr) {
                     throw arc::FileError("FileError: Bad lib file.");
                 }
-                this->handleList.push_back(handle);
+                this->handleList.emplace_back(handle);
                 return entryPoint;
             }
 

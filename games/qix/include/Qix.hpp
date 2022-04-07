@@ -60,7 +60,8 @@ namespace arc
             std::vector<pos_t> _enemies;
 
             pos_t _player;
-            cell_t _saved_cell;
+            cell_t _savedCell;
+            cell_t _lastCell;
 
             void createQix(void);
             void createLines(void);
@@ -68,15 +69,17 @@ namespace arc
             void setCellValue(cell_t &cell, int x, int y, int value);
             bool canPlayerMoveToPos(pos_t pos);
 
+            void drawTrail(pos_t pos, cell_t lastCell);
+
             void moveUp(void);
             void moveLeft(void);
             void moveDown(void);
             void moveRight(void);
     };
 
-    extern "C" std::unique_ptr<Qix> entryPoint(void)
+    extern "C" Qix *entryPoint(void)
     {
-        return std::make_unique<Qix>();
+        return new Qix();
     }
 }
 

@@ -47,7 +47,7 @@ void arc::Qix::initGame(void)
     this->createLines();
     this->_player = {(MAP_SIZE / 2) - 1, MAP_SIZE - 1};
     this->_map[this->_player.y][this->_player.x] = ((GameColor::G_LIME << 16) | (Shape::SQUARE << 8));
-    this->setCellValue(this->_saved_cell, this->_player.x, this->_player.y, (GameColor::G_WHITE << 16) | (Shape::SQUARE << 8));
+    this->setCellValue(this->_savedCell, this->_player.x, this->_player.y, (GameColor::G_WHITE << 16) | (Shape::SQUARE << 8));
     this->_gameState = State::STOP;
 }
 
@@ -120,12 +120,19 @@ void arc::Qix::setCellValue(cell_t &cell, int x, int y, int value)
     cell.value = value;
 }
 
+void arc::Qix::drawTrail(pos_t pos, cell_t lastCell)
+{
+    // if ()
+    this->_map[pos.y][pos.x] = ((GameColor::G_GRAY << 16) | (Shape::SQUARE << 8));
+}
+
 void arc::Qix::moveUp(void)
 {
     if (this->canPlayerMoveToPos({this->_player.y - 1, this->_player.x}) == true) {
-        this->_map[this->_player.y][this->_player.x] = this->_saved_cell.value;
+        this->_map[this->_player.y][this->_player.x] = this->_savedCell.value;
+        // this->drawTrail(this->_player, this->_lastCell);
         this->_player.y--;
-        this->setCellValue(this->_saved_cell, this->_player.x, this->_player.y, this->_map[this->_player.y][this->_player.x]);
+        this->setCellValue(this->_savedCell, this->_player.x, this->_player.y, this->_map[this->_player.y][this->_player.x]);
         this->_map[this->_player.y][this->_player.x] = ((GameColor::G_LIME << 16) | (Shape::SQUARE << 8));
     }
 }
@@ -133,9 +140,9 @@ void arc::Qix::moveUp(void)
 void arc::Qix::moveLeft(void)
 {
     if (this->canPlayerMoveToPos({this->_player.y, this->_player.x - 1}) == true) {
-        this->_map[this->_player.y][this->_player.x] = this->_saved_cell.value;
+        this->_map[this->_player.y][this->_player.x] = this->_savedCell.value;
         this->_player.x--;
-        this->setCellValue(this->_saved_cell, this->_player.x, this->_player.y, this->_map[this->_player.y][this->_player.x]);
+        this->setCellValue(this->_savedCell, this->_player.x, this->_player.y, this->_map[this->_player.y][this->_player.x]);
         this->_map[this->_player.y][this->_player.x] = ((GameColor::G_LIME << 16) | (Shape::SQUARE << 8));
     }
 }
@@ -143,9 +150,9 @@ void arc::Qix::moveLeft(void)
 void arc::Qix::moveDown(void)
 {
     if (this->canPlayerMoveToPos({this->_player.y + 1, this->_player.x}) == true) {
-        this->_map[this->_player.y][this->_player.x] = this->_saved_cell.value;
+        this->_map[this->_player.y][this->_player.x] = this->_savedCell.value;
         this->_player.y++;
-        this->setCellValue(this->_saved_cell, this->_player.x, this->_player.y, this->_map[this->_player.y][this->_player.x]);
+        this->setCellValue(this->_savedCell, this->_player.x, this->_player.y, this->_map[this->_player.y][this->_player.x]);
         this->_map[this->_player.y][this->_player.x] = ((GameColor::G_LIME << 16) | (Shape::SQUARE << 8));
     }
 }
@@ -153,9 +160,9 @@ void arc::Qix::moveDown(void)
 void arc::Qix::moveRight(void)
 {
     if (this->canPlayerMoveToPos({this->_player.y, this->_player.x + 1}) == true) {
-        this->_map[this->_player.y][this->_player.x] = this->_saved_cell.value;
+        this->_map[this->_player.y][this->_player.x] = this->_savedCell.value;
         this->_player.x++;
-        this->setCellValue(this->_saved_cell, this->_player.x, this->_player.y, this->_map[this->_player.y][this->_player.x]);
+        this->setCellValue(this->_savedCell, this->_player.x, this->_player.y, this->_map[this->_player.y][this->_player.x]);
         this->_map[this->_player.y][this->_player.x] = ((GameColor::G_LIME << 16) | (Shape::SQUARE << 8));
     }
 }

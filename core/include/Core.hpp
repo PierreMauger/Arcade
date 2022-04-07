@@ -38,18 +38,18 @@ namespace arc
 
             void coreLoop(void);
         private:
-            std::shared_ptr<IDisplay> _graph;
-            std::shared_ptr<IGame> _game;
+            std::unique_ptr<IDisplay> _graph;
+            std::unique_ptr<IGame> _game;
 
             LibLoader _libLoader;
 
-            std::function<std::unique_ptr<IGame>(void)> _menuEntryPoint;
+            std::function<IGame *(void)> _menuEntryPoint;
 
             std::size_t _gameIdx = 0;
-            std::vector<std::function<std::unique_ptr<IGame>(void)>> _gameEntryPoint;
+            std::vector<std::function<IGame *(void)>> _gameEntryPoint;
 
             std::size_t _graphIdx = 0;
-            std::vector<std::function<std::unique_ptr<IDisplay>(void)>> _graphEntryPoint;
+            std::vector<std::function<IDisplay *(void)>> _graphEntryPoint;
 
             bool _exit = false;
 
@@ -70,8 +70,8 @@ namespace arc
             void getMenuEntryPoint(void);
             void getGamesEntryPoint(void);
             void getGraphsEntryPoint(void);
-            void loadGameLib(std::function<std::unique_ptr<IGame>(void)> entryPoint);
-            void loadGraphLib(std::function<std::unique_ptr<IDisplay>(void)> entryPoint);
+            void loadGameLib(std::function<IGame *(void)> entryPoint);
+            void loadGraphLib(std::function<IDisplay *(void)> entryPoint);
             void unloadGameLib(void);
             void unloadGraphLib(void);
 

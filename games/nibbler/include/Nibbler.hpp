@@ -81,9 +81,9 @@ namespace arc
             void putFood(void);
     };
 
-    extern "C" std::unique_ptr<Nibbler> entryPoint(void)
+    extern "C" Nibbler *entryPoint(void)
     {
-        return std::make_unique<Nibbler>();
+        return new Nibbler();
     }
 }
 

@@ -38,9 +38,9 @@ namespace arc
             std::string getGameName(void);
     };
 
-    extern "C" std::unique_ptr<Menu> entryPoint(void)
+    extern "C" Menu *entryPoint(void)
     {
-        return std::make_unique<Menu>();
+        return new Menu();
     }
 } // namespace arc
 

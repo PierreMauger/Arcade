@@ -6,6 +6,7 @@
 */
 
 #include "LibLoader.hpp"
+#include <unistd.h>
 
 arc::LibLoader::LibLoader(void)
 {
@@ -14,7 +15,7 @@ arc::LibLoader::LibLoader(void)
 
 arc::LibLoader::~LibLoader()
 {
-    for (auto &handle : handleList) {
+    for (auto handle : handleList) {
         dlclose(handle);
     }
 }

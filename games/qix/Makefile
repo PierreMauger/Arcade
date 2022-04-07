@@ -15,7 +15,7 @@ NAME			=	arcade_qix.so
 OBJ				=	$(SRC:.cpp=.o)
 
 ##################### FLAGS #####################
-CXXFLAGS		=	-fPIC -I include -I ../../include -fno-gnu-unique -W -Wall -Wextra
+CXXFLAGS		=	-fPIC -I include -I ../../include -W -Wall -fno-gnu-unique  -Wextra
 
 CXXFLAGS_DEBUG	=	-g
 
