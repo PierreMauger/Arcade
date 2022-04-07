@@ -17,7 +17,7 @@ PATH_MENU			=	menu/
 
 all:
 	make -C	$(PATH_NIBBLER)
-	# make -C	$(PATH_QIX)
+	make -C	$(PATH_QIX)
 	make -C	$(PATH_MENU)
 
 nibbler:
@@ -33,15 +33,15 @@ re:	fclean all
 
 clean:
 	@(make clean -C $(PATH_NIBBLER)) > /dev/null
-	# @(make clean -C $(PATH_QIX)) > /dev/null
+	@(make clean -C $(PATH_QIX)) > /dev/null
 	@(make clean -C $(PATH_MENU)) > /dev/null
 
 fclean:	clean
 	@(make fclean -C $(PATH_NIBBLER)) > /dev/null
-	# @(make fclean -C $(PATH_QIX)) > /dev/null
+	@(make fclean -C $(PATH_QIX)) > /dev/null
 	@(make fclean -C $(PATH_MENU)) > /dev/null
 
 debug:
 	make debug -C $(PATH_NIBBLER)
-	# make debug -C $(PATH_QIX)
+	make debug -C $(PATH_QIX)
 	make debug -C $(PATH_MENU)
