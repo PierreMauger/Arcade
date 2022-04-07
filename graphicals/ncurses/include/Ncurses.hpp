@@ -30,9 +30,9 @@ namespace arc
             std::vector<DisplayKey> getKeys(void);
     };
 
-    extern "C" std::unique_ptr<ncurses> entryPoint(void)
+    extern "C" ncurses *entryPoint(void)
     {
-        return std::make_unique<ncurses>();
+        return new ncurses();
     }
 } // namespace arc
 
