@@ -5,34 +5,20 @@
 ** main
 */
 
-#ifndef SDL_HPP
-#define SDL_HPP
+#ifndef NCURSES_HPP
+#define NCURSES_HPP
 
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_ttf.h>
 #include "IDisplay.hpp"
 
 namespace arc
 {
-    class sdl : virtual public IDisplay
+    class ncurses : virtual public IDisplay
     {
         private:
-            SDL_Window *_window;
-            SDL_Renderer *_renderer;
-            SDL_Event _events;
-            std::vector<arc::DisplayKey> _eventVector;
-            SDL_Rect _rect;
-            TTF_Font *_font;
-            SDL_Surface *_textSurface;
-            SDL_Texture *_textTexture;
-
-        private:
-            arc::DisplayKey findEventKey(int key);
-            SDL_Color findColor(unsigned char color);
 
         public:
-            sdl(void);
-            ~sdl() = default;
+            ncurses(void);
+            ~ncurses() = default;
             void initDisplay(void);
             void destroyDisplay(void);
             void display(void);
@@ -43,10 +29,10 @@ namespace arc
             std::vector<DisplayKey> getKeys(void);
     };
 
-    extern "C" std::unique_ptr<sdl> entryPoint(void)
+    extern "C" std::unique_ptr<ncurses> entryPoint(void)
     {
-        return std::make_unique<sdl>();
+        return std::make_unique<ncurses>();
     }
 } // namespace arc
 
-#endif // SDL_HPP
+#endif // NCURSES_HPP

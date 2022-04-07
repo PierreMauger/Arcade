@@ -6,7 +6,6 @@
 */
 
 #include "../include/Sfml.hpp"
-#include <iostream>
 
 static const sf::Keyboard::Key keyTab[] {
     sf::Keyboard::Enter,
