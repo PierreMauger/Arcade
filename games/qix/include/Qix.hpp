@@ -59,16 +59,19 @@ namespace arc
             std::vector<pos_t> _qix;
             std::vector<pos_t> _enemies;
 
+            bool _wasDrawing = false;
             pos_t _player;
             cell_t _savedCell;
 
             void createQix(void);
             void createLines(void);
 
+            bool canPlayerMoveToPos(pos_t pos);
             void setCellValue(cell_t &cell, pos_t pos, int value);
             void restoreCellValue(void);
-            bool canPlayerMoveToPos(pos_t pos);
 
+            void replaceGray(void);
+            void fillArea(void);
 
             void moveUp(void);
             void moveLeft(void);

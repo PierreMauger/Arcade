@@ -123,8 +123,28 @@ void arc::Qix::restoreCellValue(void)
 {
     if (this->_savedCell.value == 0) {
         this->_map[this->_player.y][this->_player.x] = ((GameColor::G_GRAY << 16) | (Shape::SQUARE << 8));
+        this->_wasDrawing = true;
     } else {
         this->_map[this->_player.y][this->_player.x] = this->_savedCell.value;
+    }
+}
+
+void arc::Qix::replaceGray(void)
+{
+    for (auto &yLine : this->_map) {
+        for (int &cell : yLine) {
+            if (cell == ((GameColor::G_GRAY << 16) | (Shape::SQUARE << 8))) {
+                cell = ((GameColor::G_WHITE << 16) | (Shape::SQUARE << 8));
+            }
+        }
+    }
+    this->_wasDrawing = false;
+}
+
+void arc::Qix::fillArea(void)
+{
+    if (this->_savedCell.value == ((GameColor::G_WHITE << 16) | (Shape::SQUARE << 8)) && this->_wasDrawing == true) {
+        this->replaceGray();
     }
 }
 
@@ -136,6 +156,7 @@ void arc::Qix::moveUp(void)
     this->restoreCellValue();
     this->_player.y--;
     this->setCellValue(this->_savedCell, this->_player, this->_map[this->_player.y][this->_player.x]);
+    this->fillArea();
     this->_map[this->_player.y][this->_player.x] = ((GameColor::G_LIME << 16) | (Shape::SQUARE << 8));
 }
 
@@ -147,6 +168,7 @@ void arc::Qix::moveLeft(void)
     this->restoreCellValue();
     this->_player.x--;
     this->setCellValue(this->_savedCell, this->_player, this->_map[this->_player.y][this->_player.x]);
+    this->fillArea();
     this->_map[this->_player.y][this->_player.x] = ((GameColor::G_LIME << 16) | (Shape::SQUARE << 8));
 }
 
@@ -158,6 +180,7 @@ void arc::Qix::moveDown(void)
     this->restoreCellValue();
     this->_player.y++;
     this->setCellValue(this->_savedCell, this->_player, this->_map[this->_player.y][this->_player.x]);
+    this->fillArea();
     this->_map[this->_player.y][this->_player.x] = ((GameColor::G_LIME << 16) | (Shape::SQUARE << 8));
 }
 
@@ -169,5 +192,6 @@ void arc::Qix::moveRight(void)
     this->restoreCellValue();
     this->_player.x++;
     this->setCellValue(this->_savedCell, this->_player, this->_map[this->_player.y][this->_player.x]);
+    this->fillArea();
     this->_map[this->_player.y][this->_player.x] = ((GameColor::G_LIME << 16) | (Shape::SQUARE << 8));
 }
