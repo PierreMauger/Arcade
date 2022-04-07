@@ -61,15 +61,14 @@ namespace arc
 
             pos_t _player;
             cell_t _savedCell;
-            cell_t _lastCell;
 
             void createQix(void);
             void createLines(void);
 
-            void setCellValue(cell_t &cell, int x, int y, int value);
+            void setCellValue(cell_t &cell, pos_t pos, int value);
+            void restoreCellValue(void);
             bool canPlayerMoveToPos(pos_t pos);
 
-            void drawTrail(pos_t pos, cell_t lastCell);
 
             void moveUp(void);
             void moveLeft(void);
