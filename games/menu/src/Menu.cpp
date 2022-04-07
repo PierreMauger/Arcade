@@ -69,6 +69,8 @@ void arc::Menu::initGame(void)
         for (std::size_t j = 0; j < std::to_string(this->_scoreList._scoreList[i].score).size(); j++)
             this->_map[i + 3][j + 49 - delay] = std::to_string(this->_scoreList._scoreList[i].score)[j] | GameColor::G_WHITE << 16;
     }
+    for (std::size_t j = 0; j < this->_playerName.size(); j++)
+        this->_map[28][j + 26] = this->_playerName[j] | GameColor::G_WHITE << 16;
 }
 
 void arc::Menu::destroyGame(void)
@@ -87,6 +89,14 @@ void arc::Menu::update(std::vector<GameKey> __attribute__ ((unused))keys)
             this->_playerName += key + 5;
         if (key == GameKey::G_BACKSPACE && this->_playerName.size() > 0)
             this->_playerName.pop_back();
+    }
+    if (keys.size()) {
+        for (std::size_t j = 0; j < 10; j++) {
+            if (j < this->_playerName.size())
+                this->_map[28][j + 26] = this->_playerName[j] | GameColor::G_WHITE << 16;
+            else
+                this->_map[28][j + 26] = 0;
+        }
     }
 }
 
