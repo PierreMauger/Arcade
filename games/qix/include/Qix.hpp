@@ -19,10 +19,22 @@
 
 namespace arc
 {
+    enum Direction {
+        UP_LEFT,
+        UP_RIGHT,
+        DOWN_LEFT,
+        DOWN_RIGHT,
+    };
+
     typedef struct {
         std::size_t x;
         std::size_t y;
     } pos_t;
+
+    typedef struct {
+        int x;
+        int y;
+    } vector_t;
 
     typedef struct {
         pos_t pos;
@@ -57,6 +69,9 @@ namespace arc
             State _gameState;
 
             std::vector<pos_t> _qix;
+            Direction _directionQix;
+            std::vector<pos_t> _lines;
+            std::vector<pos_t> _gray;
             std::vector<pos_t> _enemies;
 
             bool _wasDrawing = false;
@@ -77,6 +92,12 @@ namespace arc
             void moveLeft(void);
             void moveDown(void);
             void moveRight(void);
+
+            bool canQixMoveToPos(pos_t pos);
+            void changeQixCoord(vector_t vector);
+            void eraseQix(void);
+            void drawQix(void);
+            void moveQix(void);
     };
 
     extern "C" Qix *entryPoint(void)

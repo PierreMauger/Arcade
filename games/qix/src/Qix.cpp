@@ -67,9 +67,6 @@ void arc::Qix::update(std::vector<GameKey> keys)
         }
         keysPressed.clear();
     }
-    if (keys.size() != 0 && this->_gameState != State::STOP) {
-        this->_gameState = State::START;
-    }
 }
 
 void arc::Qix::setGameState(State state)
@@ -109,6 +106,15 @@ bool arc::Qix::canPlayerMoveToPos(pos_t pos)
     if (this->_map[pos.y][pos.x] == ((GameColor::G_BLUE << 16) | (Shape::SQUARE << 8)) ||
         this->_map[pos.y][pos.x] == ((GameColor::G_RED << 16) | (Shape::SQUARE << 8)) ||
         this->_map[pos.y][pos.x] == ((GameColor::G_GRAY << 16) | (Shape::SQUARE << 8)))
+        return false;
+    return true;
+}
+
+bool arc::Qix::canQixMoveToPos(pos_t pos)
+{
+    if (pos.x >= MAP_SIZE || pos.y >= MAP_SIZE)
+        return false;
+    if (this->_map[pos.y][pos.x] != 0)
         return false;
     return true;
 }
@@ -194,4 +200,42 @@ void arc::Qix::moveRight(void)
     this->setCellValue(this->_savedCell, this->_player, this->_map[this->_player.y][this->_player.x]);
     this->fillArea();
     this->_map[this->_player.y][this->_player.x] = ((GameColor::G_LIME << 16) | (Shape::SQUARE << 8));
+}
+
+void arc::Qix::eraseQix(void)
+{
+    for (auto &qix : this->_qix) {
+        this->_map[qix.y][qix.x] = 0;
+    }
+}
+
+void arc::Qix::drawQix(void)
+{
+    for (auto &qix : this->_qix) {
+        this->_map[qix.y][qix.x] = ((GameColor::G_PURPLE << 16) | (Shape::SQUARE << 8));
+    }
+}
+
+void arc::Qix::changeQixCoord(vector_t vector)
+{
+    for (auto &qix : this->_qix) {
+        qix.x += vector.x;
+        qix.y += vector.y;
+    }
+}
+
+void arc::Qix::moveQix(void)
+{
+    if (_directionQix == UP_LEFT && this->canQixMoveToPos({this->_qix[0].x - 1, this->_qix[0].y - 1}) == true) {
+        this->changeQixCoord({-1, -1});
+    }
+    else if (_directionQix == UP_RIGHT && this->canQixMoveToPos({this->_qix[1].x + 1, this->_qix[1].y - 1}) == true) {
+        this->changeQixCoord({1, -1});
+    }
+    else if (_directionQix == DOWN_LEFT && this->canQixMoveToPos({this->_qix[2].x - 1, this->_qix[2].y + 1}) == true) {
+        this->changeQixCoord({-1, 1});
+    }
+    else if (_directionQix == DOWN_RIGHT && this->canQixMoveToPos({this->_qix[3].x + 1, this->_qix[3].y + 1}) == true) {
+        this->changeQixCoord({1, 1});
+    }
 }

@@ -62,9 +62,6 @@ void arc::Nibbler::update(std::vector<GameKey> keys)
             this->_score += 1000;
         }
     }
-    if (keys.size() != 0 && this->_gameState != State::STOP) {
-        this->_gameState = State::START;
-    }
 }
 
 void arc::Nibbler::setGameState(State state)
