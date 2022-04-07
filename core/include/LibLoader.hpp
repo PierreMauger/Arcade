@@ -22,7 +22,7 @@ namespace arc {
     class LibLoader {
         public:
             LibLoader(void);
-            ~LibLoader();
+            ~LibLoader() = default;
 
             // ex: std::unique_ptr<IGame> (void)
             template<class T, class F>
@@ -42,6 +42,8 @@ namespace arc {
                 this->handleList.emplace_back(handle);
                 return entryPoint;
             }
+
+            void closeHandlers(void);
 
         private:
             std::vector<void *> handleList;

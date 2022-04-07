@@ -43,13 +43,10 @@ namespace arc
 
             LibLoader _libLoader;
 
-            std::function<IGame *(void)> _menuEntryPoint;
-
             std::size_t _gameIdx = 0;
-            std::vector<std::function<IGame *(void)>> _gameEntryPoint;
-
+            LibList _gameList;
             std::size_t _graphIdx = 0;
-            std::vector<std::function<IDisplay *(void)>> _graphEntryPoint;
+            LibList _graphList;
 
             bool _exit = false;
 
@@ -58,20 +55,16 @@ namespace arc
             std::string _gameName = std::string("");
             std::string _playerName = std::string("");
 
-            LibList _graphList;
-            LibList _gameList;
-
             static std::map<arc::Shape, std::function<void (arc::IDisplay *, unsigned char, std::size_t, std::size_t)>> shapes;
             static std::map<arc::DisplayKey, std::function<void (arc::Core *)>> coreEvent;
 
             std::string getRawLibName(std::string libName);
             void getGraphLibByName(std::string graphLibName);
 
-            void getMenuEntryPoint(void);
-            void getGamesEntryPoint(void);
-            void getGraphsEntryPoint(void);
-            void loadGameLib(std::function<IGame *(void)> entryPoint);
-            void loadGraphLib(std::function<IDisplay *(void)> entryPoint);
+            std::unique_ptr<IGame> execGameEntryPoint(std::string gameLibName);
+            std::unique_ptr<IDisplay> execGraphEntryPoint(std::string graphLibName);
+            void loadGameLib(std::unique_ptr<IGame> gameLib);
+            void loadGraphLib(std::unique_ptr<IDisplay> graphLib);
             void unloadGameLib(void);
             void unloadGraphLib(void);
 
@@ -95,12 +88,6 @@ namespace arc
             void exit(void);
             void pauseGame(void);
     };
-
-    template<class T>
-    std::unique_ptr<T> entryPoint(void)
-    {
-        return std::make_unique<T>;
-    }
 
 } // namespace arc
 

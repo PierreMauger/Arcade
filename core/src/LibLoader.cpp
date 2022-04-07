@@ -13,9 +13,9 @@ arc::LibLoader::LibLoader(void)
 
 }
 
-arc::LibLoader::~LibLoader()
+void arc::LibLoader::closeHandlers(void)
 {
-    for (auto handle : handleList) {
+    for (auto handle : this->handleList) {
         dlclose(handle);
     }
 }

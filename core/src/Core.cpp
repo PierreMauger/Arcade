@@ -29,18 +29,15 @@ std::map<arc::DisplayKey, std::function<void (arc::Core *)>> arc::Core::coreEven
 };
 
 arc::Core::Core(std::string graphLibName) :
-_scoreList("./ressources/scores.conf"),
+_gameList("./ressources/games.conf"),
 _graphList("./ressources/graphics.conf"),
-_gameList("./ressources/games.conf")
+_scoreList("./ressources/scores.conf")
 {
     this->_graphList.getConf();
     this->_gameList.getConf();
     this->_scoreList.getConf();
-    this->getMenuEntryPoint();
-    this->getGamesEntryPoint();
-    this->getGraphsEntryPoint();
     this->getGraphLibByName(graphLibName);
-    this->loadGameLib(this->_menuEntryPoint);
+    this->loadGameLib(this->execGameEntryPoint("arcade_menu.so"));
 }
 
 arc::Core::~Core()
@@ -60,7 +57,7 @@ void arc::Core::getGraphLibByName(std::string graphLibName)
         throw FileError("FileError: " + rawLibName + " is not a valid lib name.");
     }
     this->_graphIdx = pos;
-    this->loadGraphLib(this->_graphEntryPoint[pos]);
+    this->loadGraphLib(this->execGraphEntryPoint(this->_graphList._libs[this->_graphIdx] + ".so"));
 }
 
 std::string arc::Core::getRawLibName(std::string libName)
@@ -76,27 +73,22 @@ std::string arc::Core::getRawLibName(std::string libName)
     return match.str(match.size() - 2);
 }
 
-void arc::Core::getMenuEntryPoint(void)
+std::unique_ptr<arc::IGame> arc::Core::execGameEntryPoint(std::string gameLibName)
 {
-    this->_menuEntryPoint = this->_libLoader.getLibLoader<IGame *(void), IGame *(*)(void)>(std::string(PATH_LIBS + std::string("arcade_menu.so")) , "entryPoint");
+    std::function<IGame *(void)> entryPointFunc =
+        this->_libLoader.getLibLoader<IGame *(void), IGame *(*)(void)>(std::string(PATH_LIBS + gameLibName) , "entryPoint");
+    IGame *game = entryPointFunc();
+
+    return std::unique_ptr<IGame>(game);
 }
 
-void arc::Core::getGamesEntryPoint(void)
+std::unique_ptr<arc::IDisplay> arc::Core::execGraphEntryPoint(std::string graphLibName)
 {
-    for (auto it : this->_gameList._libs) {
-        this->_gameEntryPoint.emplace_back(
-            this->_libLoader.getLibLoader<IGame *(void), IGame *(*)(void)>(std::string(PATH_LIBS + it + ".so"), "entryPoint")
-        );
-    }
-}
+    std::function<IDisplay *(void)> entryPointFunc =
+        this->_libLoader.getLibLoader<IDisplay *(void), IDisplay *(*)(void)>(std::string(PATH_LIBS + graphLibName) , "entryPoint");
+    IDisplay *graph = entryPointFunc();
 
-void arc::Core::getGraphsEntryPoint(void)
-{
-    for (auto it : this->_graphList._libs) {
-        this->_graphEntryPoint.emplace_back(
-            this->_libLoader.getLibLoader<IDisplay *(void), IDisplay *(*)(void)>(std::string(PATH_LIBS + it + ".so"), "entryPoint")
-        );
-    }
+    return std::unique_ptr<IDisplay>(graph);
 }
 
 void arc::Core::drawIdx(int idx, std::size_t x, std::size_t y)
@@ -169,17 +161,17 @@ void arc::Core::coreLoop(void)
     }
 }
 
-void arc::Core::loadGameLib(std::function<IGame *(void)> entryPoint)
+void arc::Core::loadGameLib(std::unique_ptr<IGame> gameLib)
 {
-    this->_game = std::unique_ptr<IGame>(entryPoint());
+    this->_game = std::move(gameLib);
     this->_game->initGame();
     this->_game->setGameState(State::START);
     this->_gameName = this->_game->getGameName();
 }
 
-void arc::Core::loadGraphLib(std::function<IDisplay *(void)> entryPoint)
+void arc::Core::loadGraphLib(std::unique_ptr<IDisplay> graphLib)
 {
-    this->_graph = std::unique_ptr<IDisplay>(entryPoint());
+    this->_graph = std::move(graphLib);
     this->_graph->initDisplay();
 }
 
@@ -202,34 +194,34 @@ void arc::Core::previousGame(void)
 {
     this->unloadGameLib();
     if (this->_gameIdx == 0) {
-        this->_gameIdx = this->_gameEntryPoint.size() - 1;
+        this->_gameIdx = this->_gameList._libs.size() - 1;
     } else {
         this->_gameIdx--;
     }
-    this->loadGameLib(this->_gameEntryPoint[this->_gameIdx]);
+    this->loadGameLib(this->execGameEntryPoint(this->_gameList._libs[this->_gameIdx] + ".so"));
 }
 
 void arc::Core::nextGame(void)
 {
     this->unloadGameLib();
-    if (this->_gameIdx == this->_gameEntryPoint.size() - 1) {
+    if (this->_gameIdx == this->_gameList._libs.size() - 1) {
         this->_gameIdx = 0;
     } else {
         this->_gameIdx++;
     }
-    this->loadGameLib(this->_gameEntryPoint[this->_gameIdx]);
+    this->loadGameLib(this->execGameEntryPoint(this->_gameList._libs[this->_gameIdx] + ".so"));
 }
 
 void arc::Core::restartGame(void)
 {
     this->unloadGameLib();
-    this->loadGameLib(this->_gameEntryPoint[this->_gameIdx]);
+    this->loadGameLib(this->execGameEntryPoint(this->_gameList._libs[this->_gameIdx] + ".so"));
 }
 
 void arc::Core::menuGame(void)
 {
     this->unloadGameLib();
-    this->loadGameLib(this->_menuEntryPoint);
+    this->loadGameLib(this->execGameEntryPoint("arcade_menu.so"));
 }
 
 void arc::Core::exit(void)
@@ -251,22 +243,22 @@ void arc::Core::previousGraph(void)
 {
     this->unloadGraphLib();
     if (this->_graphIdx == 0) {
-        this->_graphIdx = this->_graphEntryPoint.size() - 1;
+        this->_graphIdx = this->_graphList._libs.size() - 1;
     } else {
         this->_graphIdx--;
     }
-    this->loadGraphLib(this->_graphEntryPoint[this->_graphIdx]);
+    this->loadGraphLib(this->execGraphEntryPoint(this->_graphList._libs[this->_graphIdx] + ".so"));
 }
 
 void arc::Core::nextGraph(void)
 {
     this->unloadGraphLib();
-    if (this->_graphIdx == this->_graphEntryPoint.size() - 1) {
+    if (this->_graphIdx == this->_graphList._libs.size() - 1) {
         this->_graphIdx = 0;
     } else {
         this->_graphIdx++;
     }
-    this->loadGraphLib(this->_graphEntryPoint[this->_graphIdx]);
+    this->loadGraphLib(this->execGraphEntryPoint(this->_graphList._libs[this->_graphIdx] + ".so"));
 }
 
 char arc::Core::getLetter(int mapIdx)
