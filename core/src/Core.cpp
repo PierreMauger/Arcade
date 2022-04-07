@@ -53,12 +53,11 @@ arc::Core::~Core()
 void arc::Core::getGraphLibByName(std::string graphLibName)
 {
     std::string rawLibName = this->getRawLibName(graphLibName);
-    std::string extention = rawLibName.substr(rawLibName.size() - 3, 3);
-    rawLibName.erase(rawLibName.size() - 3, 3);
-    std::size_t pos = std::distance(this->_graphList._libs.begin(), std::find(this->_graphList._libs.begin(), this->_graphList._libs.end(), rawLibName));
+    std::size_t pos;
 
+    pos = std::distance(this->_graphList._libs.begin(), std::find(this->_graphList._libs.begin(), this->_graphList._libs.end(), rawLibName));
     if (pos == this->_graphList._libs.size()) {
-        throw FileError("FileError: " + rawLibName + extention + " is not a valid lib name.");
+        throw FileError("FileError: " + rawLibName + " is not a valid lib name.");
     }
     this->_graphIdx = pos;
     this->loadGraphLib(this->_graphEntryPoint[pos]);
@@ -66,11 +65,15 @@ void arc::Core::getGraphLibByName(std::string graphLibName)
 
 std::string arc::Core::getRawLibName(std::string libName)
 {
-    std::size_t pos = libName.find_last_of("/");
+    std::smatch match;
+    std::regex reg("((.*\\/)?)(\\S+)(\\.so)");
+    std::regex_search(libName, match, reg);
+    auto lastElem = match.str(match.size() - 1);
 
-    if (pos == std::string::npos)
-        return libName;
-    return libName.substr(pos + 1);
+    if (lastElem != ".so") {
+        throw FileError("FileError: " + libName + " is not a valid lib name.");
+    }
+    return match.str(match.size() - 2);
 }
 
 void arc::Core::getMenuEntryPoint(void)
