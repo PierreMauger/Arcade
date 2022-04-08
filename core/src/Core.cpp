@@ -79,6 +79,7 @@ std::unique_ptr<arc::IGame> arc::Core::execGameEntryPoint(std::string gameLibNam
         this->_libLoader.getLibLoader<IGame *(void), IGame *(*)(void)>(std::string(PATH_LIBS + gameLibName) , "entryPoint");
     IGame *game = entryPointFunc();
 
+    this->_libLoader.closeHandlers();
     return std::unique_ptr<IGame>(game);
 }
 
@@ -88,6 +89,7 @@ std::unique_ptr<arc::IDisplay> arc::Core::execGraphEntryPoint(std::string graphL
         this->_libLoader.getLibLoader<IDisplay *(void), IDisplay *(*)(void)>(std::string(PATH_LIBS + graphLibName) , "entryPoint");
     IDisplay *graph = entryPointFunc();
 
+    this->_libLoader.closeHandlers();
     return std::unique_ptr<IDisplay>(graph);
 }
 
