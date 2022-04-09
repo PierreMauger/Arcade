@@ -51,22 +51,22 @@ void arc::Menu::initGame(void)
     for (std::size_t i = 0; i < title4.size(); i++)
         this->_map[26][i + 26] = title4[i] | GameColor::G_GREEN << 16;
 
-    for (std::size_t i = 0; i < this->_gameList._libs.size(); i++)
+    for (std::size_t i = 0; i < this->_gameList._libs.size() && i < 20; i++)
         for (std::size_t j = 0; j < this->_gameList._libs[i].size(); j++)
             this->_map[i * 2 + 3][j + 1] = this->_gameList._libs[i][j] | GameColor::G_WHITE << 16;
-    for (std::size_t i = 0; i < this->_graphList._libs.size(); i++)
+    for (std::size_t i = 0; i < this->_graphList._libs.size() && i < 20; i++)
         for (std::size_t j = 0; j < this->_graphList._libs[i].size(); j++)
             this->_map[i * 2 + 28][j + 1] = this->_graphList._libs[i][j] | GameColor::G_WHITE << 16;
 
     std::size_t delay = 0;
-    for (std::size_t i = 0; i < this->_scoreList._scoreList.size(); i++) {
-        for (std::size_t j = 0; j < this->_scoreList._scoreList[i].gameName.size(); j++)
+    for (std::size_t i = 0; i < this->_scoreList._scoreList.size() && i < 20; i++) {
+        for (std::size_t j = 0; j < this->_scoreList._scoreList[i].gameName.size() && j + 26 < 49; j++)
             this->_map[i + 3][j + 26] = this->_scoreList._scoreList[i].gameName[j] | GameColor::G_WHITE << 16;
         delay = this->_scoreList._scoreList[i].gameName.size() + 1;
-        for (std::size_t j = 0; j < this->_scoreList._scoreList[i].playerName.size(); j++)
+        for (std::size_t j = 0; j < this->_scoreList._scoreList[i].playerName.size() && j + 26 + delay < 49; j++)
             this->_map[i + 3][j + 26 + delay] = this->_scoreList._scoreList[i].playerName[j] | GameColor::G_WHITE << 16;
         delay = std::to_string(this->_scoreList._scoreList[i].score).size();
-        for (std::size_t j = 0; j < std::to_string(this->_scoreList._scoreList[i].score).size(); j++)
+        for (std::size_t j = 0; j < std::to_string(this->_scoreList._scoreList[i].score).size() && j + 49 - delay < 49; j++)
             this->_map[i + 3][j + 49 - delay] = std::to_string(this->_scoreList._scoreList[i].score)[j] | GameColor::G_WHITE << 16;
     }
     for (std::size_t j = 0; j < this->_playerName.size(); j++)
