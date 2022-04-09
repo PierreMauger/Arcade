@@ -16,6 +16,7 @@ namespace arc
     class ncurses : virtual public IDisplay
     {
         private:
+            std::vector<arc::DisplayKey> _eventVector;
 
         public:
             ncurses(void);
