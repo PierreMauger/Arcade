@@ -241,7 +241,7 @@ void arc::Qix::fillBlank(void)
 {
     for (std::size_t y = 0; y < this->_map.size(); y++) {
         for (std::size_t x = 0; x < this->_map[y].size(); x++) {
-            if (this->_map[y][x] == 0 && isWithQix({x, y}, this->_qix[0]) == false) {
+            if (this->_map[y][x] == 0 && this->_visited[y][x] == false && isWithQix({x, y}, this->_qix[0]) == false) {
                 this->copyVisited();
                 break;
             }
