@@ -14,6 +14,13 @@ std::map<arc::GameKey, std::function<void (arc::Qix *)>> arc::Qix::keys = {
     {arc::GameKey::G_RIGHT_ARROW, &Qix::moveRight},
 };
 
+std::map<arc::Direction, arc::vector_t> arc::Qix::pos = {
+    {arc::Direction::UP_LEFT, {-1, -1, 0}},
+    {arc::Direction::UP_RIGHT, {1, -1, 1}},
+    {arc::Direction::DOWN_LEFT, {-1, 1, 2}},
+    {arc::Direction::DOWN_RIGHT, {1, 1, 3}},
+};
+
 arc::Qix::Qix(void) :
 _map(std::vector<std::vector<int>>(MAP_SIZE, std::vector<int>(MAP_SIZE, 0))),
 _qix(std::vector<pos_t>(4, {MAP_SIZE / 2, MAP_SIZE / 2})),
@@ -48,6 +55,7 @@ void arc::Qix::initGame(void)
     this->_player = {(MAP_SIZE / 2) - 1, MAP_SIZE - 1};
     this->_map[this->_player.y][this->_player.x] = ((GameColor::G_LIME << 16) | (Shape::SQUARE << 8));
     this->setCellValue(this->_savedCell, this->_player, (GameColor::G_WHITE << 16) | (Shape::SQUARE << 8));
+    this->_directionQix = UP_LEFT;
     this->_gameState = State::STOP;
 }
 
@@ -66,6 +74,7 @@ void arc::Qix::update(std::vector<GameKey> keys)
             }
         }
         keysPressed.clear();
+        this->moveQix();
     }
 }
 
@@ -224,18 +233,26 @@ void arc::Qix::changeQixCoord(vector_t vector)
     }
 }
 
+bool arc::Qix::updatePosQix(vector_t toMove)
+{
+    if (this->canQixMoveToPos({this->_qix[toMove.idx].x + toMove.x, this->_qix[toMove.idx].y + toMove.y}) == true) {
+        this->changeQixCoord(toMove);
+        return true;
+    } else {
+        this->_directionQix = (Direction)((this->_directionQix + 1) % SIZE_DIR);
+        return false;
+    }
+}
+
 void arc::Qix::moveQix(void)
 {
-    if (_directionQix == UP_LEFT && this->canQixMoveToPos({this->_qix[0].x - 1, this->_qix[0].y - 1}) == true) {
-        this->changeQixCoord({-1, -1});
+    this->eraseQix();
+    if (this->_lastRand >= 15) {
+        this->_lastRand = 0;
+        this->_directionQix = (Direction)(rand() % SIZE_DIR);
+    } else {
+        this->_lastRand++;
     }
-    else if (_directionQix == UP_RIGHT && this->canQixMoveToPos({this->_qix[1].x + 1, this->_qix[1].y - 1}) == true) {
-        this->changeQixCoord({1, -1});
-    }
-    else if (_directionQix == DOWN_LEFT && this->canQixMoveToPos({this->_qix[2].x - 1, this->_qix[2].y + 1}) == true) {
-        this->changeQixCoord({-1, 1});
-    }
-    else if (_directionQix == DOWN_RIGHT && this->canQixMoveToPos({this->_qix[3].x + 1, this->_qix[3].y + 1}) == true) {
-        this->changeQixCoord({1, 1});
-    }
+    for (size_t nbIt = 0; this->updatePosQix(this->pos.find(this->_directionQix)->second) == false && nbIt < SIZE_DIR; nbIt++);
+    this->drawQix();
 }

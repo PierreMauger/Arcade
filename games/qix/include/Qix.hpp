@@ -24,6 +24,8 @@ namespace arc
         UP_RIGHT,
         DOWN_LEFT,
         DOWN_RIGHT,
+
+        SIZE_DIR
     };
 
     typedef struct {
@@ -34,6 +36,7 @@ namespace arc
     typedef struct {
         int x;
         int y;
+        int idx;
     } vector_t;
 
     typedef struct {
@@ -62,6 +65,7 @@ namespace arc
 
         private:
             static std::map<arc::GameKey, std::function<void (arc::Qix *)>> keys;
+            static std::map<arc::Direction, arc::vector_t> pos;
             std::vector<GameKey> keysPressed;
 
             std::vector<std::vector<int>> _map;
@@ -70,6 +74,8 @@ namespace arc
 
             std::vector<pos_t> _qix;
             Direction _directionQix;
+            std::size_t _lastRand = 0;
+
             std::vector<pos_t> _lines;
             std::vector<pos_t> _gray;
             std::vector<pos_t> _enemies;
@@ -95,6 +101,7 @@ namespace arc
 
             bool canQixMoveToPos(pos_t pos);
             void changeQixCoord(vector_t vector);
+            bool updatePosQix(vector_t toMove);
             void eraseQix(void);
             void drawQix(void);
             void moveQix(void);
