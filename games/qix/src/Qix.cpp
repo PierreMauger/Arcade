@@ -182,7 +182,6 @@ int arc::Qix::getNeighbor(pos_t actPos)
 void arc::Qix::checkEnd(pos_t actPos, pos_t goalPos)
 {
     this->_visited[actPos.y][actPos.x] = true;
-    std::cout << actPos.x << " " << actPos.y << " | " << goalPos.x << " " << goalPos.y << std::endl;
     if (actPos.x == goalPos.x && actPos.y == goalPos.y) {
         this->_found = true;
     }
@@ -221,13 +220,21 @@ bool arc::Qix::isWithQix(pos_t actPos, pos_t goalPos)
 
 void arc::Qix::copyVisited(void)
 {
+    int color = 0;
+
+    if (this->_color == false) {
+        color = ((GameColor::G_BLUE << 16) | (Shape::SQUARE << 8));
+    } else {
+        color = ((GameColor::G_RED << 16) | (Shape::SQUARE << 8));
+    }
     for (int y = 0; y < MAP_SIZE; y++) {
         for (int x = 0; x < MAP_SIZE; x++) {
             if (this->_visited[y][x] == true) {
-                this->_map[y][x] = ((GameColor::G_BLUE << 16) | (Shape::SQUARE << 8));
+                this->_map[y][x] = color;
             }
         }
     }
+    this->_color = !this->_color;
 }
 
 void arc::Qix::fillBlank(void)
@@ -236,6 +243,7 @@ void arc::Qix::fillBlank(void)
         for (std::size_t x = 0; x < this->_map[y].size(); x++) {
             if (this->_map[y][x] == 0 && isWithQix({x, y}, this->_qix[0]) == false) {
                 this->copyVisited();
+                break;
             }
         }
     }

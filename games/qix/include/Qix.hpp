@@ -72,8 +72,10 @@ namespace arc
             std::vector<std::vector<int>> _map;
             std::vector<std::vector<bool>> _visited;
             bool _found = false;
+            bool _color = false;
             std::size_t _score = 0;
             State _gameState;
+
 
             std::vector<pos_t> _qix;
             std::vector<pos_t> _qixNoise;
