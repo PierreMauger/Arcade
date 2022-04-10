@@ -289,10 +289,10 @@ void arc::Qix::moveQix(void)
 void arc::Qix::checkQixCollisions(std::vector<pos_t> toCheck)
 {
     for (size_t i = 0; i < toCheck.size(); i++) {
-        if (toCheck[i].x == this->_player.x && toCheck[i].y == this->_player.y) {
-            this->_gameState = State::STOP;
-        }
-        if (this->canQixMoveToPos(toCheck[i]) == true) {
+        if (this->canQixMoveToPos(toCheck[i]) == true && this->_map[toCheck[i].y][toCheck[i].x] != ((GameColor::G_LIME << 16) | (Shape::SQUARE << 8))) {
+            if (toCheck[i].x == this->_player.x && toCheck[i].y == this->_player.y) {
+                this->_gameState = State::STOP;
+            }
             if (this->_map[toCheck[i].y][toCheck[i].x] == ((GameColor::G_GRAY << 16) | (Shape::SQUARE << 8))) {
                 this->_gameState = State::STOP;
             }
