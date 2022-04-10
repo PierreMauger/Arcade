@@ -76,7 +76,6 @@ namespace arc
             std::size_t _score = 0;
             State _gameState;
 
-
             std::vector<pos_t> _qix;
             std::vector<pos_t> _qixNoise;
             Direction _directionQix;
