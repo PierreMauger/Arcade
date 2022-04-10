@@ -23,6 +23,7 @@ std::map<arc::Direction, arc::vector_t> arc::Qix::pos = {
 
 arc::Qix::Qix(void) :
 _map(std::vector<std::vector<int>>(MAP_SIZE, std::vector<int>(MAP_SIZE, 0))),
+_visited(std::vector<std::vector<bool>>(MAP_SIZE, std::vector<bool>(MAP_SIZE, false))),
 _qix(std::vector<pos_t>(4, {MAP_SIZE / 2, MAP_SIZE / 2})),
 _qixNoise(std::vector<pos_t>(8, {0, 0})),
 _enemies(std::vector<pos_t>(2, {MAP_SIZE / 2, 0}))
@@ -77,6 +78,7 @@ void arc::Qix::update(std::vector<GameKey> keys)
         keysPressed.clear();
         this->updateQix();
         this->updateQix();
+        this->checkWin();
     }
 }
 
@@ -160,10 +162,90 @@ void arc::Qix::replaceGray(void)
     this->_wasDrawing = false;
 }
 
+int arc::Qix::getNeighbor(pos_t actPos)
+{
+    if (canQixMoveToPos({actPos.x + 1, actPos.y}) && this->_visited[actPos.y][actPos.x + 1] == false) {
+        return 1;
+    }
+    else if (canQixMoveToPos({actPos.x, actPos.y + 1}) && this->_visited[actPos.y + 1][actPos.x] == false) {
+        return 2;
+    }
+    else if (canQixMoveToPos({actPos.x - 1, actPos.y}) && this->_visited[actPos.y][actPos.x - 1] == false) {
+        return 3;
+    }
+    else if (canQixMoveToPos({actPos.x, actPos.y - 1}) && this->_visited[actPos.y - 1][actPos.x] == false) {
+        return 4;
+    }
+    return 0;
+}
+
+void arc::Qix::checkEnd(pos_t actPos, pos_t goalPos)
+{
+    this->_visited[actPos.y][actPos.x] = true;
+    std::cout << actPos.x << " " << actPos.y << " | " << goalPos.x << " " << goalPos.y << std::endl;
+    if (actPos.x == goalPos.x && actPos.y == goalPos.y) {
+        this->_found = true;
+    }
+}
+
+void arc::Qix::recursive(pos_t actPos, pos_t goalPos)
+{
+    int neighbor = getNeighbor(actPos);
+
+    this->checkEnd(actPos, goalPos);
+    while (neighbor != 0 && this->_found == false) {
+        switch (neighbor) {
+        case 1: this->recursive({actPos.x + 1, actPos.y}, goalPos);
+            break;
+        case 2: this->recursive({actPos.x, actPos.y + 1}, goalPos);
+            break;
+        case 3: this->recursive({actPos.x - 1, actPos.y}, goalPos);
+            break;
+        case 4: this->recursive({actPos.x, actPos.y - 1}, goalPos);
+            break;
+        default:
+            break;
+        }
+        neighbor = getNeighbor(actPos);
+    }
+}
+
+bool arc::Qix::isWithQix(pos_t actPos, pos_t goalPos)
+{
+    this->_found = false;
+    for (auto &line : this->_visited)
+        std::fill(line.begin(), line.end(), false);
+    this->recursive(actPos, goalPos);
+    return this->_found;
+}
+
+void arc::Qix::copyVisited(void)
+{
+    for (int y = 0; y < MAP_SIZE; y++) {
+        for (int x = 0; x < MAP_SIZE; x++) {
+            if (this->_visited[y][x] == true) {
+                this->_map[y][x] = ((GameColor::G_BLUE << 16) | (Shape::SQUARE << 8));
+            }
+        }
+    }
+}
+
+void arc::Qix::fillBlank(void)
+{
+    for (std::size_t y = 0; y < this->_map.size(); y++) {
+        for (std::size_t x = 0; x < this->_map[y].size(); x++) {
+            if (this->_map[y][x] == 0 && isWithQix({x, y}, this->_qix[0]) == false) {
+                this->copyVisited();
+            }
+        }
+    }
+}
+
 void arc::Qix::fillArea(void)
 {
     if (this->_savedCell.value == ((GameColor::G_WHITE << 16) | (Shape::SQUARE << 8)) && this->_wasDrawing == true) {
         this->replaceGray();
+        this->fillBlank();
     }
 }
 
@@ -276,7 +358,6 @@ void arc::Qix::moveQixNoise(void)
 
 void arc::Qix::moveQix(void)
 {
-
     if (this->_lastRand >= 10) {
         this->_lastRand = 0;
         this->_directionQix = (Direction)(rand() % SIZE_DIR);
@@ -315,4 +396,20 @@ void arc::Qix::updateQix(void)
 void arc::Qix::setPlayerName(__attribute__ ((unused))std::string name)
 {
 
+}
+
+void arc::Qix::checkWin(void)
+{
+    size_t nbBlank = 0;
+
+    for (size_t i = 0; i < this->_map.size(); i++) {
+        for (size_t j = 0; j < this->_map[i].size(); j++) {
+            if (this->_map[i][j] == 0) {
+                nbBlank++;
+            }
+        }
+    }
+    if (nbBlank < (0.25 * (this->_map.size() * this->_map.size()))) {
+        this->_gameState = State::STOP;
+    }
 }

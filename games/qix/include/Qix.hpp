@@ -70,6 +70,8 @@ namespace arc
             std::vector<GameKey> keysPressed;
 
             std::vector<std::vector<int>> _map;
+            std::vector<std::vector<bool>> _visited;
+            bool _found = false;
             std::size_t _score = 0;
             State _gameState;
 
@@ -95,6 +97,13 @@ namespace arc
 
             void replaceGray(void);
             void fillArea(void);
+            void checkWin(void);
+            int getNeighbor(pos_t actPos);
+            void checkEnd(pos_t actPos, pos_t goalPos);
+            void recursive(pos_t actPos, pos_t goalPos);
+            void copyVisited(void);
+            bool isWithQix(pos_t actPos, pos_t goalPos);
+            void fillBlank(void);
 
             void moveUp(void);
             void moveLeft(void);
