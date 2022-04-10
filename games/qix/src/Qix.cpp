@@ -21,12 +21,20 @@ std::map<arc::Direction, arc::vector_t> arc::Qix::pos = {
     {arc::Direction::DOWN_RIGHT, {1, 1, 3}},
 };
 
+std::map<arc::DirectionEnemies, arc::vector_t> arc::Qix::posEn = {
+    {arc::DirectionEnemies::UP, {0, -1, 0}},
+    {arc::DirectionEnemies::LEFT, {-1, 0, 0}},
+    {arc::DirectionEnemies::DOWN, {0, 1, 0}},
+    {arc::DirectionEnemies::RIGHT, {1, 0, 0}},
+};
+
 arc::Qix::Qix(void) :
 _map(std::vector<std::vector<int>>(MAP_SIZE, std::vector<int>(MAP_SIZE, 0))),
 _visited(std::vector<std::vector<bool>>(MAP_SIZE, std::vector<bool>(MAP_SIZE, false))),
 _qix(std::vector<pos_t>(4, {MAP_SIZE / 2, MAP_SIZE / 2})),
 _qixNoise(std::vector<pos_t>(8, {0, 0})),
-_enemies(std::vector<pos_t>(2, {MAP_SIZE / 2, 0}))
+_enemies(2, {MAP_SIZE / 2, 0}),
+_enemiesDir(std::vector<DirectionEnemies>(2, DirectionEnemies::LEFT))
 {
 
 }
@@ -436,20 +444,24 @@ bool arc::Qix::canEnnemiesMove(pos_t pos)
     return true;
 }
 
+bool arc::Qix::updatePosEnemies(vector_t toMove, int idx)
+{
+    if (this->canEnnemiesMove({this->_enemies[idx].x + toMove.x, this->_enemies[idx].y + toMove.y}) == true) {
+        this->_enemies[idx].x += toMove.x;
+        this->_enemies[idx].y += toMove.y;
+        return true;
+    } else {
+        this->_enemiesDir[idx] = (DirectionEnemies)((this->_enemiesDir[idx] + 1) % SIZE_EN_DIR);
+        return false;
+    }
+}
+
 void arc::Qix::moveEnnemies(void)
 {
-    for (auto &enemy : this->_enemies) {
-        this->_map[enemy.y][enemy.x] = ((GameColor::G_WHITE << 16) | (Shape::SQUARE << 8));
-        if (this->canEnnemiesMove({enemy.x + 1, enemy.y}) == true) {
-            enemy.x++;
-        } else if (this->canEnnemiesMove({enemy.x, enemy.y + 1}) == true) {
-            enemy.y++;
-        } else if (this->canEnnemiesMove({enemy.x - 1, enemy.y}) == true) {
-            enemy.x--;
-        } else if (this->canEnnemiesMove({enemy.x, enemy.y - 1}) == true) {
-            enemy.y--;
-        }
-        this->_map[enemy.y][enemy.x] = ((GameColor::G_GREEN << 16) | (Shape::SQUARE << 8));
+    for (std::size_t i = 0; i < this->_enemies.size(); i++) {
+        this->_map[this->_enemies[i].y][this->_enemies[i].x] = ((GameColor::G_WHITE << 16) | (Shape::SQUARE << 8));
+        for (size_t nbIt = 0; this->updatePosEnemies(this->posEn.find(this->_enemiesDir[i])->second, i) == false && nbIt < SIZE_DIR; nbIt++);
+        this->_map[this->_enemies[i].y][this->_enemies[i].x] = ((GameColor::G_GREEN << 16) | (Shape::SQUARE << 8));
     }
 }
 

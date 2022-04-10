@@ -28,6 +28,15 @@ namespace arc
         SIZE_DIR
     };
 
+    enum DirectionEnemies {
+        UP,
+        LEFT,
+        RIGHT,
+        DOWN,
+
+        SIZE_EN_DIR
+    };
+
     typedef struct {
         std::size_t x;
         std::size_t y;
@@ -67,6 +76,7 @@ namespace arc
         private:
             static std::map<arc::GameKey, std::function<void (arc::Qix *)>> keys;
             static std::map<arc::Direction, arc::vector_t> pos;
+            static std::map<arc::DirectionEnemies, arc::vector_t> posEn;
             std::vector<GameKey> keysPressed;
 
             std::vector<std::vector<int>> _map;
@@ -84,6 +94,7 @@ namespace arc
             std::vector<pos_t> _lines;
             std::vector<pos_t> _gray;
             std::vector<pos_t> _enemies;
+            std::vector<DirectionEnemies> _enemiesDir;
 
             bool _wasDrawing = false;
             pos_t _player;
@@ -126,6 +137,7 @@ namespace arc
             bool canEnnemiesMove(pos_t pos);
             void moveEnnemies(void);
             void checkEnnemiesCollisions(void);
+            bool updatePosEnemies(vector_t toMove, int idx);
             void updateEnnemies(void);
     };
 
