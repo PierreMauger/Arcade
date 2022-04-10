@@ -10,7 +10,7 @@
 
 #define PATH_LIBS "./lib/"
 
-#define FRAME_RATE (200)
+#define FRAME_RATE (100)
 
 #include <memory>
 #include <string>
@@ -61,6 +61,8 @@ namespace arc
             LibList _graphList;
             LibList _gameList;
 
+            std::vector<std::vector<int>> _sideMenu;
+
             static std::map<arc::Shape, std::function<void (arc::IDisplay *, unsigned char, std::size_t, std::size_t)>> shapes;
             static std::map<arc::DisplayKey, std::function<void (arc::Core *)>> coreEvent;
 
@@ -78,6 +80,7 @@ namespace arc
             void browseMap(void);
             void coreKey(void);
             void drawIdx(int idx, std::size_t x, std::size_t y);
+            void initSideMenu(void);
 
             char getLetter(int mapIdx);
             Shape getShape(int mapIdx);

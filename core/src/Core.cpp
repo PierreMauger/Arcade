@@ -7,6 +7,26 @@
 
 #include "Core.hpp"
 
+static const std::string SIDE_MENU[] = {
+    "  - F1 -",
+    " < Graph",
+    "  - F2 -",
+    "  Graph >",
+    "  - F3 -",
+    " < Game",
+    "  - F4 -",
+    "   Game >",
+    "  - F5 -",
+    "  Restart",
+    "  - F6 -",
+    "   Menu",
+    "  - F7 -",
+    "   Exit",
+    "  - F8 -",
+    "  Pause",
+    ""
+};
+
 std::map<arc::Shape, std::function<void (arc::IDisplay *, unsigned char, std::size_t, std::size_t)>> arc::Core::shapes = {
     {Shape::SQUARE, &IDisplay::drawSquare},
     {Shape::CIRCLE, &IDisplay::drawCircle},
@@ -31,7 +51,8 @@ std::map<arc::DisplayKey, std::function<void (arc::Core *)>> arc::Core::coreEven
 arc::Core::Core(std::string graphLibName) :
 _scoreList("./ressources/scores.conf"),
 _graphList("./ressources/graphics.conf"),
-_gameList("./ressources/games.conf")
+_gameList("./ressources/games.conf"),
+_sideMenu(std::vector<std::vector<int>>(40, std::vector<int>(10, 0)))
 {
     this->_graphList.getConf();
     this->_gameList.getConf();
@@ -41,6 +62,7 @@ _gameList("./ressources/games.conf")
     this->getGraphsEntryPoint();
     this->getGraphLibByName(graphLibName);
     this->loadGameLib(this->_menuEntryPoint);
+    this->initSideMenu();
 }
 
 arc::Core::~Core()
@@ -99,6 +121,15 @@ void arc::Core::getGraphsEntryPoint(void)
     }
 }
 
+void arc::Core::initSideMenu(void)
+{
+    for (std::size_t i = 0; i < this->_sideMenu.size() && !SIDE_MENU[i].empty(); i++) {
+        for (std::size_t j = 0; j < this->_sideMenu[i].size(); j++) {
+            this->_sideMenu[i * 2 + i / 2][j] = SIDE_MENU[i][j] | arc::GameColor::G_WHITE << 16;
+        }
+    }
+}
+
 void arc::Core::drawIdx(int idx, std::size_t x, std::size_t y)
 {
     Shape shapeIdx = this->getShape(idx);
@@ -127,6 +158,13 @@ void arc::Core::browseMap(void)
                 } else {
                     this->_graph->drawLetter(this->getLetter(map[y][x]), this->getColor(map[y][x]), x, y);
                 }
+            }
+        }
+    }
+    for (std::size_t y = 0; y < this->_sideMenu.size(); y++) {
+        for (std::size_t x = 0; x < this->_sideMenu[y].size(); x++) {
+            if ((this->_sideMenu[y][x]) != 0) {
+                this->_graph->drawLetter(this->getLetter(this->_sideMenu[y][x]), this->getColor(this->_sideMenu[y][x]), x + map[y].size(), y);
             }
         }
     }

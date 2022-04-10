@@ -105,7 +105,7 @@ arc::sdl::sdl(void)
 void arc::sdl::initDisplay(void)
 {
     SDL_Init(SDL_INIT_VIDEO);
-    SDL_CreateWindowAndRenderer(1000, 1000, SDL_WINDOW_SHOWN, &this->_window, &this->_renderer);
+    SDL_CreateWindowAndRenderer(1200, 1000, SDL_WINDOW_SHOWN, &this->_window, &this->_renderer);
     SDL_SetWindowTitle(this->_window, "Arcade");
     TTF_Init();
     this->_font = TTF_OpenFont("ressources/arial.ttf", 200);
