@@ -102,13 +102,15 @@ namespace arc
 
             bool canQixMoveToPos(pos_t pos);
             void changeQixCoord(vector_t vector);
-            void defineNoisePos(void);
+            void moveQixNoise(void);
+            void moveQix(void);
             bool updatePosQix(vector_t toMove);
             void eraseQix(void);
             void eraseQixNoise(void);
             void drawQix(void);
             void drawQixNoise(void);
-            void moveQix(void);
+            void checkQixCollisions(std::vector<pos_t> toCheck);
+            void updateQix(void);
     };
 
     extern "C" Qix *entryPoint(void)

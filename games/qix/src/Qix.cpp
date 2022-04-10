@@ -75,8 +75,8 @@ void arc::Qix::update(std::vector<GameKey> keys)
             }
         }
         keysPressed.clear();
-        this->moveQix();
-        this->moveQix();
+        this->updateQix();
+        this->updateQix();
     }
 }
 
@@ -125,8 +125,7 @@ bool arc::Qix::canQixMoveToPos(pos_t pos)
 {
     if (pos.x >= MAP_SIZE || pos.y >= MAP_SIZE)
         return false;
-    if (this->_map[pos.y][pos.x] == ((GameColor::G_GRAY << 16) | (Shape::SQUARE << 8)) ||
-        this->_map[pos.y][pos.x] == ((GameColor::G_BLUE << 16) | (Shape::SQUARE << 8)) ||
+    if (this->_map[pos.y][pos.x] == ((GameColor::G_BLUE << 16) | (Shape::SQUARE << 8)) ||
         this->_map[pos.y][pos.x] == ((GameColor::G_RED << 16) | (Shape::SQUARE << 8)) ||
         this->_map[pos.y][pos.x] == ((GameColor::G_WHITE << 16) | (Shape::SQUARE << 8)))
         return false;
@@ -267,7 +266,7 @@ bool arc::Qix::updatePosQix(vector_t toMove)
     }
 }
 
-void arc::Qix::defineNoisePos(void)
+void arc::Qix::moveQixNoise(void)
 {
     for (auto &qixNoise : this->_qixNoise) {
         qixNoise.x = this->_qix[0].x + ((rand() % 8 - 4));
@@ -277,8 +276,7 @@ void arc::Qix::defineNoisePos(void)
 
 void arc::Qix::moveQix(void)
 {
-    this->eraseQix();
-    this->eraseQixNoise();
+
     if (this->_lastRand >= 10) {
         this->_lastRand = 0;
         this->_directionQix = (Direction)(rand() % SIZE_DIR);
@@ -286,7 +284,30 @@ void arc::Qix::moveQix(void)
         this->_lastRand++;
     }
     for (size_t nbIt = 0; this->updatePosQix(this->pos.find(this->_directionQix)->second) == false && nbIt < SIZE_DIR; nbIt++);
-    this->defineNoisePos();
+}
+
+void arc::Qix::checkQixCollisions(std::vector<pos_t> toCheck)
+{
+    for (size_t i = 0; i < toCheck.size(); i++) {
+        if (toCheck[i].x == this->_player.x && toCheck[i].y == this->_player.y) {
+            this->_gameState = State::STOP;
+        }
+        if (this->canQixMoveToPos(toCheck[i]) == true) {
+            if (this->_map[toCheck[i].y][toCheck[i].x] == ((GameColor::G_GRAY << 16) | (Shape::SQUARE << 8))) {
+                this->_gameState = State::STOP;
+            }
+        }
+    }
+}
+
+void arc::Qix::updateQix(void)
+{
+    this->eraseQix();
+    this->eraseQixNoise();
+    this->moveQix();
+    this->moveQixNoise();
+    this->checkQixCollisions(this->_qix);
+    this->checkQixCollisions(this->_qixNoise);
     this->drawQix();
     this->drawQixNoise();
 }
