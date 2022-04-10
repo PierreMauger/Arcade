@@ -131,3 +131,8 @@ std::string arc::Menu::getGameName(void)
 {
     return "Menu";
 }
+
+void arc::Menu::setPlayerName(__attribute__ ((unused))std::string name)
+{
+
+}

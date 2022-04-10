@@ -311,3 +311,8 @@ void arc::Qix::updateQix(void)
     this->drawQix();
     this->drawQixNoise();
 }
+
+void arc::Qix::setPlayerName(__attribute__ ((unused))std::string name)
+{
+
+}

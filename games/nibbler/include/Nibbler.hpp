@@ -46,6 +46,7 @@ namespace arc
             std::vector<std::vector<int>> getMap(void);
 
             std::size_t getScore(void);
+            void setPlayerName(std::string name);
             std::string getPlayerName(void);
             std::string getGameName(void);
 

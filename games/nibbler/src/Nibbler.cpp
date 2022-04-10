@@ -233,3 +233,8 @@ void arc::Nibbler::putFood(void)
     this->_food.y = y;
     this->_map[y][x] = ((GameColor::G_GREEN << 16) | (Shape::SQUARE << 8));
 }
+
+void arc::Nibbler::setPlayerName(__attribute__ ((unused))std::string name)
+{
+
+}

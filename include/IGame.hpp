@@ -228,6 +228,9 @@ namespace arc
     		////////////////////////////////////////////////////////////
 			virtual std::string getPlayerName(void) = 0;
 
+			// DOC
+			virtual void setPlayerName(std::string) = 0;
+
 			////////////////////////////////////////////////////////////
     		/// \brief Return the name of the current game
     		///

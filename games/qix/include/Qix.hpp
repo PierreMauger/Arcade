@@ -61,6 +61,7 @@ namespace arc
 
             std::size_t getScore(void);
             std::string getPlayerName(void);
+            void setPlayerName(std::string name);
             std::string getGameName(void);
 
         private:
