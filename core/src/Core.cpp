@@ -8,6 +8,10 @@
 #include "Core.hpp"
 
 static const std::string SIDE_MENU[] = {
+    "Name:",
+    " ",
+    "Score:",
+    " ",
     "  - F1 -",
     " < Graph",
     "  - F2 -",
@@ -52,7 +56,7 @@ arc::Core::Core(std::string graphLibName) :
 _scoreList("./ressources/scores.conf"),
 _graphList("./ressources/graphics.conf"),
 _gameList("./ressources/games.conf"),
-_sideMenu(std::vector<std::vector<int>>(40, std::vector<int>(10, 0)))
+_sideMenu(std::vector<std::vector<int>>(48, std::vector<int>(10, 0)))
 {
     this->_graphList.getConf();
     this->_gameList.getConf();
@@ -123,8 +127,14 @@ void arc::Core::getGraphsEntryPoint(void)
 
 void arc::Core::initSideMenu(void)
 {
+    for (std::size_t j = 0; j < this->_sideMenu[0].size() && j < this->_playerName.size(); j++) {
+        this->_sideMenu[2][j] = this->_playerName[j] | arc::GameColor::G_WHITE << 16;
+    }
+    for (std::size_t j = 0; j < this->_sideMenu[2].size() && j < std::to_string(this->_score).size(); j++) {
+        this->_sideMenu[7][j] = std::to_string(this->_score)[j] | arc::GameColor::G_WHITE << 16;
+    }
     for (std::size_t i = 0; i < this->_sideMenu.size() && !SIDE_MENU[i].empty(); i++) {
-        for (std::size_t j = 0; j < this->_sideMenu[i].size(); j++) {
+        for (std::size_t j = 0; j < this->_sideMenu[i].size() && j < SIDE_MENU[i].size(); j++) {
             this->_sideMenu[i * 2 + i / 2][j] = SIDE_MENU[i][j] | arc::GameColor::G_WHITE << 16;
         }
     }
@@ -160,6 +170,9 @@ void arc::Core::browseMap(void)
                 }
             }
         }
+    }
+    for (std::size_t j = 0; j < this->_sideMenu[2].size() && j < std::to_string(this->_score).size(); j++) {
+        this->_sideMenu[7][j] = std::to_string(this->_score)[j] | arc::GameColor::G_WHITE << 16;
     }
     for (std::size_t y = 0; y < this->_sideMenu.size(); y++) {
         for (std::size_t x = 0; x < this->_sideMenu[y].size(); x++) {
@@ -330,5 +343,8 @@ void arc::Core::changePlayerName(void)
 
     if (name != "") {
         this->_playerName = name;
+    }
+    for (std::size_t j = 0; j < this->_sideMenu[0].size() && j < this->_playerName.size(); j++) {
+        this->_sideMenu[2][j] = this->_playerName[j] | arc::GameColor::G_WHITE << 16;
     }
 }
