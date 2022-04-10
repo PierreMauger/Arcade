@@ -10,7 +10,7 @@
 //  @brief  Display Interface, used by all graphical libraries
 //
 //	Display Interface, used by all graphical libraries.
-//	Each functions is mandatory for the good working of the program.
+//	Each function is mandatory for the program to work properly.
 /////////////////////////////////////////////////
 
 #ifndef DISPLAY_HPP
@@ -23,10 +23,10 @@ namespace arc
 {
 
 	////////////////////////////////////////////////////////////
-	///	@brief Enumeration corresponding to the differents Colors
+	///	@brief Enumeration corresponding to the different Colors
 	///
-	///	Will be send in the differents shapes functions and
-	///	compared to determine the shape's color.
+	///	Used in the different shape functions to define the
+    /// color of the shape.
 	///
 	////////////////////////////////////////////////////////////
 	enum DisplayColor {
@@ -49,7 +49,7 @@ namespace arc
 	////////////////////////////////////////////////////////////
 	///	@brief Enumeration corresponding to the differents Keys
 	///
-	///	Will be returned by the event checker.
+	///	Will be returned by the event checker inside a vector.
 	///
 	////////////////////////////////////////////////////////////
     enum class DisplayKey {
@@ -98,7 +98,7 @@ namespace arc
 		D_KEY_9,
 		D_KEY_0,
 
-		// Handle by the core
+		// Handled by the core
 		D_F1,
 		D_F2,
 		D_F3,
@@ -152,7 +152,7 @@ namespace arc
 			////////////////////////////////////////////////////////////
     		/// \brief Display the elements previously drawn
     		///
-    		///	Refresh the window. Will be called after draws.
+    		///	Refresh the window. Will be called after draw calls.
     		///
     		////////////////////////////////////////////////////////////
 			virtual void display(void) = 0;
@@ -210,12 +210,12 @@ namespace arc
 			virtual void drawLetter(unsigned char letter, unsigned char color, std::size_t posX, std::size_t posY) = 0;
 
 			////////////////////////////////////////////////////////////
-    		/// \brief Draw a colored circle at the given positions
+    		/// \brief Handle the keys inputs from the user
     		///
     		/// This fonction is used to detect and return the Keys pressed
 			///	by the user. (see the documentation about Key)
 			///	You must return the available keys in the Key list.
-			///	To proceed, create an array of your graphical library keys
+			///	To proceed, create a vector of your graphical library keys
 			///	linked to the Key enumeration keys.
 			///
 			///	\return Keys vector corresponding to the event key list

@@ -26,9 +26,9 @@ namespace arc
 {
 
 	////////////////////////////////////////////////////////////
-	///	@brief Enumeration corresponding to the differents Shapes
+	///	@brief Enumeration corresponding to the different Shapes
 	///
-	///	Will be in the map to precise the shapes.
+	///	Stored in the map to define the shapes to draw.
 	///
 	////////////////////////////////////////////////////////////
     enum Shape {
@@ -38,9 +38,9 @@ namespace arc
     };
 
 	////////////////////////////////////////////////////////////
-	///	@brief Enumeration corresponding to the differents Colors
+	///	@brief Enumeration corresponding to the different Colors
 	///
-	///	Will be in the map to precise the shapes colors.
+	///	Stored in the map to define the color of each shape to draw.
 	///
 	////////////////////////////////////////////////////////////
     enum GameColor {
@@ -63,7 +63,7 @@ namespace arc
 	////////////////////////////////////////////////////////////
 	///	@brief Enumeration corresponding to the differents Keys
 	///
-	///	Will be send in the update function.
+	///	Will be sent by the update function inside a vector.
 	///
 	////////////////////////////////////////////////////////////
     enum GameKey {
@@ -131,8 +131,7 @@ namespace arc
     };
 
 	////////////////////////////////////////////////////////////
-	///	@brief Interface Game, inherited by all games to precise
-	///	the functions used by the core
+	///	@brief Interface Game, inherited by all games
 	///
 	////////////////////////////////////////////////////////////
     class IGame {
@@ -167,11 +166,11 @@ namespace arc
 			////////////////////////////////////////////////////////////
     		/// \brief Update your game
     		///
-    		/// This function is used to simulate one tick of your game.
-    		///	It takes a key input list and must create the consequences,
-    		///	like a direction changement in your game when arrow is sended.
+    		/// This function is used to simulate a tick in your game.
+    		///	It takes a key input vector and must generate the corresponding game events,
+    		///	like a change of direction in your game when arrow is sent.
     		///
-    		/// \param keys correspond to the user's inputs, sended by the graphical library
+    		/// \param keys correspond to the user's inputs, sent by the graphical library
     		///
     		////////////////////////////////////////////////////////////
             virtual void update(std::vector<GameKey> keys) = 0;
@@ -180,10 +179,10 @@ namespace arc
     		/// \brief Set the game state to State var
     		///
     		/// This function is used to set the game state,
-    		///	like start or stop. To see the different State of the game,
+    		///	like Start or Stop. To see the different State of the game,
     		///	check the Status enumeration documentation.
     		///
-    		/// \param state correspond to the game's state you whant to set
+    		/// \param state correspond to the game's state of your choice
     		///
     		////////////////////////////////////////////////////////////
             virtual void setGameState(State state) = 0;
@@ -200,8 +199,8 @@ namespace arc
     		/// \brief Return the game's map
     		///
     		///	This function return the game's map previously setted by
-    		///	the update function. The element in the map correspond to
-    		///	the differents shapes and colors to load at this index.
+    		///	the update function. This map id composed of the
+    		///	different shapes and colors to draw.
     		///
     		/// \return the current map
     		///
@@ -228,7 +227,15 @@ namespace arc
     		////////////////////////////////////////////////////////////
 			virtual std::string getPlayerName(void) = 0;
 
-			// DOC
+			////////////////////////////////////////////////////////////
+    		/// \brief Set the player's name
+    		///
+    		/// This function is used to set the player's name.
+    		/// It is used by the core to save the score.
+            ///
+    		/// \param string correspond to the player's name to set
+    		///
+    		////////////////////////////////////////////////////////////
 			virtual void setPlayerName(std::string) = 0;
 
 			////////////////////////////////////////////////////////////
