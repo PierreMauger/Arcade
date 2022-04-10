@@ -78,6 +78,7 @@ void arc::Qix::update(std::vector<GameKey> keys)
         keysPressed.clear();
         this->updateQix();
         this->updateQix();
+        this->updateEnnemies();
         this->checkWin();
     }
 }
@@ -221,6 +222,7 @@ bool arc::Qix::isWithQix(pos_t actPos, pos_t goalPos)
 void arc::Qix::copyVisited(void)
 {
     int color = 0;
+    int scoreToAdd = 0;
 
     if (this->_color == false) {
         color = ((GameColor::G_BLUE << 16) | (Shape::SQUARE << 8));
@@ -231,6 +233,8 @@ void arc::Qix::copyVisited(void)
         for (int x = 0; x < MAP_SIZE; x++) {
             if (this->_visited[y][x] == true) {
                 this->_map[y][x] = color;
+                scoreToAdd += 10;
+                this->_score += 100 + scoreToAdd;
             }
         }
     }
@@ -420,4 +424,46 @@ void arc::Qix::checkWin(void)
     if (nbBlank < (0.25 * (this->_map.size() * this->_map.size()))) {
         this->_gameState = State::STOP;
     }
+}
+
+bool arc::Qix::canEnnemiesMove(pos_t pos)
+{
+    if (pos.x >= MAP_SIZE || pos.y >= MAP_SIZE)
+        return false;
+    if (this->_map[pos.y][pos.x] != ((GameColor::G_WHITE << 16) | (Shape::SQUARE << 8)) &&
+        this->_map[pos.y][pos.x] != ((GameColor::G_LIME << 16) | (Shape::SQUARE << 8)))
+        return false;
+    return true;
+}
+
+void arc::Qix::moveEnnemies(void)
+{
+    for (auto &enemy : this->_enemies) {
+        this->_map[enemy.y][enemy.x] = ((GameColor::G_WHITE << 16) | (Shape::SQUARE << 8));
+        if (this->canEnnemiesMove({enemy.x + 1, enemy.y}) == true) {
+            enemy.x++;
+        } else if (this->canEnnemiesMove({enemy.x, enemy.y + 1}) == true) {
+            enemy.y++;
+        } else if (this->canEnnemiesMove({enemy.x - 1, enemy.y}) == true) {
+            enemy.x--;
+        } else if (this->canEnnemiesMove({enemy.x, enemy.y - 1}) == true) {
+            enemy.y--;
+        }
+        this->_map[enemy.y][enemy.x] = ((GameColor::G_GREEN << 16) | (Shape::SQUARE << 8));
+    }
+}
+
+void arc::Qix::checkEnnemiesCollisions(void)
+{
+    for (auto enemy : this->_enemies) {
+        if (this->_player.x == enemy.x && this->_player.y == enemy.y) {
+            this->_gameState = State::STOP;
+        }
+    }
+}
+
+void arc::Qix::updateEnnemies(void)
+{
+    this->moveEnnemies();
+    this->checkEnnemiesCollisions();
 }

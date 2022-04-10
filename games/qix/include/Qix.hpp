@@ -123,6 +123,11 @@ namespace arc
             void drawQixNoise(void);
             void checkQixCollisions(std::vector<pos_t> toCheck);
             void updateQix(void);
+
+            bool canEnnemiesMove(pos_t pos);
+            void moveEnnemies(void);
+            void checkEnnemiesCollisions(void);
+            void updateEnnemies(void);
     };
 
     extern "C" Qix *entryPoint(void)
