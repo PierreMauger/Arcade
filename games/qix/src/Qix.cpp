@@ -24,6 +24,7 @@ std::map<arc::Direction, arc::vector_t> arc::Qix::pos = {
 arc::Qix::Qix(void) :
 _map(std::vector<std::vector<int>>(MAP_SIZE, std::vector<int>(MAP_SIZE, 0))),
 _qix(std::vector<pos_t>(4, {MAP_SIZE / 2, MAP_SIZE / 2})),
+_qixNoise(std::vector<pos_t>(8, {0, 0})),
 _enemies(std::vector<pos_t>(2, {MAP_SIZE / 2, 0}))
 {
 
@@ -75,6 +76,7 @@ void arc::Qix::update(std::vector<GameKey> keys)
         }
         keysPressed.clear();
         this->moveQix();
+        this->moveQix();
     }
 }
 
@@ -123,7 +125,10 @@ bool arc::Qix::canQixMoveToPos(pos_t pos)
 {
     if (pos.x >= MAP_SIZE || pos.y >= MAP_SIZE)
         return false;
-    if (this->_map[pos.y][pos.x] != 0)
+    if (this->_map[pos.y][pos.x] == ((GameColor::G_GRAY << 16) | (Shape::SQUARE << 8)) ||
+        this->_map[pos.y][pos.x] == ((GameColor::G_BLUE << 16) | (Shape::SQUARE << 8)) ||
+        this->_map[pos.y][pos.x] == ((GameColor::G_RED << 16) | (Shape::SQUARE << 8)) ||
+        this->_map[pos.y][pos.x] == ((GameColor::G_WHITE << 16) | (Shape::SQUARE << 8)))
         return false;
     return true;
 }
@@ -218,10 +223,28 @@ void arc::Qix::eraseQix(void)
     }
 }
 
+void arc::Qix::eraseQixNoise(void)
+{
+    for (auto &qixNoise : this->_qixNoise) {
+        if (this->canQixMoveToPos(qixNoise) == true) {
+            this->_map[qixNoise.y][qixNoise.x] = 0;
+        }
+    }
+}
+
 void arc::Qix::drawQix(void)
 {
     for (auto &qix : this->_qix) {
         this->_map[qix.y][qix.x] = ((GameColor::G_PURPLE << 16) | (Shape::SQUARE << 8));
+    }
+}
+
+void arc::Qix::drawQixNoise(void)
+{
+    for (auto &qixNoise : this->_qixNoise) {
+        if (this->canQixMoveToPos(qixNoise) == true) {
+            this->_map[qixNoise.y][qixNoise.x] = ((((rand() % 7) + 5) << 16) | (((rand() % 4) + 1) << 8));
+        }
     }
 }
 
@@ -244,15 +267,26 @@ bool arc::Qix::updatePosQix(vector_t toMove)
     }
 }
 
+void arc::Qix::defineNoisePos(void)
+{
+    for (auto &qixNoise : this->_qixNoise) {
+        qixNoise.x = this->_qix[0].x + ((rand() % 8 - 4));
+        qixNoise.y = this->_qix[0].y + ((rand() % 8 - 4));
+    }
+}
+
 void arc::Qix::moveQix(void)
 {
     this->eraseQix();
-    if (this->_lastRand >= 15) {
+    this->eraseQixNoise();
+    if (this->_lastRand >= 10) {
         this->_lastRand = 0;
         this->_directionQix = (Direction)(rand() % SIZE_DIR);
     } else {
         this->_lastRand++;
     }
     for (size_t nbIt = 0; this->updatePosQix(this->pos.find(this->_directionQix)->second) == false && nbIt < SIZE_DIR; nbIt++);
+    this->defineNoisePos();
     this->drawQix();
+    this->drawQixNoise();
 }

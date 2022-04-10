@@ -73,6 +73,7 @@ namespace arc
             State _gameState;
 
             std::vector<pos_t> _qix;
+            std::vector<pos_t> _qixNoise;
             Direction _directionQix;
             std::size_t _lastRand = 0;
 
@@ -101,9 +102,12 @@ namespace arc
 
             bool canQixMoveToPos(pos_t pos);
             void changeQixCoord(vector_t vector);
+            void defineNoisePos(void);
             bool updatePosQix(vector_t toMove);
             void eraseQix(void);
+            void eraseQixNoise(void);
             void drawQix(void);
+            void drawQixNoise(void);
             void moveQix(void);
     };
 
